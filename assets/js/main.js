@@ -41,9 +41,14 @@
   // ========== 月之暗面 / 月之亮面 ==========
   var toast = document.querySelector('.toast');
   var toastTimer;
-  function showToast(text) {
+  // before + 高亮的名字 + after
+  function showToast(before, name, after) {
     if (!toast) return;
-    toast.textContent = text;
+    var em = document.createElement('strong');
+    em.className = 'toast-name';
+    em.textContent = name;
+    toast.textContent = '';
+    toast.append(before, em, after || '');
     toast.classList.add('show');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 2000);
@@ -56,9 +61,11 @@
       root.setAttribute('data-theme', next);
       try { localStorage.setItem('theme', next); } catch (e) {}
       var zh = getLang() === 'zh';
-      showToast(next === 'dark'
-        ? (zh ? '🌑 已切换到月之暗面' : '🌑 Switched to the dark side of the moon')
-        : (zh ? '🌕 已切换到月之亮面' : '🌕 Switched to the bright side of the moon'));
+      if (next === 'dark') {
+        zh ? showToast('🌑 已切换到', '「月之暗面」') : showToast('🌑 Switched to ', '“the Dark Side of the Moon”');
+      } else {
+        zh ? showToast('🌕 已切换到', '「月之亮面」') : showToast('🌕 Switched to ', '“the Bright Side of the Moon”');
+      }
     });
   }
 
