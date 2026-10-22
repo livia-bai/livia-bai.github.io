@@ -9,6 +9,8 @@ on:
       - "dark/_posts/**"
       # 改这个文件本身时，拿最新一篇发一封测试通知
       - ".github/workflows/dark-side-notify.yml"
+  # 在仓库的 Actions 页面手动点 Run workflow，也会拿最新一篇发一封测试通知
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -30,7 +32,7 @@ jobs:
             added=$(git diff --name-only --diff-filter=A "$before" "$GITHUB_SHA" -- 'dark/_posts/*.md' | grep -v -- '-en\.md$' || true)
           fi
           test=false
-          if [ -z "$added" ] && git diff --name-only "$before" "$GITHUB_SHA" 2>/dev/null | grep -q 'dark-side-notify.yml'; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || { [ -z "$added" ] && git diff --name-only "$before" "$GITHUB_SHA" 2>/dev/null | grep -q 'dark-side-notify.yml'; }; then
             added=$(ls dark/_posts/*.md | grep -v -- '-en\.md$' | sort | tail -n 1)
             test=true
           fi
