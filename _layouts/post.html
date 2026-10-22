@@ -7,15 +7,9 @@ layout: default
     {% if p.ref == page.ref and p.url != page.url %}{% assign translation = p %}{% endif %}
   {% endfor %}
 {% endif %}
-{% if page.side == 'dark' %}<link rel="stylesheet" href="{{ '/assets/dark-side/dark-side.css' | relative_url }}">{% endif %}
 <article class="post card{% if page.side == 'dark' %} dark-side{% endif %}">
-  {% if page.side == 'dark' %}
-  <a class="back" href="{{ '/dark-side/' | relative_url }}">
-    ← <span lang="zh">回到月之暗面</span><span lang="en">Back to the Dark Side</span></a>
-  {% else %}
   <a class="back" href="{{ '/blog/' | relative_url }}">
-    ← <span lang="zh">回到月之亮面</span><span lang="en">Back to the Bright Side</span></a>
-  {% endif %}
+    ← <span lang="zh">回到博客</span><span lang="en">Back to the blog</span></a>
   <h1 class="post-title">{{ page.title }}</h1>
   <p class="post-meta">
     {{ page.date | date: "%Y-%m-%d" }}

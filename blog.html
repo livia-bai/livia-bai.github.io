@@ -1,11 +1,13 @@
 ---
 layout: default
-title: Bright Side
-title_zh: 月之亮面
+title: Blog
+title_zh: 博客
 nav: blog
 permalink: /blog/
 ---
-<h1 class="page-title">🌕 <span lang="zh">月之亮面</span><span lang="en">The Bright Side</span></h1>
-<p class="page-intro"><span lang="zh">朝着地球的那一面：我的想法、笔记和碎碎念。</span><span lang="en">The side that faces Earth: my thoughts, notes and little ramblings.</span></p>
-{% assign bright = site.posts | where_exp: "p", "p.side != 'dark'" %}
-{% include post-list.html posts=bright %}
+<h1 class="page-title">📮 <span lang="zh">博客</span><span lang="en">Blog</span></h1>
+<p class="page-intro">
+  <span lang="zh">月亮有两面：亮面是我写的，暗面每天下午两点会悄悄多出一篇。点右上角的月亮换一面看看。</span>
+  <span lang="en">The moon has two sides: I write the bright one, and the dark one quietly grows by a post every day at 2 p.m. Tap the moon up top to turn it over.</span>
+</p>
+{% include side-posts.html %}

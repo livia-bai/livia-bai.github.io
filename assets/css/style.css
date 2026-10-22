@@ -1,70 +1,51 @@
-/* ========== 颜色（想换配色改这里）========== */
+/* ========== 颜色（想换配色改这里）==========
+ * 🌕 月之亮面是默认配色；🌑 月之暗面由右上角的月亮按钮切换。
+ * 两边的明暗差距特意收小了一些，来回切换不刺眼。
+ */
 :root {
-  --bg: #fff8f1;
-  --card: #ffffff;
-  --text: #4a3a35;
-  --muted: #8f7b73;
-  --accent: #f08a6c;
-  --accent-soft: #ffe3d6;
+  --bg: #fbf3ea;
+  --card: #fffaf4;
+  --text: #4f3f3a;
+  --muted: #8c7871;
+  --accent: #e8856a;
+  --accent-soft: #fbe1d4;
   --accent-2: #8cc5b5;
-  --border: #f3e2d6;
+  --border: #f0dfd2;
   --shadow: 0 6px 20px rgba(196, 128, 98, 0.12);
-  --code-bg: #fff1e8;
+  --code-bg: #fbeee4;
   --radius: 22px;
-  --bg-gradient: linear-gradient(165deg, #fff1e6 0%, #fff8f1 35%, #fdf3f6 70%, #f3f8f4 100%);
-  --dot: rgba(240, 138, 108, .16);
-  --blob-1: #ffcdb8;
-  --blob-2: #ffd5e4;
-  --blob-3: #cdeee2;
-  --blob-4: #fff0b8;
-  --blob-5: #e4dcfb;
-  --spark: #f4a08a;
-  --spark-2: #e8a3c4;
-}
-/* 夜间配色：跟随系统，或者用右上角的月亮按钮手动切换 */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #2a2220;
-    --card: #362c29;
-    --text: #f5e9e2;
-    --muted: #c2aea5;
-    --accent: #ff9f84;
-    --accent-soft: #4d3a33;
-    --accent-2: #7fb8a8;
-    --border: #4a3c37;
-    --shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    --code-bg: #2f2623;
-    --bg-gradient: linear-gradient(165deg, #2b201d 0%, #2a2220 40%, #2c2128 75%, #212a27 100%);
-    --dot: rgba(255, 200, 170, .07);
-    --blob-1: #6b3f33;
-    --blob-2: #5e3648;
-    --blob-3: #2f4e45;
-    --blob-4: #5a4a2a;
-    --blob-5: #3e3660;
-    --spark: #ffd98a;
-    --spark-2: #ffb3a1;
-  }
+  --dot: rgba(232, 133, 106, .15);
+  --blob-1: #fdcdb8;
+  --blob-2: #fbd6e2;
+  --blob-3: #d2ebe0;
+  --blob-4: #fbeebd;
+  --blob-5: #e2dcf6;
+  --spark: #eea08a;
+  --spark-2: #e0a3c0;
 }
 :root[data-theme="dark"] {
-  --bg: #2a2220;
-  --card: #362c29;
-  --text: #f5e9e2;
-  --muted: #c2aea5;
-  --accent: #ff9f84;
-  --accent-soft: #4d3a33;
-  --accent-2: #7fb8a8;
-  --border: #4a3c37;
-  --shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-  --code-bg: #2f2623;
-  --bg-gradient: linear-gradient(165deg, #2b201d 0%, #2a2220 40%, #2c2128 75%, #212a27 100%);
-  --dot: rgba(255, 200, 170, .07);
-  --blob-1: #6b3f33;
-  --blob-2: #5e3648;
-  --blob-3: #2f4e45;
-  --blob-4: #5a4a2a;
-  --blob-5: #3e3660;
-  --spark: #ffd98a;
-  --spark-2: #ffb3a1;
+  --bg: #443c4f;
+  --card: #4f4660;
+  --text: #f3ecf5;
+  --muted: #c9bdd2;
+  --accent: #f4ab94;
+  --accent-soft: #605472;
+  --accent-2: #9ccbbd;
+  --border: #605570;
+  --shadow: 0 8px 24px rgba(20, 12, 35, 0.25);
+  --code-bg: #4a4158;
+  --dot: rgba(255, 236, 220, .09);
+  --blob-1: #67506a;
+  --blob-2: #5d4f78;
+  --blob-3: #4b5a66;
+  --blob-4: #6a5c55;
+  --blob-5: #55508a;
+  --spark: #ffe2ad;
+  --spark-2: #f6c4d4;
+}
+/* 切换时慢慢过渡，不会「啪」一下闪眼 */
+body, .card, .nav a, .btn, .tag, .post-item, .lang-toggle, .theme-toggle, .toast {
+  transition: background-color .6s ease, color .6s ease, border-color .6s ease, box-shadow .6s ease;
 }
 
 /* ========== 中英切换 ========== */
@@ -97,7 +78,19 @@ img { max-width: 100%; }
 .avatar-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* ========== 背景：渐变 + 小圆点 + 飘动的色块 + 闪闪的小星星 ========== */
-.bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: var(--bg-gradient); }
+.bg {
+  position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+  background: linear-gradient(165deg, #fdeee2 0%, #fbf3ea 35%, #f9eff1 70%, #f0f4ef 100%);
+}
+.bg::after {
+  content: ""; position: absolute; inset: 0; z-index: 0;
+  background: linear-gradient(165deg, #4a3f52 0%, #443c4f 40%, #413c55 75%, #3e4450 100%);
+  opacity: 0; transition: opacity .7s ease;
+}
+:root[data-theme="dark"] .bg::after { opacity: 1; }
+.bg::before { z-index: 2; }
+.bg .blob { z-index: 1; transition: background-color .7s ease; }
+.bg .spark { z-index: 3; transition: color .7s ease; }
 /* 淡淡的圆点纸纹理，越往下越淡 */
 .bg::before {
   content: ""; position: absolute; inset: 0;
@@ -196,53 +189,48 @@ img { max-width: 100%; }
   transition: opacity .3s, transform .3s;
 }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
-/* ========== 月之暗面（这个区域永远是夜空，不随亮/暗主题变化）========== */
+/* ========== 博客：亮面 / 暗面 两块面板，跟着主题只显示一块 ========== */
+:root[data-theme="dark"] .side-bright,
+:root:not([data-theme="dark"]) .side-dark { display: none !important; }
+.side-panel { padding: 24px 22px 10px; position: relative; overflow: hidden; }
+.side-panel .section-title { margin: 0 0 16px; position: relative; }
+.side-panel .post-list { position: relative; }
+.side-footer {
+  display: flex; justify-content: space-between; align-items: center; gap: 8px 16px;
+  flex-wrap: wrap; margin: 14px 0 6px; position: relative;
+}
+.side-footer .more { margin: 0; }
+.side-switch {
+  border: 0; background: none; padding: 0; font: inherit; font-weight: 700;
+  color: var(--muted); cursor: pointer;
+}
+.side-switch:hover { color: var(--accent); }
+.side-empty { color: var(--muted); padding: 8px 0 12px; margin: 0; }
+
+/* 暗面面板：在暮紫底色上撒一点星星，右上角藏一颗月亮的背面 */
 .dark-side {
-  --card: #221d33;
-  --text: #ece6ff;
-  --muted: #a89fc4;
-  --accent: #c9b6ff;
-  --accent-soft: #352c52;
-  --border: #3a3157;
-  --code-bg: #2a2340;
-  --shadow: 0 10px 30px rgba(20, 12, 45, .35);
-  color: var(--text);
-  background-color: #1a1628;
   background-image:
-    radial-gradient(1.2px 1.2px at 12% 18%, #fff 50%, transparent 51%),
-    radial-gradient(1px 1px at 30% 72%, #fff 50%, transparent 51%),
-    radial-gradient(1.5px 1.5px at 58% 26%, #fff8d6 50%, transparent 51%),
-    radial-gradient(1px 1px at 76% 64%, #fff 50%, transparent 51%),
-    radial-gradient(1.3px 1.3px at 90% 14%, #fff 50%, transparent 51%),
-    radial-gradient(1px 1px at 44% 90%, #e6dcff 50%, transparent 51%),
-    radial-gradient(120% 80% at 100% 0%, #2c2350 0%, transparent 60%),
-    radial-gradient(90% 70% at 0% 100%, #1f2a44 0%, transparent 60%);
-  border-color: var(--border);
+    radial-gradient(1.2px 1.2px at 12% 18%, rgba(255,255,255,.8) 50%, transparent 51%),
+    radial-gradient(1px 1px at 30% 72%, rgba(255,255,255,.7) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 58% 26%, rgba(255,240,200,.85) 50%, transparent 51%),
+    radial-gradient(1px 1px at 76% 64%, rgba(255,255,255,.7) 50%, transparent 51%),
+    radial-gradient(1.3px 1.3px at 90% 40%, rgba(255,255,255,.8) 50%, transparent 51%),
+    radial-gradient(1px 1px at 44% 90%, rgba(235,225,255,.7) 50%, transparent 51%);
 }
-.dark-side a { color: var(--accent); }
-.dark-side .post-item { background: rgba(255, 255, 255, .04); }
-.dark-side .post-item:hover { border-color: var(--accent); }
-.dark-side .section-title, .dark-side .page-title { color: #f6f1ff; }
-
-.moon-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; margin-top: 16px; }
-.moon-col .section-title { margin-top: 0; }
-.moon-col.dark-side { padding: 24px 20px 8px; }
-.moon-columns > .moon-col:first-child { padding-top: 24px; }
-.moon-col .post-item a { grid-template-columns: 1fr auto; }
-.moon-col .post-date { grid-column: 1 / -1; }
-.moon-col .post-excerpt { grid-column: 1 / -1; }
-@media (max-width: 760px) { .moon-columns { grid-template-columns: 1fr; } .moon-columns > .moon-col:first-child { padding-top: 0; } }
-
-.dark-hero { padding: 32px 28px 28px; margin-top: 12px; position: relative; overflow: hidden; }
-.dark-hero .page-title { margin-top: 0; }
-.dark-hero-moon {
-  position: absolute; top: -40px; right: -40px; width: 160px; height: 160px; border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #4a4170, #251f3d 70%);
-  box-shadow: inset -18px -12px 30px rgba(0, 0, 0, .45), 0 0 60px rgba(201, 182, 255, .15);
+.dark-moon {
+  position: absolute; top: -70px; right: -70px; width: 150px; height: 150px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #6a5f86, #4a4062 70%);
+  box-shadow: inset -16px -12px 28px rgba(0, 0, 0, .3), 0 0 50px rgba(255, 226, 173, .12);
 }
-.nav a.nav-dark.active { background: #2c2445; color: #ece6ff; }
-.post.dark-side .post-meta { border-bottom-color: var(--border); }
 .post.dark-side .poem { border-left-color: var(--accent-soft); }
+
+/* 月之暗面有新文章时，月亮按钮上亮一颗小星星 */
+.theme-toggle { position: relative; }
+.theme-toggle.has-new::after {
+  content: "✦"; position: absolute; top: -7px; right: -6px; font-size: 13px; line-height: 1;
+  color: #b48cf0; text-shadow: 0 0 6px rgba(180, 140, 240, .7);
+  animation: twinkle 2.4s ease-in-out infinite;
+}
 
 /* ========== 诗 ========== */
 .poem {

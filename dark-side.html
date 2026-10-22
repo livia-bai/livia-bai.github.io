@@ -1,18 +1,20 @@
 ---
-layout: default
-title: Dark Side
-title_zh: 月之暗面
-nav: dark
+layout: null
 permalink: /dark-side/
 ---
-<link rel="stylesheet" href="{{ '/assets/dark-side/dark-side.css' | relative_url }}">
-<section class="dark-side dark-hero card">
-  <div class="dark-hero-moon" aria-hidden="true"></div>
-  <h1 class="page-title">🌑 <span lang="zh">月之暗面</span><span lang="en">The Dark Side</span></h1>
-  <p class="page-intro">
-    <span lang="zh">月亮背过身去的那一面，从地球上永远看不见。每天下午两点，这里会悄悄多出一篇。</span>
-    <span lang="en">The side of the moon that never faces Earth. Every day at 2 p.m., something new quietly appears here.</span>
-  </p>
-  {% assign dark = site.posts | where: "side", "dark" %}
-  {% include post-list.html posts=dark %}
-</section>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>月之暗面 · {{ site.title }}</title>
+  <script>
+    try { localStorage.setItem('theme', 'dark'); } catch (e) {}
+    location.replace('{{ "/blog/" | relative_url }}');
+  </script>
+  <meta http-equiv="refresh" content="0; url={{ '/blog/' | relative_url }}">
+</head>
+<body style="background:#443c4f;color:#f3ecf5;font-family:sans-serif">
+  <p><a style="color:#f4ab94" href="{{ '/blog/' | relative_url }}">🌑 前往月之暗面 →</a></p>
+</body>
+</html>

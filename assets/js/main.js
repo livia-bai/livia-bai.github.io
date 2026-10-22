@@ -56,29 +56,56 @@
     toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 2000);
   }
 
-  var themeToggle = document.querySelector('.theme-toggle');
-  if (themeToggle) {
-    themeToggle.addEventListener('click', function () {
-      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', next);
-      try { localStorage.setItem('theme', next); } catch (e) {}
-      var zh = getLang() === 'zh';
-      if (next === 'dark') {
-        zh ? showToast('🌑 已切换到', '「月之暗面」') : showToast('🌑 Switched to ', '“the Dark Side of the Moon”');
-      } else {
-        zh ? showToast('🌕 已切换到', '「月之亮面」') : showToast('🌕 Switched to ', '“the Bright Side of the Moon”');
-      }
-    });
+  function announce(theme) {
+    var zh = getLang() === 'zh';
+    if (theme === 'dark') {
+      zh ? showToast('🌑 已切换到', '「月之暗面」') : showToast('🌑 Switched to ', '“the Dark Side of the Moon”');
+    } else {
+      zh ? showToast('🌕 已切换到', '「月之亮面」') : showToast('🌕 Switched to ', '“the Bright Side of the Moon”');
+    }
   }
 
-  // 没手动选过的话，跟着系统的深浅色变化
+  // 月之暗面有新文章、而你还没翻过去看时，月亮按钮上亮一颗小星星
+  var themeToggle = document.querySelector('.theme-toggle');
+  var latestDark = themeToggle ? Number(themeToggle.getAttribute('data-latest-dark')) || 0 : 0;
+  function updateNewMark() {
+    if (!themeToggle || !latestDark) return;
+    var seen = 0;
+    try { seen = Number(localStorage.getItem('darkSeen')) || 0; } catch (e) {}
+    if (root.getAttribute('data-theme') === 'dark') {
+      try { localStorage.setItem('darkSeen', String(latestDark)); } catch (e) {}
+      seen = latestDark;
+    }
+    var fresh = Date.now() / 1000 - latestDark < 7 * 24 * 3600;
+    themeToggle.classList.toggle('has-new', fresh && latestDark > seen);
+  }
+
+  function setTheme(next) {
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    updateNewMark();
+  }
+
+  function flipTheme() {
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    // 在文章页翻面：这篇只属于原来那一面，所以带着提示回到博客，看另一面的文章
+    if (document.body.hasAttribute('data-side')) {
+      try { sessionStorage.setItem('pendingToast', next); } catch (e) {}
+      window.location.href = (document.querySelector('.back') || {}).href || '/blog/';
+      return;
+    }
+    announce(next);
+  }
+
+  if (themeToggle) themeToggle.addEventListener('click', flipTheme);
+  document.querySelectorAll('.side-switch').forEach(function (b) { b.addEventListener('click', flipTheme); });
+
   try {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
-      var saved = null;
-      try { saved = localStorage.getItem('theme'); } catch (err) {}
-      if (!saved) root.setAttribute('data-theme', e.matches ? 'dark' : 'light');
-    });
+    var pending = sessionStorage.getItem('pendingToast');
+    if (pending) { sessionStorage.removeItem('pendingToast'); setTimeout(function () { announce(pending); }, 150); }
   } catch (e) {}
+  updateNewMark();
 
   setLang(getLang());
 })();

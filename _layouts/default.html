@@ -21,6 +21,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/dark-side/dark-side.css' | relative_url }}">
   <script>
     // 尽早读取上次选择的语言，避免页面闪一下
     try {
@@ -29,13 +30,14 @@
       document.documentElement.setAttribute('data-lang', l);
     } catch (e) {}
     try {
-      var t = localStorage.getItem('theme');
-      if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      // 默认是月之亮面；打开某一面的文章时，自动翻到那一面
+      var t = {% if page.side == 'dark' %}'dark'{% elsif page.side %}'light'{% else %}localStorage.getItem('theme') || 'light'{% endif %};
       document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('theme', t);
     } catch (e) {}
   </script>
 </head>
-<body>
+<body{% if page.side %} data-side="{{ page.side }}"{% endif %}>
   <div class="bg" aria-hidden="true">
     <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="blob b4"></div><div class="blob b5"></div>
     <span class="spark" style="--x:8%;--y:14%;--s:22px;--d:0s">✦</span>

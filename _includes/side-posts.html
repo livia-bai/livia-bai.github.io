@@ -1,0 +1,25 @@
+{% comment %}
+  博客的两块面板：🌕 月之亮面（Livia 的文章）和 🌑 月之暗面（每天下午两点的那一篇）。
+  页面只会显示当前主题对应的那一块。参数：limit（可选），more（可选，显示「全部文章」链接）
+{% endcomment %}
+{% assign bright = site.posts | where_exp: "p", "p.side != 'dark'" %}
+{% assign dark = site.posts | where: "side", "dark" %}
+<div class="side-panel side-bright card">
+  <h2 class="section-title">🌕 <span lang="zh">月之亮面</span><span lang="en">The Bright Side</span></h2>
+  {% if bright.size > 0 %}{% include post-list.html posts=bright limit=include.limit %}
+  {% else %}<p class="side-empty"><span lang="zh">这里还空空的。</span><span lang="en">Nothing here yet.</span></p>{% endif %}
+  <div class="side-footer">
+    <button class="side-switch" type="button">🌑 <span lang="zh">翻到月之暗面看看</span><span lang="en">Peek at the dark side</span> →</button>
+    {% if include.more %}<p class="more"><a href="{{ '/blog/' | relative_url }}"><span lang="zh">全部文章</span><span lang="en">All posts</span> →</a></p>{% endif %}
+  </div>
+</div>
+<div class="side-panel side-dark dark-side card">
+  <div class="dark-moon" aria-hidden="true"></div>
+  <h2 class="section-title">🌑 <span lang="zh">月之暗面</span><span lang="en">The Dark Side</span></h2>
+  {% if dark.size > 0 %}{% include post-list.html posts=dark limit=include.limit %}
+  {% else %}<p class="side-empty"><span lang="zh">月亮的背面还很安静。</span><span lang="en">It's quiet on the far side.</span></p>{% endif %}
+  <div class="side-footer">
+    <button class="side-switch" type="button">🌕 <span lang="zh">回到月之亮面</span><span lang="en">Back to the bright side</span> →</button>
+    {% if include.more %}<p class="more"><a href="{{ '/blog/' | relative_url }}"><span lang="zh">全部文章</span><span lang="en">All posts</span> →</a></p>{% endif %}
+  </div>
+</div>
