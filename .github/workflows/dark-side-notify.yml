@@ -1,5 +1,6 @@
 # 🌑 月之暗面有新文章时：等它在网站上能打开了，开一条 Issue @Livia，GitHub 会发邮件通知她。
 # Issue 发完就自动关掉，不会堆在仓库里。
+# 想测试一下：在仓库的 Actions 页面选这个 workflow，点 Run workflow，会拿最新一篇发一封「🧪 测试通知」。
 name: 月之暗面 · 新文章通知
 
 on:
@@ -7,8 +8,6 @@ on:
     branches: [main]
     paths:
       - "dark/_posts/**"
-      # 改这个文件本身时，拿最新一篇发一封测试通知
-      - ".github/workflows/dark-side-notify.yml"
   # 在仓库的 Actions 页面手动点 Run workflow，也会拿最新一篇发一封测试通知
   workflow_dispatch:
 
@@ -20,7 +19,7 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -32,7 +31,7 @@ jobs:
             added=$(git diff --name-only --diff-filter=A "$before" "$GITHUB_SHA" -- 'dark/_posts/*.md' | grep -v -- '-en\.md$' || true)
           fi
           test=false
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || { [ -z "$added" ] && git diff --name-only "$before" "$GITHUB_SHA" 2>/dev/null | grep -q 'dark-side-notify.yml'; }; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             added=$(ls dark/_posts/*.md | grep -v -- '-en\.md$' | sort | tail -n 1)
             test=true
           fi

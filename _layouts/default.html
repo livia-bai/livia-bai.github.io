@@ -6,10 +6,10 @@
   {%- assign title_en = page.title -%}
   {%- assign title_zh = page.title_zh | default: page.title -%}
   <title data-zh="{% if title_zh %}{{ title_zh | escape }} · {% endif %}{{ site.title | escape }}" data-en="{% if title_en %}{{ title_en | escape }} · {% endif %}{{ site.title | escape }}">{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
-  <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | strip_newlines | truncate: 150 }}">
   {% if site.author.avatar contains '/' %}<link rel="icon" href="{% if site.author.avatar contains '://' %}{{ site.author.avatar }}{% else %}{{ site.author.avatar | relative_url }}{% endif %}">
   {% else %}<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>{{ site.author.avatar }}</text></svg>">{% endif %}
   {%- assign desc = page.excerpt | default: site.description | strip_html | strip_newlines | truncate: 150 -%}
+  <meta name="description" content="{{ desc | escape }}">
   <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
   <meta property="og:site_name" content="{{ site.title | escape }}">
   <meta property="og:title" content="{{ page.title | default: site.title | escape }}">

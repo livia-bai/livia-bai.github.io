@@ -69,7 +69,7 @@
 
 Claude 定时任务自带的邮件通知实测收不到，所以改用 GitHub 自己发邮件：
 
-- `dark-side-notify.yml`：`dark/_posts/` 有新文章推到 `main` 时，等文章页能打开（最多 25 分钟），开一条 @livia-bai 的 Issue，GitHub 发邮件，然后自动关掉。改这个文件本身、或在 Actions 页面手动 Run workflow，会拿最新一篇发一封「🧪 测试通知」。
+- `dark-side-notify.yml`：`dark/_posts/` 有新文章推到 `main` 时，等文章页能打开（最多 25 分钟），开一条 @livia-bai 的 Issue，GitHub 发邮件，然后自动关掉。在 Actions 页面手动 Run workflow，会拿最新一篇发一封「🧪 测试通知」（改 workflow 文件本身不会再触发测试，免得整理代码时乱发邮件）。
 - `dark-side-watchdog.yml`：每天 12:30 / 22:30（新加坡）检查，90 分钟内没有新文章就开一条不关的提醒 Issue。
 - 依赖仓库开着 **Issues**（曾经被关掉过一次，导致通知失败）。
 

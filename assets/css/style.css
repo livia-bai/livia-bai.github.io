@@ -1,4 +1,18 @@
-/* ========== 颜色（想换配色改这里）==========
+/* ==========================================================================
+ * Livia's Little Corner · 样式
+ *
+ * 目录：
+ *   1. 颜色（想换配色改这里）   2. 中英切换       3. 基础
+ *   4. 背景                     5. 布局和卡片     6. 顶栏
+ *   7. 月亮按钮和提示条         8. 首页           9. 标题
+ *  10. 作品                    11. 博客的两面    12. 文章列表
+ *  13. 文章页                  14. 诗            15. 评论区
+ *  16. 其他                    17. 手机
+ *
+ * 月之暗面每天自己加的装饰在 assets/dark-side/dark-side.css，不在这里。
+ * ========================================================================== */
+
+/* ========== 1. 颜色（想换配色改这里）==========
  * 🌕 月之亮面是默认配色；🌑 月之暗面由右上角的月亮按钮切换。
  * 两边的明暗差距特意收小了一些，来回切换不刺眼。
  */
@@ -9,7 +23,6 @@
   --muted: #8c7871;
   --accent: #e8856a;
   --accent-soft: #fbe1d4;
-  --accent-2: #8cc5b5;
   --border: #f0dfd2;
   --shadow: 0 6px 20px rgba(196, 128, 98, 0.12);
   --code-bg: #fbeee4;
@@ -30,7 +43,6 @@
   --muted: #c9bdd2;
   --accent: #f4ab94;
   --accent-soft: #605472;
-  --accent-2: #9ccbbd;
   --border: #605570;
   --shadow: 0 8px 24px rgba(20, 12, 35, 0.25);
   --code-bg: #4a4158;
@@ -43,16 +55,16 @@
   --spark: #ffe2ad;
   --spark-2: #f6c4d4;
 }
-/* 切换时慢慢过渡，不会「啪」一下闪眼 */
-body, .card, .nav a, .btn, .tag, .post-item, .lang-toggle, .theme-toggle, .toast {
+/* 切换时慢慢过渡，不会「啪」一下闪眼（有自己动画的元素在下面各自覆盖） */
+body, .card, .nav a, .btn, .tag, .post-item, .lang-toggle, .toast {
   transition: background-color .6s ease, color .6s ease, border-color .6s ease, box-shadow .6s ease;
 }
 
-/* ========== 中英切换 ========== */
+/* ========== 2. 中英切换 ========== */
 html[data-lang="zh"] [lang="en"],
 html[data-lang="en"] [lang="zh"] { display: none !important; }
 
-/* ========== 基础 ========== */
+/* ========== 3. 基础 ========== */
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body {
@@ -77,7 +89,8 @@ img { max-width: 100%; }
 .brand-avatar, .hero-avatar { overflow: hidden; }
 .avatar-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-/* ========== 背景：渐变 + 小圆点 + 飘动的色块 + 闪闪的小星星 ========== */
+/* ========== 4. 背景：渐变 + 小圆点 + 飘动的光斑 + 闪闪的小星星 ========== */
+/* 亮面的渐变铺在 .bg 上，暗面的渐变在 ::after 上淡入淡出（渐变本身没法做过渡） */
 .bg {
   position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
   background: linear-gradient(165deg, #fdeee2 0%, #fbf3ea 35%, #f9eff1 70%, #f0f4ef 100%);
@@ -88,24 +101,22 @@ img { max-width: 100%; }
   opacity: 0; transition: opacity .7s ease;
 }
 :root[data-theme="dark"] .bg::after { opacity: 1; }
-.bg::before { z-index: 2; }
-.bg .blob { z-index: 1; transition: background-color .7s ease; }
-/* 亮面的光斑是暖暖的晨光；暗面换成带月光的紫、蓝、金，稍微收一点亮度 */
-:root[data-theme="dark"] .bg .blob { filter: blur(70px) saturate(.9); opacity: .7; }
-.bg .spark { z-index: 3; transition: color .7s ease; }
 /* 淡淡的圆点纸纹理，越往下越淡 */
 .bg::before {
-  content: ""; position: absolute; inset: 0;
+  content: ""; position: absolute; inset: 0; z-index: 2;
   background-image: radial-gradient(var(--dot) 1.3px, transparent 1.6px);
   background-size: 24px 24px;
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.35) 55%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.35) 55%, transparent 100%);
 }
+/* 光斑：亮面是暖暖的晨光；暗面换成带月光的紫、蓝、金，稍微收一点亮度 */
 .blob {
   position: absolute; border-radius: 50%;
   filter: blur(60px); opacity: .9;
   animation: drift 24s ease-in-out infinite alternate;
 }
+.bg .blob { z-index: 1; transition: background-color .7s ease; }
+:root[data-theme="dark"] .bg .blob { filter: blur(70px) saturate(.9); opacity: .7; }
 .b1 { width: 480px; height: 480px; background: var(--blob-1); top: -140px; right: -100px; }
 .b2 { width: 420px; height: 420px; background: var(--blob-2); top: 30%; left: -160px; animation-duration: 28s; animation-delay: -6s; }
 .b3 { width: 380px; height: 380px; background: var(--blob-3); bottom: -100px; right: 10%; animation-duration: 22s; animation-delay: -12s; }
@@ -116,12 +127,14 @@ img { max-width: 100%; }
   50%  { transform: translate(40px, 30px) scale(1.08); }
   100% { transform: translate(-30px, 50px) scale(.95); }
 }
+/* 小星星、小花、小爱心 */
 .spark {
   position: absolute; left: var(--x); top: var(--y);
   font-size: var(--s); line-height: 1; color: var(--spark);
   opacity: .5; font-family: "Segoe UI Symbol", "Apple Symbols", sans-serif;
   animation: twinkle 4.5s ease-in-out infinite; animation-delay: var(--d);
 }
+.bg .spark { z-index: 3; transition: color .7s ease; }
 .spark:nth-child(3n) { color: var(--spark-2); }
 .spark:nth-child(3n+1) { animation-duration: 6s; }
 @keyframes twinkle {
@@ -135,8 +148,8 @@ img { max-width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) { .blob, .spark { animation: none; } }
 
+/* ========== 5. 布局和卡片 ========== */
 .container { max-width: 960px; margin: 0 auto; padding: 0 16px 48px; }
-
 .card {
   background: var(--card);
   border: 2px solid var(--border);
@@ -144,7 +157,7 @@ img { max-width: 100%; }
   box-shadow: var(--shadow);
 }
 
-/* ========== 顶栏 ========== */
+/* ========== 6. 顶栏 ========== */
 .site-header {
   width: 100%; max-width: 960px; margin: 0 auto; padding: 20px 16px;
   display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
@@ -167,9 +180,9 @@ img { max-width: 100%; }
 }
 .lang-toggle:hover { background: var(--accent); color: #fff; }
 
-/* ========== 月之暗面 / 月之亮面 切换 ========== */
+/* ========== 7. 月亮按钮和提示条 ========== */
 .theme-toggle {
-  margin-left: 6px; width: 40px; height: 40px; padding: 0; border-radius: 50%;
+  position: relative; margin-left: 6px; width: 40px; height: 40px; padding: 0; border-radius: 50%;
   border: 2px solid var(--accent); background: transparent; color: var(--accent);
   display: inline-grid; place-items: center; cursor: pointer;
   transition: background .2s, box-shadow .3s;
@@ -181,7 +194,14 @@ img { max-width: 100%; }
 :root[data-theme="dark"] .theme-toggle .moon-crescent { opacity: 0; transform: rotate(90deg) scale(.5); }
 :root[data-theme="dark"] .theme-toggle .moon-full { opacity: 1; transform: none; }
 :root[data-theme="dark"] .theme-toggle { box-shadow: 0 0 14px rgba(255, 217, 138, .45); border-color: #ffd98a; color: #ffd98a; }
+/* 月之暗面有新文章、还没翻过去看时，月亮按钮上亮一颗小星星 */
+.theme-toggle.has-new::after {
+  content: "✦"; position: absolute; top: -7px; right: -6px; font-size: 13px; line-height: 1;
+  color: #b48cf0; text-shadow: 0 0 6px rgba(180, 140, 240, .7);
+  animation: twinkle 2.4s ease-in-out infinite;
+}
 
+/* 切换时底部弹出的「已切换到「月之暗面」」 */
 .toast {
   position: fixed; left: 50%; bottom: 28px; z-index: 10;
   transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
@@ -191,7 +211,66 @@ img { max-width: 100%; }
   transition: opacity .3s, transform .3s;
 }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
-/* ========== 博客：亮面 / 暗面 两块面板，跟着主题只显示一块 ========== */
+.toast-name { color: var(--accent); font-weight: 800; font-size: 1.08em; }
+:root[data-theme="dark"] .toast-name { color: #ffd98a; text-shadow: 0 0 10px rgba(255, 217, 138, .5); }
+
+/* ========== 8. 首页 ========== */
+.hero {
+  display: flex; gap: 28px; align-items: center; padding: 36px; margin: 12px 0 40px;
+}
+.hero h1 { margin: 0 0 6px; font-size: 2rem; }
+.hero p { margin: 8px 0; }
+.tagline { color: var(--accent); font-weight: 600; }
+.hero .whisper { color: var(--muted); font-size: .88rem; margin-top: 4px; }
+.hero-avatar {
+  flex: none; width: 120px; height: 120px; display: grid; place-items: center;
+  font-size: 64px; background: var(--accent-soft); border-radius: 50%;
+  animation: bob 3.5s ease-in-out infinite;
+}
+.wave { display: inline-block; animation: wave 2.4s ease-in-out infinite; transform-origin: 70% 70%; }
+.hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+.btn {
+  display: inline-block; background: var(--accent); color: #fff; font-weight: 800;
+  padding: 10px 22px; border-radius: 999px; box-shadow: 0 4px 0 rgba(0,0,0,.08);
+  transition: transform .15s;
+}
+.btn:hover { transform: translateY(-2px); text-decoration: none; }
+.btn-soft { background: var(--accent-soft); color: var(--accent); }
+.home-blog { margin-top: 40px; }
+
+@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes wave { 0%,60%,100% { transform: rotate(0); } 10%,30% { transform: rotate(16deg); } 20%,40% { transform: rotate(-8deg); } }
+@media (prefers-reduced-motion: reduce) { .hero-avatar, .wave { animation: none; } }
+
+/* ========== 9. 标题 ========== */
+.section-title { font-size: 1.4rem; margin: 40px 0 16px; }
+.page-title { font-size: 2rem; margin: 16px 0 4px; }
+.page-intro { color: var(--muted); margin: 0 0 24px; }
+.more { text-align: right; font-weight: 700; }
+
+/* ========== 10. 作品 ========== */
+.project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+.project { display: block; overflow: hidden; color: var(--text); transition: transform .2s, box-shadow .2s; }
+a.project:hover { transform: translateY(-4px) rotate(-.5deg); text-decoration: none; }
+.project-cover { height: 150px; display: grid; place-items: center; overflow: hidden; }
+:root[data-theme="dark"] .project-cover { filter: brightness(.82) saturate(.9); }
+.project-cover img { width: 100%; height: 100%; object-fit: cover; }
+.project-emoji { font-size: 64px; transition: transform .3s; }
+a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
+.project-body { padding: 16px 20px 20px; }
+.project-body h3 { margin: 0 0 6px; font-size: 1.1rem; }
+.project-body p { margin: 0 0 12px; color: var(--muted); font-size: .95rem; }
+/* 作品页最后那张「更多作品正在发芽…」 */
+.project-soon { border-style: dashed; box-shadow: none; background: transparent; }
+.project-soon .project-cover { background: transparent; border-bottom: 2px dashed var(--border); }
+.project-soon .project-emoji { animation: bob 3.5s ease-in-out infinite; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  display: inline-block; font-size: .78rem; font-weight: 700; padding: 1px 10px;
+  border-radius: 999px; background: var(--accent-soft); color: var(--accent); margin-right: 4px;
+}
+
+/* ========== 11. 博客的两面：亮面 / 暗面 两块面板，跟着主题只显示一块 ========== */
 :root[data-theme="dark"] .side-bright,
 :root:not([data-theme="dark"]) .side-dark { display: none !important; }
 .side-panel { padding: 26px 24px 16px; position: relative; overflow: hidden; }
@@ -202,6 +281,9 @@ img { max-width: 100%; }
   margin: 16px 0 6px; position: relative;
 }
 .side-footer .more { margin: 0; }
+.side-empty { color: var(--muted); padding: 8px 0 12px; margin: 0; }
+
+/* 博客页上那句「嘘——月亮可是有两面的哦」，小月亮会偷偷转一下 */
 .moon-hint {
   display: inline-flex; align-items: center; gap: 8px; margin: 2px 0 24px;
   padding: 6px 16px 6px 10px; border-radius: 999px;
@@ -215,10 +297,8 @@ img { max-width: 100%; }
   94% { transform: rotate(180deg); }
 }
 @media (prefers-reduced-motion: reduce) { .moon-hint-icon { animation: none; } }
-.home-blog { margin-top: 40px; }
-.side-empty { color: var(--muted); padding: 8px 0 12px; margin: 0; }
 
-/* 亮面面板：晨光渐变，撒一点金色的光点，右上角挂一颗发着暖光的满月 */
+/* 亮面面板：晨光渐变，撒一点金色的光点 */
 .bright-side {
   background-color: var(--card);
   background-image:
@@ -230,7 +310,21 @@ img { max-width: 100%; }
     radial-gradient(120% 90% at 100% 0%, rgba(255, 226, 170, .45) 0%, transparent 55%),
     radial-gradient(90% 80% at 0% 100%, rgba(255, 214, 214, .35) 0%, transparent 60%);
 }
-/* 两颗月亮是同一颗：同样的大小、位置和月坑，亮面被照亮，暗面在阴影里 */
+.side-bright .post-item { background: rgba(255, 255, 255, .7); }
+
+/* 暗面面板（文章页的外框也用它）：在暮紫底色上撒一点星星 */
+.dark-side {
+  background-color: var(--card);
+  background-image:
+    radial-gradient(1.2px 1.2px at 12% 18%, rgba(255,255,255,.8) 50%, transparent 51%),
+    radial-gradient(1px 1px at 30% 72%, rgba(255,255,255,.7) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 58% 26%, rgba(255,240,200,.85) 50%, transparent 51%),
+    radial-gradient(1px 1px at 76% 64%, rgba(255,255,255,.7) 50%, transparent 51%),
+    radial-gradient(1.3px 1.3px at 90% 40%, rgba(255,255,255,.8) 50%, transparent 51%),
+    radial-gradient(1px 1px at 44% 90%, rgba(235,225,255,.7) 50%, transparent 51%);
+}
+
+/* 两块面板右上角的月亮是同一颗：同样的大小、位置和月坑，亮面被照亮，暗面在阴影里 */
 .side-moon {
   position: absolute; top: -58px; right: -58px; width: 150px; height: 150px; border-radius: 50%;
 }
@@ -242,35 +336,56 @@ img { max-width: 100%; }
   box-shadow: 0 0 0 14px rgba(255, 230, 170, .25), 0 0 0 30px rgba(255, 230, 170, .12), 0 0 60px rgba(255, 205, 120, .45);
 }
 .bright-moon::before, .bright-moon::after { background: rgba(240, 196, 120, .3); }
-.side-bright .post-item { background: rgba(255, 255, 255, .7); }
-
-/* 暗面面板：在暮紫底色上撒一点星星，右上角藏一颗月亮的背面 */
-.dark-side {
-  background-color: var(--card);
-  background-image:
-    radial-gradient(1.2px 1.2px at 12% 18%, rgba(255,255,255,.8) 50%, transparent 51%),
-    radial-gradient(1px 1px at 30% 72%, rgba(255,255,255,.7) 50%, transparent 51%),
-    radial-gradient(1.5px 1.5px at 58% 26%, rgba(255,240,200,.85) 50%, transparent 51%),
-    radial-gradient(1px 1px at 76% 64%, rgba(255,255,255,.7) 50%, transparent 51%),
-    radial-gradient(1.3px 1.3px at 90% 40%, rgba(255,255,255,.8) 50%, transparent 51%),
-    radial-gradient(1px 1px at 44% 90%, rgba(235,225,255,.7) 50%, transparent 51%);
-}
 .dark-moon {
   background: radial-gradient(circle at 38% 38%, #7d7299 0%, #625879 45%, #4d4462 100%);
   box-shadow: 0 0 0 14px rgba(200, 185, 240, .1), 0 0 0 30px rgba(200, 185, 240, .05), 0 0 60px rgba(190, 170, 240, .18);
 }
 .dark-moon::before, .dark-moon::after { background: rgba(40, 30, 60, .3); }
-.post.dark-side .poem { border-left-color: var(--accent-soft); }
 
-/* 月之暗面有新文章时，月亮按钮上亮一颗小星星 */
-.theme-toggle { position: relative; }
-.theme-toggle.has-new::after {
-  content: "✦"; position: absolute; top: -7px; right: -6px; font-size: 13px; line-height: 1;
-  color: #b48cf0; text-shadow: 0 0 6px rgba(180, 140, 240, .7);
-  animation: twinkle 2.4s ease-in-out infinite;
+/* ========== 12. 文章列表 ========== */
+.post-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.post-item a {
+  display: grid; grid-template-columns: auto 1fr auto; gap: 10px 14px; align-items: baseline;
+  padding: 36px 28px; color: var(--text);
+}
+.post-item:hover { border-color: var(--accent); }
+.post-item a:hover { text-decoration: none; }
+.post-date { color: var(--muted); font-size: .9rem; font-variant-numeric: tabular-nums; }
+.post-item-title { font-weight: 800; }
+.post-excerpt { grid-column: 2 / -1; color: var(--muted); font-size: .92rem; }
+/* 同一篇的另一种语言版本 */
+.post-item.is-hidden { display: none; }
+@media (max-width: 600px) {
+  .post-item a { grid-template-columns: 1fr auto; }
+  .post-date { grid-column: 1 / -1; }
+  .post-excerpt { grid-column: 1 / -1; }
 }
 
-/* ========== 评论区 ========== */
+/* ========== 13. 文章页 ========== */
+.post { padding: 32px 40px 40px; margin-top: 12px; }
+.back { font-weight: 700; font-size: .95rem; }
+.post-title { font-size: 2rem; margin: 14px 0 6px; }
+.post-meta { color: var(--muted); font-size: .92rem; margin: 0 0 24px; padding-bottom: 18px; border-bottom: 2px dashed var(--border); }
+.post-content h2 { margin-top: 2em; font-size: 1.35rem; }
+.post-content h2::before { content: "✿ "; color: var(--accent); }
+.post-content img { border-radius: 14px; }
+.post-content blockquote {
+  margin: 1.2em 0; padding: 10px 18px; background: var(--accent-soft);
+  border-left: 5px solid var(--accent); border-radius: 0 14px 14px 0;
+}
+.post-content code { background: var(--code-bg); padding: 2px 6px; border-radius: 6px; font-size: .9em; }
+.post-content pre { background: var(--code-bg); padding: 14px 18px; border-radius: 14px; overflow-x: auto; }
+.post-content pre code { padding: 0; background: none; }
+
+/* ========== 14. 诗：<div class="poem"> 里每一行都单独换行 ========== */
+.poem {
+  white-space: pre-line; font-size: 1.08rem; line-height: 2;
+  padding: 8px 0 8px 22px; margin: 8px 0 28px;
+  border-left: 3px solid var(--accent-soft);
+}
+.post-content .poem-end { color: var(--muted); font-size: .9rem; text-align: right; }
+
+/* ========== 15. 评论区：默认收起，点「展开」才加载 ========== */
 .comments { padding: 0; margin-top: 20px; overflow: hidden; }
 .comments-toggle {
   width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px;
@@ -295,6 +410,7 @@ img { max-width: 100%; }
   opacity: 0; transform: translateY(-8px); transition: opacity .4s ease .1s, transform .45s ease .1s, padding .55s ease;
 }
 .comments.is-open .comments-inner { opacity: 1; transform: none; padding-bottom: 28px; }
+/* 「正在从月亮背面取信…」和三个跳动的小点 */
 .comments-loading { display: flex; align-items: center; gap: 10px; color: var(--muted); margin: 4px 0 12px; }
 .comments.is-loaded .comments-loading { display: none; }
 .dots { display: inline-flex; gap: 4px; }
@@ -308,110 +424,12 @@ img { max-width: 100%; }
 }
 @media (max-width: 640px) { .comments-toggle { padding: 18px 18px; } .comments-inner { padding: 0 16px; } }
 
-/* ========== 诗 ========== */
-.poem {
-  white-space: pre-line; font-size: 1.08rem; line-height: 2;
-  padding: 8px 0 8px 22px; margin: 8px 0 28px;
-  border-left: 3px solid var(--accent-soft);
-}
-.post-content .poem-end { color: var(--muted); font-size: .9rem; text-align: right; }
-
-.toast-name { color: var(--accent); font-weight: 800; font-size: 1.08em; }
-:root[data-theme="dark"] .toast-name { color: #ffd98a; text-shadow: 0 0 10px rgba(255, 217, 138, .5); }
-
-/* ========== 首页大卡片 ========== */
-.hero {
-  display: flex; gap: 28px; align-items: center; padding: 36px; margin: 12px 0 40px;
-}
-.hero h1 { margin: 0 0 6px; font-size: 2rem; }
-.hero p { margin: 8px 0; }
-.tagline { color: var(--accent); font-weight: 600; }
-.hero .whisper { color: var(--muted); font-size: .88rem; margin-top: 4px; }
-.hero-avatar {
-  flex: none; width: 120px; height: 120px; display: grid; place-items: center;
-  font-size: 64px; background: var(--accent-soft); border-radius: 50%;
-  animation: bob 3.5s ease-in-out infinite;
-}
-.wave { display: inline-block; animation: wave 2.4s ease-in-out infinite; transform-origin: 70% 70%; }
-.hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
-.btn {
-  display: inline-block; background: var(--accent); color: #fff; font-weight: 800;
-  padding: 10px 22px; border-radius: 999px; box-shadow: 0 4px 0 rgba(0,0,0,.08);
-  transition: transform .15s;
-}
-.btn:hover { transform: translateY(-2px); text-decoration: none; }
-.btn-soft { background: var(--accent-soft); color: var(--accent); }
-
-@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-@keyframes wave { 0%,60%,100% { transform: rotate(0); } 10%,30% { transform: rotate(16deg); } 20%,40% { transform: rotate(-8deg); } }
-@media (prefers-reduced-motion: reduce) { .hero-avatar, .wave { animation: none; } }
-
-/* ========== 标题 ========== */
-.section-title { font-size: 1.4rem; margin: 40px 0 16px; }
-.page-title { font-size: 2rem; margin: 16px 0 4px; }
-.page-intro { color: var(--muted); margin: 0 0 24px; }
-.more { text-align: right; font-weight: 700; }
-
-/* ========== 作品卡片 ========== */
-.project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
-.project { display: block; overflow: hidden; color: var(--text); transition: transform .2s, box-shadow .2s; }
-a.project:hover { transform: translateY(-4px) rotate(-.5deg); text-decoration: none; }
-.project-cover { height: 150px; display: grid; place-items: center; overflow: hidden; }
-:root[data-theme="dark"] .project-cover { filter: brightness(.82) saturate(.9); }
-.project-cover img { width: 100%; height: 100%; object-fit: cover; }
-.project-emoji { font-size: 64px; transition: transform .3s; }
-a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
-.project-body { padding: 16px 20px 20px; }
-.project-soon { border-style: dashed; box-shadow: none; background: transparent; }
-.project-soon .project-cover { background: transparent; border-bottom: 2px dashed var(--border); }
-.project-soon .project-emoji { animation: bob 3.5s ease-in-out infinite; }
-.project-body h3 { margin: 0 0 6px; font-size: 1.1rem; }
-.project-body p { margin: 0 0 12px; color: var(--muted); font-size: .95rem; }
-.tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.tag {
-  display: inline-block; font-size: .78rem; font-weight: 700; padding: 1px 10px;
-  border-radius: 999px; background: var(--accent-soft); color: var(--accent); margin-right: 4px;
-}
-
-/* ========== 文章列表 ========== */
-.post-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
-.post-item a {
-  display: grid; grid-template-columns: auto 1fr auto; gap: 10px 14px; align-items: baseline;
-  padding: 36px 28px; color: var(--text);
-}
-.post-item:hover { border-color: var(--accent); }
-.post-item a:hover { text-decoration: none; }
-.post-date { color: var(--muted); font-size: .9rem; font-variant-numeric: tabular-nums; }
-.post-item-title { font-weight: 800; }
-.post-excerpt { grid-column: 2 / -1; color: var(--muted); font-size: .92rem; }
-.post-item.is-hidden { display: none; }
-@media (max-width: 600px) {
-  .post-item a { grid-template-columns: 1fr auto; }
-  .post-date { grid-column: 1 / -1; }
-  .post-excerpt { grid-column: 1 / -1; }
-}
-
-/* ========== 文章页 ========== */
-.post { padding: 32px 40px 40px; margin-top: 12px; }
-.back { font-weight: 700; font-size: .95rem; }
-.post-title { font-size: 2rem; margin: 14px 0 6px; }
-.post-meta { color: var(--muted); font-size: .92rem; margin: 0 0 24px; padding-bottom: 18px; border-bottom: 2px dashed var(--border); }
-.post-content h2 { margin-top: 2em; font-size: 1.35rem; }
-.post-content h2::before { content: "✿ "; color: var(--accent); }
-.post-content img { border-radius: 14px; }
-.post-content blockquote {
-  margin: 1.2em 0; padding: 10px 18px; background: var(--accent-soft);
-  border-left: 5px solid var(--accent); border-radius: 0 14px 14px 0;
-}
-.post-content code { background: var(--code-bg); padding: 2px 6px; border-radius: 6px; font-size: .9em; }
-.post-content pre { background: var(--code-bg); padding: 14px 18px; border-radius: 14px; overflow-x: auto; }
-.post-content pre code { padding: 0; background: none; }
-
-/* ========== 其他 ========== */
+/* ========== 16. 其他 ========== */
 .empty { text-align: center; padding: 48px 20px; margin-top: 24px; }
 .empty .hero-avatar { margin: 0 auto 12px; }
 .site-footer { flex-shrink: 0; text-align: center; color: var(--muted); font-size: .9rem; padding: 24px 16px 40px; }
 
+/* ========== 17. 手机 ========== */
 @media (max-width: 640px) {
   .hero { flex-direction: column; text-align: center; padding: 28px 20px; }
   .hero-actions { justify-content: center; }
