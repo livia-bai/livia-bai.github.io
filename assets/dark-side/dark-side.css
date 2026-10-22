@@ -75,3 +75,24 @@
 @media (prefers-reduced-motion: reduce) {
   .dark-side .ds-sea-ring { animation: none; opacity: .4; }
 }
+
+/* ---- 2026-10-23《一桶月亮》：窗台上的小桶，月亮的倒影过一会儿才来；点一下起涟漪 ---- */
+.dark-side .ds-pail { margin: 4px auto 0; max-width: 260px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.dark-side .ds-pail svg { display: block; width: 100%; height: auto; }
+.dark-side .ds-pail-sill { stroke: rgba(230, 220, 245, .35); stroke-width: 1.5; stroke-linecap: round; }
+.dark-side .ds-pail-handle { fill: none; stroke: rgba(230, 220, 245, .5); stroke-width: 1.4; }
+.dark-side .ds-pail-body { fill: rgba(30, 22, 48, .35); stroke: rgba(230, 220, 245, .6); stroke-width: 1.4; stroke-linejoin: round; }
+.dark-side .ds-pail-water { fill: rgba(120, 140, 190, .28); stroke: rgba(230, 220, 245, .6); stroke-width: 1.2; }
+.dark-side .ds-pail-moon { fill: #ffe2ad; opacity: 0; transform-box: fill-box; transform-origin: center;
+  animation: ds-pail-arrive 4s ease-out 2.5s forwards, ds-pail-shimmer 3.2s ease-in-out 6.5s infinite; }
+.dark-side .ds-pail-moon ellipse { filter: drop-shadow(0 0 3px rgba(255, 226, 173, .9)); }
+.dark-side .ds-pail-ring { fill: none; stroke: rgba(255, 226, 173, .7); stroke-width: .8; opacity: 0;
+  transform-box: fill-box; transform-origin: center; }
+.dark-side .ds-pail-tap .ds-pail-ring { animation: ds-pail-ripple 1.2s ease-out; }
+@keyframes ds-pail-arrive { to { opacity: 1; } }
+@keyframes ds-pail-shimmer { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(.8); } }
+@keyframes ds-pail-ripple { 0% { opacity: .9; transform: scale(1); } 100% { opacity: 0; transform: scale(5); } }
+@media (prefers-reduced-motion: reduce) {
+  .dark-side .ds-pail-moon { animation: none; opacity: 1; }
+  .dark-side .ds-pail-tap .ds-pail-ring { animation: none; }
+}
