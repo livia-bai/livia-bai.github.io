@@ -77,15 +77,18 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   background: var(--bg);
-  background-image: var(--bg-gradient);
-  background-attachment: fixed;
   color: var(--text);
   font-family: "Nunito", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: 17px;
   line-height: 1.75;
   overflow-x: hidden;
+  /* 让页脚永远贴在页面最下面，内容少的时候也一样 */
   min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
+body > main { flex: 1 0 auto; width: 100%; }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; text-underline-offset: 3px; }
 h1, h2, h3 { line-height: 1.3; font-weight: 800; }
@@ -94,7 +97,7 @@ img { max-width: 100%; }
 .avatar-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* ========== 背景：渐变 + 小圆点 + 飘动的色块 + 闪闪的小星星 ========== */
-.bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: var(--bg-gradient); }
 /* 淡淡的圆点纸纹理，越往下越淡 */
 .bg::before {
   content: ""; position: absolute; inset: 0;
@@ -148,7 +151,7 @@ img { max-width: 100%; }
 
 /* ========== 顶栏 ========== */
 .site-header {
-  max-width: 960px; margin: 0 auto; padding: 20px 16px;
+  width: 100%; max-width: 960px; margin: 0 auto; padding: 20px 16px;
   display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
 }
 .brand { display: flex; align-items: center; gap: 10px; color: var(--text); font-weight: 800; font-size: 1.1rem; }
@@ -193,8 +196,24 @@ img { max-width: 100%; }
   transition: opacity .3s, transform .3s;
 }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
+/* ========== 诗 ========== */
+.poem {
+  white-space: pre-line; font-size: 1.08rem; line-height: 2;
+  padding: 8px 0 8px 22px; margin: 8px 0 28px;
+  border-left: 3px solid var(--accent-soft);
+}
+.post-content .poem-end { color: var(--muted); font-size: .9rem; text-align: right; }
+
 .toast-name { color: var(--accent); font-weight: 800; font-size: 1.08em; }
-:root[data-theme="dark"] .toast-name { color: #ffd98a; text-shadow: 0 0 10px rgba(255, 217, 138, .5); }
+:root[data-theme="dark"] /* ========== 诗 ========== */
+.poem {
+  white-space: pre-line; font-size: 1.08rem; line-height: 2;
+  padding: 8px 0 8px 22px; margin: 8px 0 28px;
+  border-left: 3px solid var(--accent-soft);
+}
+.post-content .poem-end { color: var(--muted); font-size: .9rem; text-align: right; }
+
+.toast-name { color: #ffd98a; text-shadow: 0 0 10px rgba(255, 217, 138, .5); }
 
 /* ========== 首页大卡片 ========== */
 .hero {
@@ -233,6 +252,7 @@ img { max-width: 100%; }
 .project { display: block; overflow: hidden; color: var(--text); transition: transform .2s, box-shadow .2s; }
 a.project:hover { transform: translateY(-4px) rotate(-.5deg); text-decoration: none; }
 .project-cover { height: 150px; display: grid; place-items: center; overflow: hidden; }
+:root[data-theme="dark"] .project-cover { filter: brightness(.82) saturate(.9); }
 .project-cover img { width: 100%; height: 100%; object-fit: cover; }
 .project-emoji { font-size: 64px; transition: transform .3s; }
 a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
@@ -282,7 +302,7 @@ a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
 /* ========== 其他 ========== */
 .empty { text-align: center; padding: 48px 20px; margin-top: 24px; }
 .empty .hero-avatar { margin: 0 auto 12px; }
-.site-footer { text-align: center; color: var(--muted); font-size: .9rem; padding: 24px 16px 40px; }
+.site-footer { flex-shrink: 0; text-align: center; color: var(--muted); font-size: .9rem; padding: 24px 16px 40px; }
 
 @media (max-width: 640px) {
   .hero { flex-direction: column; text-align: center; padding: 28px 20px; }

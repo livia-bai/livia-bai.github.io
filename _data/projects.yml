@@ -4,30 +4,11 @@
 
 - title_zh: "我的个人网站"
   title_en: "This Little Website"
-  desc_zh: "就是你现在看到的这个网站！用 GitHub Pages 搭的，支持中英切换。"
-  desc_en: "The very site you're looking at! Built with GitHub Pages, in two languages."
+  desc_zh: "就是你现在看到的这个网站！用 GitHub Pages 搭的，可以切换中英文，还能在月之亮面和暗面之间来回切换。"
+  desc_en: "The very site you're looking at! Built with GitHub Pages, in two languages, with a bright side and a dark side of the moon."
   emoji: "🏡"
   color: "#ffd6c9"
   tags: [HTML, CSS, Jekyll]
   link: "/"
   featured: true
 
-- title_zh: "示例作品：手绘插画集"
-  title_en: "Sample: Doodle Collection"
-  desc_zh: "这是一个示例作品，把它换成你自己的作品吧～"
-  desc_en: "This is a placeholder project. Swap it for one of your own~"
-  emoji: "🎨"
-  color: "#d9ecff"
-  tags: [Illustration]
-  link: ""
-  featured: true
-
-- title_zh: "示例作品：记账小工具"
-  title_en: "Sample: Tiny Budget App"
-  desc_zh: "另一个示例。可以写写做这个作品的初衷、用到了什么、学到了什么。"
-  desc_en: "Another placeholder. Say why you made it, what you used, and what you learned."
-  emoji: "🧸"
-  color: "#e4f5d9"
-  tags: [JavaScript]
-  link: ""
-  featured: true

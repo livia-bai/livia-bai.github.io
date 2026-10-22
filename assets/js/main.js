@@ -7,6 +7,8 @@
     root.setAttribute('data-lang', lang);
     root.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
     try { localStorage.setItem('lang', lang); } catch (e) {}
+    var t = document.querySelector('title');
+    if (t && t.dataset[lang]) document.title = t.dataset[lang];
     filterPosts();
   }
 
