@@ -49,6 +49,8 @@ a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; text-underline-offset: 3px; }
 h1, h2, h3 { line-height: 1.3; font-weight: 800; }
 img { max-width: 100%; }
+.brand-avatar, .hero-avatar { overflow: hidden; }
+.avatar-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* 背景装饰的柔和圆斑 */
 .blobs { position: absolute; inset: 0; overflow: hidden; z-index: -1; pointer-events: none; }
