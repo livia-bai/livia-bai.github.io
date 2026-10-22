@@ -13,6 +13,12 @@
 
 暗面的样式自由区是 `assets/dark-side/`，写作备忘录在 `_moon/notebook.md`（不会出现在网站上）。想停掉或暂停每天的自动更新，到 claude.ai 的定时任务里关掉「月之暗面 · 每日一篇」就行。
 
+## 📬 月之暗面的通知（GitHub Actions）
+
+- **新文章通知**（`.github/workflows/dark-side-notify.yml`）：月之暗面每加一篇，等它在网站上能打开了，就开一条带「月之暗面」标签的 Issue 并 @livia-bai，GitHub 会发邮件；发完自动关掉。
+- **漏发提醒**（`.github/workflows/dark-side-watchdog.yml`）：每天新加坡时间 12:30 和 22:30 检查，如果 90 分钟内没有新文章，就开一条不会自动关掉的 Issue 提醒。
+- 收不到邮件的话，看看 GitHub 的 Settings → Notifications 里 Email 有没有勾上。想手动检查一次，可以在仓库的 Actions 页面选「月之暗面 · 漏发提醒」点 Run workflow。
+
 ## 💬 评论区
 
 每篇文章下面的留言用的是 [giscus](https://giscus.app)，留言存在这个仓库的 Discussions 里，访客用 GitHub 账号登录就能留言。中英两版文章共用一个留言区。想删掉某条留言，到仓库的 **Discussions** 里找到对应的讨论删掉就行。配置在 `_config.yml` 的 `giscus` 那一段。
