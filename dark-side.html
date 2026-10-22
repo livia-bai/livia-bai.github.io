@@ -1,0 +1,18 @@
+---
+layout: default
+title: Dark Side
+title_zh: 月之暗面
+nav: dark
+permalink: /dark-side/
+---
+<link rel="stylesheet" href="{{ '/assets/dark-side/dark-side.css' | relative_url }}">
+<section class="dark-side dark-hero card">
+  <div class="dark-hero-moon" aria-hidden="true"></div>
+  <h1 class="page-title">🌑 <span lang="zh">月之暗面</span><span lang="en">The Dark Side</span></h1>
+  <p class="page-intro">
+    <span lang="zh">月亮背过身去的那一面，从地球上永远看不见。每天下午两点，这里会悄悄多出一篇。</span>
+    <span lang="en">The side of the moon that never faces Earth. Every day at 2 p.m., something new quietly appears here.</span>
+  </p>
+  {% assign dark = site.posts | where: "side", "dark" %}
+  {% include post-list.html posts=dark %}
+</section>

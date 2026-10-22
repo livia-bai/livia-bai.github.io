@@ -12,13 +12,13 @@ author:
   email: ""               # 想公开邮箱就填上
   github: "livia-bai"     # 你的 GitHub 用户名
 
-description: "Livia 的个人网站：作品集与博客"
+description: "Livia 的个人网站：作品集、月之亮面与月之暗面"
 url: "https://livia-bai.github.io"
 baseurl: ""
 
 permalink: /blog/:year/:month/:day/:title/
 markdown: kramdown
-timezone: Asia/Shanghai
+timezone: Asia/Singapore
 
 exclude:
   - README.md
@@ -32,3 +32,11 @@ defaults:
       type: posts
     values:
       layout: post
+      side: bright
+  # 月之暗面：dark/_posts/ 里的文章
+  - scope:
+      path: "dark"
+      type: posts
+    values:
+      side: dark
+      permalink: /dark-side/:year/:month/:day/:title/

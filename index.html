@@ -14,7 +14,7 @@ nav: home
     <p><span lang="zh">{{ site.author.bio_zh }}</span><span lang="en">{{ site.author.bio_en }}</span></p>
     <div class="hero-actions">
       <a class="btn" href="{{ '/projects/' | relative_url }}"><span lang="zh">看看作品</span><span lang="en">See my work</span></a>
-      <a class="btn btn-soft" href="{{ '/blog/' | relative_url }}"><span lang="zh">读读博客</span><span lang="en">Read the blog</span></a>
+      <a class="btn btn-soft" href="{{ '/blog/' | relative_url }}"><span lang="zh">去月之亮面</span><span lang="en">The Bright Side</span></a>
     </div>
   </div>
 </section>
@@ -27,8 +27,17 @@ nav: home
   </div>
 </section>
 
-<section>
-  <h2 class="section-title">📝 <span lang="zh">最新文章</span><span lang="en">Latest posts</span></h2>
-  {% include post-list.html posts=site.posts limit=6 %}
-  <p class="more"><a href="{{ '/blog/' | relative_url }}"><span lang="zh">全部文章</span><span lang="en">All posts</span> →</a></p>
+<section class="moon-columns">
+  <div class="moon-col">
+    <h2 class="section-title">🌕 <span lang="zh">月之亮面</span><span lang="en">The Bright Side</span></h2>
+    {% assign bright = site.posts | where_exp: "p", "p.side != 'dark'" %}
+    {% include post-list.html posts=bright limit=5 %}
+    <p class="more"><a href="{{ '/blog/' | relative_url }}"><span lang="zh">去亮面看看</span><span lang="en">Visit the Bright Side</span> →</a></p>
+  </div>
+  <div class="moon-col dark-side card">
+    <h2 class="section-title">🌑 <span lang="zh">月之暗面</span><span lang="en">The Dark Side</span></h2>
+    {% assign dark = site.posts | where: "side", "dark" %}
+    {% include post-list.html posts=dark limit=5 %}
+    <p class="more"><a href="{{ '/dark-side/' | relative_url }}"><span lang="zh">去暗面看看</span><span lang="en">Visit the Dark Side</span> →</a></p>
+  </div>
 </section>

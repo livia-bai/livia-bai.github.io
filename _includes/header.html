@@ -8,8 +8,10 @@
       <span lang="zh">首页</span><span lang="en">Home</span></a>
     <a href="{{ '/projects/' | relative_url }}" {% if page.nav == 'projects' %}class="active"{% endif %}>
       <span lang="zh">作品</span><span lang="en">Projects</span></a>
-    <a href="{{ '/blog/' | relative_url }}" {% if page.nav == 'blog' %}class="active"{% endif %}>
-      <span lang="zh">博客</span><span lang="en">Blog</span></a>
+    <a href="{{ '/blog/' | relative_url }}" {% if page.nav == 'blog' or page.side == 'bright' %}class="active"{% endif %}>
+      <span lang="zh">月之亮面</span><span lang="en">Bright Side</span></a>
+    <a class="nav-dark{% if page.nav == 'dark' or page.side == 'dark' %} active{% endif %}" href="{{ '/dark-side/' | relative_url }}">
+      <span lang="zh">月之暗面</span><span lang="en">Dark Side</span></a>
     <button class="lang-toggle" type="button" aria-label="切换语言 / Switch language">
       <span lang="zh">EN</span><span lang="en">中</span>
     </button>

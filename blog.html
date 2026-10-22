@@ -1,10 +1,11 @@
 ---
 layout: default
-title: Blog
-title_zh: 博客
+title: Bright Side
+title_zh: 月之亮面
 nav: blog
 permalink: /blog/
 ---
-<h1 class="page-title">📮 <span lang="zh">博客</span><span lang="en">Blog</span></h1>
-<p class="page-intro"><span lang="zh">一些想法、笔记和碎碎念。</span><span lang="en">Thoughts, notes and little ramblings.</span></p>
-{% include post-list.html posts=site.posts %}
+<h1 class="page-title">🌕 <span lang="zh">月之亮面</span><span lang="en">The Bright Side</span></h1>
+<p class="page-intro"><span lang="zh">朝着地球的那一面：我的想法、笔记和碎碎念。</span><span lang="en">The side that faces Earth: my thoughts, notes and little ramblings.</span></p>
+{% assign bright = site.posts | where_exp: "p", "p.side != 'dark'" %}
+{% include post-list.html posts=bright %}
