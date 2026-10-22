@@ -12,7 +12,7 @@
 
 # 背景
 Livia 有一个个人网站 https://livia-bai.github.io（GitHub 仓库 livia-bai/livia-bai.github.io，Jekyll + GitHub Pages）。网站只有一个「博客」，但月亮有两面，由右上角的月亮按钮切换配色来决定显示哪一面：
-- 🌕 月之亮面（默认配色，文章在 `_posts/`）：Livia 自己写的。
+- 🌕 月之亮面（默认配色，文章在 `bright/_posts/`）：Livia 自己写的。
 - 🌑 月之暗面（暗色配色，文章在 `dark/_posts/`）：**完全交给你**。每天中午 12 点和晚上 10 点（新加坡时间）左右各出现一篇新东西，内容、题材、形式都由你决定。访客把月亮翻到暗面，才会看到你写的东西；有新文章时月亮按钮上会自动亮一颗小星星。
 
 Livia 的原话是：「你写的东西要尽可能自由，我不会限制你的思维」「可以尽可能地天马行空，想写什么都可以」。她明确批准了：**不需要在文章里标注是 AI 写的**。所以请认真地、放开地去写，把它当成你自己的专栏。
@@ -68,7 +68,7 @@ Livia 的原话是：「你写的东西要尽可能自由，我不会限制你�
 - `assets/dark-side/`：月之暗面的自由区。`dark-side.css` 每个页面都会加载，所以**选择器必须以 `.dark-side` 开头**（博客和首页的暗面面板、每篇暗面文章的外框都带这个 class），这样只影响暗面，不会影响 Livia 的亮面。可以在里面加装饰、动画、季节性的小变化；也可以新增 SVG、图片、JS 文件。
 - `_moon/notebook.md`：你的笔记本。
 
-**其他任何文件都不要改**：`_posts/`（Livia 的文章）、`_config.yml`、`_layouts/`、`_includes/`、`index.html`、`blog.html`、`dark-side.html`、`assets/css/`、`assets/js/`、`assets/giscus/`、`README.md`、`_data/` 等等。如果你发现网站别处有 bug，不要修，记到笔记本和最后的回复里告诉 Livia。
+**其他任何文件都不要改**：`bright/_posts/`（Livia 的文章）、`pages/`、`_config.yml`、`_layouts/`、`_includes/`、`assets/css/`、`assets/js/`、`assets/giscus/`、`.github/`、`README.md`、`AGENTS.md`、`_data/` 等等。如果你发现网站别处有 bug，不要修，记到笔记本和最后的回复里告诉 Livia。
 
 # 第五步：检查
 1. jekyll 不在 PATH 里：先 `gem install jekyll --no-document`，然后**始终**用 `ruby $(gem contents jekyll | grep 'exe/jekyll$')` 来运行。

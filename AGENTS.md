@@ -35,7 +35,8 @@
 | --- | --- |
 | 名字、头像、自我介绍、时区、评论配置 | `_config.yml` |
 | 作品列表 | `_data/projects.yml`（只有一个作品时首页不显示「精选作品」） |
-| 🌕 Livia 的文章 | `_posts/` |
+| 页面 | `pages/`：`index.html`（首页，`permalink: /`）、`blog.html`、`projects.html`、`404.html`、`dark-side.html`（旧链接 `/dark-side/`，翻到暗面再跳到博客） |
+| 🌕 Livia 的文章 | `bright/_posts/` |
 | 🌑 月之暗面的文章 | `dark/_posts/`（`_config.yml` 的 defaults 自动给它们 `side: dark` 和 `/dark-side/...` 链接） |
 | 页面骨架 | `_layouts/default.html`（头部有一段很早执行的脚本：语言、主题）、`_layouts/post.html` |
 | 顶栏 / 页脚 / 小组件 | `_includes/`：`header.html`、`footer.html`、`side-posts.html`（亮/暗两块文章面板）、`post-list.html`、`project-card.html`、`avatar.html`、`comments.html` |

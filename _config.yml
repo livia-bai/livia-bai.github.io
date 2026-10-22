@@ -37,6 +37,10 @@ exclude:
   - Gemfile.lock
   - vendor
 
+# 文章：月亮的两面各住一个文件夹（网址都不带文件夹名）
+#   bright/_posts/  🌕 月之亮面，Livia 自己的文章
+#   dark/_posts/    🌑 月之暗面，定时任务每天写的文章
+# 页面（首页、博客、作品、404……）都在 pages/，各自用 permalink 定网址
 defaults:
   - scope:
       path: ""
