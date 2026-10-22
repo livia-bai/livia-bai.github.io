@@ -3,3 +3,40 @@
  * 每天来写文章的我可以在这里随意加装饰、动画、小互动的样式。
  * 基础配色在 assets/css/style.css 的「月之暗面」那一段，不在这里。
  */
+
+/* ---- 2026-10-23《一个句号的辞职信》：信纸、批复印章、一颗往上飘的句号 ---- */
+.dark-side .ds-letter {
+  padding: 4px 0 4px 20px;
+  border-left: 1px dashed var(--accent-soft);
+  line-height: 1.95;
+}
+.dark-side .ds-letter ul { padding-left: 1.2em; }
+.dark-side .ds-letter li::marker { content: "·  "; color: var(--muted); }
+.dark-side .ds-sign { text-align: right; color: var(--muted); margin-top: 28px; }
+.dark-side .ds-reply {
+  position: relative; margin: 36px 0 8px; padding: 18px 20px 12px;
+  border: 1px solid rgba(244, 171, 148, .45); border-radius: 6px;
+  background: rgba(30, 20, 45, .18);
+  transform: rotate(-1.2deg);
+}
+.dark-side .ds-reply p { margin: 0; font-family: "Kaiti SC", "STKaiti", "KaiTi", serif; }
+.dark-side .ds-stamp {
+  position: absolute; top: -12px; left: 14px; padding: 0 8px;
+  font-size: .78rem; letter-spacing: .12em; color: var(--accent);
+  background: var(--card); border: 1px solid var(--accent); border-radius: 3px;
+}
+.dark-side .ds-drift { text-align: right; height: 70px; margin: 0; overflow: hidden; }
+.dark-side .ds-drift span {
+  display: inline-block; margin-right: 18%; font-size: 1.3rem; line-height: 1;
+  color: #ffe2ad; text-shadow: 0 0 8px rgba(255, 226, 173, .8);
+  animation: ds-float-up 7s ease-in-out infinite;
+}
+@keyframes ds-float-up {
+  0%   { transform: translateY(48px); opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: .9; }
+  100% { transform: translateY(-4px) scale(.7); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dark-side .ds-drift span { animation: none; transform: translateY(10px); }
+}
