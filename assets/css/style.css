@@ -11,6 +11,15 @@
   --shadow: 0 6px 20px rgba(196, 128, 98, 0.12);
   --code-bg: #fff1e8;
   --radius: 22px;
+  --bg-gradient: linear-gradient(165deg, #fff1e6 0%, #fff8f1 35%, #fdf3f6 70%, #f3f8f4 100%);
+  --dot: rgba(240, 138, 108, .16);
+  --blob-1: #ffcdb8;
+  --blob-2: #ffd5e4;
+  --blob-3: #cdeee2;
+  --blob-4: #fff0b8;
+  --blob-5: #e4dcfb;
+  --spark: #f4a08a;
+  --spark-2: #e8a3c4;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -24,6 +33,15 @@
     --border: #4a3c37;
     --shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     --code-bg: #2f2623;
+    --bg-gradient: linear-gradient(165deg, #2b201d 0%, #2a2220 40%, #2c2128 75%, #212a27 100%);
+    --dot: rgba(255, 200, 170, .07);
+    --blob-1: #6b3f33;
+    --blob-2: #5e3648;
+    --blob-3: #2f4e45;
+    --blob-4: #5a4a2a;
+    --blob-5: #3e3660;
+    --spark: #ffd98a;
+    --spark-2: #ffb3a1;
   }
 }
 
@@ -37,12 +55,13 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   background: var(--bg);
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
   color: var(--text);
   font-family: "Nunito", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: 17px;
   line-height: 1.75;
   overflow-x: hidden;
-  position: relative;
   min-height: 100vh;
 }
 a { color: var(--accent); text-decoration: none; }
@@ -52,15 +71,49 @@ img { max-width: 100%; }
 .brand-avatar, .hero-avatar { overflow: hidden; }
 .avatar-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-/* 背景装饰的柔和圆斑 */
-.blobs { position: absolute; inset: 0; overflow: hidden; z-index: -1; pointer-events: none; }
+/* ========== 背景：渐变 + 小圆点 + 飘动的色块 + 闪闪的小星星 ========== */
+.bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+/* 淡淡的圆点纸纹理，越往下越淡 */
+.bg::before {
+  content: ""; position: absolute; inset: 0;
+  background-image: radial-gradient(var(--dot) 1.3px, transparent 1.6px);
+  background-size: 24px 24px;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.35) 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.35) 55%, transparent 100%);
+}
 .blob {
   position: absolute; border-radius: 50%;
-  filter: blur(60px); opacity: .55; pointer-events: none;
+  filter: blur(70px); opacity: .7;
+  animation: drift 24s ease-in-out infinite alternate;
 }
-.blob-1 { width: 320px; height: 320px; background: var(--accent-soft); top: -80px; right: -60px; }
-.blob-2 { width: 260px; height: 260px; background: #d8efe8; top: 520px; left: -120px; }
-@media (prefers-color-scheme: dark) { .blob-2 { background: #2f3d39; } }
+.b1 { width: 420px; height: 420px; background: var(--blob-1); top: -140px; right: -100px; }
+.b2 { width: 360px; height: 360px; background: var(--blob-2); top: 30%; left: -160px; animation-duration: 28s; animation-delay: -6s; }
+.b3 { width: 300px; height: 300px; background: var(--blob-3); bottom: -100px; right: 10%; animation-duration: 22s; animation-delay: -12s; }
+.b4 { width: 240px; height: 240px; background: var(--blob-4); top: 8%; left: 30%; opacity: .5; animation-duration: 30s; animation-delay: -3s; }
+.b5 { width: 260px; height: 260px; background: var(--blob-5); bottom: 12%; left: 6%; opacity: .55; animation-duration: 26s; animation-delay: -18s; }
+@keyframes drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(40px, 30px) scale(1.08); }
+  100% { transform: translate(-30px, 50px) scale(.95); }
+}
+.spark {
+  position: absolute; left: var(--x); top: var(--y);
+  font-size: var(--s); line-height: 1; color: var(--spark);
+  opacity: .5; font-family: "Segoe UI Symbol", "Apple Symbols", sans-serif;
+  animation: twinkle 4.5s ease-in-out infinite; animation-delay: var(--d);
+}
+.spark:nth-child(3n) { color: var(--spark-2); }
+.spark:nth-child(3n+1) { animation-duration: 6s; }
+@keyframes twinkle {
+  0%, 100% { opacity: .2; transform: translateY(0) scale(.85) rotate(0deg); }
+  50%      { opacity: .75; transform: translateY(-10px) scale(1.1) rotate(15deg); }
+}
+@media (max-width: 640px) {
+  .blob { filter: blur(55px); }
+  .b1 { width: 300px; height: 300px; }
+  .spark { opacity: .35; }
+}
+@media (prefers-reduced-motion: reduce) { .blob, .spark { animation: none; } }
 
 .container { max-width: 960px; margin: 0 auto; padding: 0 16px 48px; }
 
