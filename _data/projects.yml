@@ -7,7 +7,7 @@
   desc_zh: "就是你现在看到的这个网站！用 GitHub Pages 搭的，支持中英切换。"
   desc_en: "The very site you're looking at! Built with GitHub Pages, in two languages."
   emoji: "🏡"
-  color: "#ffd6c9"
+  color: "#ffd9e8"
   tags: [HTML, CSS, Jekyll]
   link: "/"
   featured: true
@@ -17,7 +17,7 @@
   desc_zh: "这是一个示例作品，把它换成你自己的作品吧～"
   desc_en: "This is a placeholder project. Swap it for one of your own~"
   emoji: "🎨"
-  color: "#d9ecff"
+  color: "#e8e0ff"
   tags: [Illustration]
   link: ""
   featured: true
@@ -27,7 +27,7 @@
   desc_zh: "另一个示例。可以写写做这个作品的初衷、用到了什么、学到了什么。"
   desc_en: "Another placeholder. Say why you made it, what you used, and what you learned."
   emoji: "🧸"
-  color: "#e4f5d9"
+  color: "#ffe6d9"
   tags: [JavaScript]
   link: ""
   featured: true

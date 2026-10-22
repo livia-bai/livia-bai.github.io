@@ -1,47 +1,47 @@
 /* ========== 颜色（想换配色改这里）========== */
 :root {
-  --bg: #fff8f1;
+  --bg: #fff5f8;
   --card: #ffffff;
-  --text: #4a3a35;
-  --muted: #8f7b73;
-  --accent: #f08a6c;
-  --accent-soft: #ffe3d6;
-  --accent-2: #8cc5b5;
-  --border: #f3e2d6;
-  --shadow: 0 6px 20px rgba(196, 128, 98, 0.12);
-  --code-bg: #fff1e8;
-  --radius: 22px;
-  --bg-gradient: linear-gradient(165deg, #fff1e6 0%, #fff8f1 35%, #fdf3f6 70%, #f3f8f4 100%);
-  --dot: rgba(240, 138, 108, .16);
-  --blob-1: #ffcdb8;
-  --blob-2: #ffd5e4;
-  --blob-3: #cdeee2;
-  --blob-4: #fff0b8;
-  --blob-5: #e4dcfb;
-  --spark: #f4a08a;
-  --spark-2: #e8a3c4;
+  --text: #5a3a48;
+  --muted: #9a7886;
+  --accent: #ef7fa8;
+  --accent-soft: #ffe2ee;
+  --accent-2: #b9a3f0;
+  --border: #fbdbe7;
+  --shadow: 0 8px 24px rgba(232, 120, 165, 0.16);
+  --code-bg: #fff0f5;
+  --radius: 24px;
+  --bg-gradient: linear-gradient(160deg, #ffe4ef 0%, #fff3f7 30%, #fbefff 62%, #ffeef3 85%, #fff6ee 100%);
+  --dot-opacity: .45;
+  --blob-1: #ffc2da;
+  --blob-2: #e5d4ff;
+  --blob-3: #ffd0e0;
+  --blob-4: #ffe3d1;
+  --blob-5: #d9e4ff;
+  --spark: #f493b8;
+  --spark-2: #c4a6f5;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #2a2220;
-    --card: #362c29;
-    --text: #f5e9e2;
-    --muted: #c2aea5;
-    --accent: #ff9f84;
-    --accent-soft: #4d3a33;
-    --accent-2: #7fb8a8;
-    --border: #4a3c37;
-    --shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    --code-bg: #2f2623;
-    --bg-gradient: linear-gradient(165deg, #2b201d 0%, #2a2220 40%, #2c2128 75%, #212a27 100%);
-    --dot: rgba(255, 200, 170, .07);
-    --blob-1: #6b3f33;
-    --blob-2: #5e3648;
-    --blob-3: #2f4e45;
-    --blob-4: #5a4a2a;
-    --blob-5: #3e3660;
-    --spark: #ffd98a;
-    --spark-2: #ffb3a1;
+    --bg: #2a1f27;
+    --card: #372a33;
+    --text: #fbe9f1;
+    --muted: #c9aab9;
+    --accent: #ff9cc2;
+    --accent-soft: #503443;
+    --accent-2: #c3adf7;
+    --border: #4d3744;
+    --shadow: 0 8px 24px rgba(0, 0, 0, 0.32);
+    --code-bg: #30232b;
+    --bg-gradient: linear-gradient(160deg, #33202b 0%, #2a1f27 35%, #2a2036 70%, #2f1f28 100%);
+    --dot-opacity: .12;
+    --blob-1: #6e3450;
+    --blob-2: #45366e;
+    --blob-3: #5e2f45;
+    --blob-4: #5c3c3a;
+    --blob-5: #2f3a62;
+    --spark: #ffd1e3;
+    --spark-2: #d9c6ff;
   }
 }
 
@@ -73,11 +73,12 @@ img { max-width: 100%; }
 
 /* ========== 背景：渐变 + 小圆点 + 飘动的色块 + 闪闪的小星星 ========== */
 .bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
-/* 淡淡的圆点纸纹理，越往下越淡 */
+/* 淡淡的小爱心纹理，越往下越淡 */
 .bg::before {
   content: ""; position: absolute; inset: 0;
-  background-image: radial-gradient(var(--dot) 1.3px, transparent 1.6px);
-  background-size: 24px 24px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'%3E%3Cpath d='M11 15.5c-2.2-2-5-3.6-5-6a2.6 2.6 0 0 1 5-1 2.6 2.6 0 0 1 5 1c0 2.4-2.8 4-5 6z' fill='%23f6a8c6'/%3E%3Ccircle cx='33' cy='33' r='1.6' fill='%23f6a8c6'/%3E%3C/svg%3E");
+  background-size: 44px 44px;
+  opacity: var(--dot-opacity);
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.35) 55%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.35) 55%, transparent 100%);
 }
@@ -113,6 +114,8 @@ img { max-width: 100%; }
   .b1 { width: 300px; height: 300px; }
   .spark { opacity: .35; }
 }
+@media (prefers-color-scheme: dark) { .bg::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'%3E%3Cpath d='M11 15.5c-2.2-2-5-3.6-5-6a2.6 2.6 0 0 1 5-1 2.6 2.6 0 0 1 5 1c0 2.4-2.8 4-5 6z' fill='%23ff9cc2'/%3E%3Ccircle cx='33' cy='33' r='1.6' fill='%23ff9cc2'/%3E%3C/svg%3E"); } }
+.spark.emoji { font-family: inherit; opacity: .55; }
 @media (prefers-reduced-motion: reduce) { .blob, .spark { animation: none; } }
 
 .container { max-width: 960px; margin: 0 auto; padding: 0 16px 48px; }
