@@ -213,6 +213,7 @@ img { max-width: 100%; }
   94% { transform: rotate(180deg); }
 }
 @media (prefers-reduced-motion: reduce) { .moon-hint-icon { animation: none; } }
+.home-blog { margin-top: 40px; }
 .side-empty { color: var(--muted); padding: 8px 0 12px; margin: 0; }
 
 /* 亮面面板：晨光渐变，撒一点金色的光点，右上角挂一颗发着暖光的满月 */

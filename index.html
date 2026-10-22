@@ -29,7 +29,6 @@ nav: home
 </section>
 {% endif %}
 
-<section>
-  <h2 class="section-title">📝 <span lang="zh">最新文章</span><span lang="en">Latest posts</span></h2>
-  {% include side-posts.html limit=5 more=true %}
+<section class="home-blog">
+  {% include side-posts.html limit=5 more=true plain=true %}
 </section>
