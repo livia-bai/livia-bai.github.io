@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | strip_newlines | truncate: 150 }}">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>{{ site.author.avatar }}</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <script>
+    // 尽早读取上次选择的语言，避免页面闪一下
+    try {
+      var l = localStorage.getItem('lang');
+      if (!l) l = (navigator.language || '').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en';
+      document.documentElement.setAttribute('data-lang', l);
+    } catch (e) {}
+  </script>
+</head>
+<body>
+  <div class="blobs" aria-hidden="true"><div class="blob blob-1"></div><div class="blob blob-2"></div></div>
+  {% include header.html %}
+  <main class="container">
+    {{ content }}
+  </main>
+  {% include footer.html %}
+  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+</body>
+</html>

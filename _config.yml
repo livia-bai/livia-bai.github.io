@@ -1,0 +1,34 @@
+# ========== 网站基本信息（改这里就行）==========
+title: "Livia's Little Corner"
+# 名字（中文 / 英文）
+author:
+  name_zh: "Livia"
+  name_en: "Livia"
+  avatar: "🌷"            # 可以换成表情，或者图片路径如 /assets/img/avatar.jpg
+  tagline_zh: "喜欢做小东西、写点碎碎念的人"
+  tagline_en: "I make little things and write little notes."
+  bio_zh: "你好呀！这里是我的小角落，放着我做过的作品和平时写下的文字。欢迎随便逛逛～"
+  bio_en: "Hi there! This is my little corner of the internet, where I keep things I've made and words I've written. Make yourself at home~"
+  email: ""               # 想公开邮箱就填上
+  github: "livia-bai"     # 你的 GitHub 用户名
+
+description: "Livia 的个人网站：作品集与博客"
+url: "https://livia-bai.github.io"
+baseurl: ""
+
+permalink: /blog/:year/:month/:day/:title/
+markdown: kramdown
+timezone: Asia/Shanghai
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post

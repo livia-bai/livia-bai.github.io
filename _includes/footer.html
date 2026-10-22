@@ -1,0 +1,8 @@
+<footer class="site-footer">
+  <p>
+    <span lang="zh">用心做的小网站</span><span lang="en">Made with care</span> ·
+    © {{ site.time | date: '%Y' }} {{ site.author.name_en }}
+    {% if site.author.github != "" %} · <a href="https://github.com/{{ site.author.github }}">GitHub</a>{% endif %}
+    {% if site.author.email != "" %} · <a href="mailto:{{ site.author.email }}">Email</a>{% endif %}
+  </p>
+</footer>

@@ -1,0 +1,26 @@
+---
+layout: default
+nav: blog
+---
+{% assign translation = nil %}
+{% if page.ref %}
+  {% for p in site.posts %}
+    {% if p.ref == page.ref and p.url != page.url %}{% assign translation = p %}{% endif %}
+  {% endfor %}
+{% endif %}
+<article class="post card">
+  <a class="back" href="{{ '/blog/' | relative_url }}">
+    ← <span lang="zh">返回博客</span><span lang="en">Back to blog</span></a>
+  <h1 class="post-title">{{ page.title }}</h1>
+  <p class="post-meta">
+    {{ page.date | date: "%Y-%m-%d" }}
+    {% for tag in page.tags %}<span class="tag">#{{ tag }}</span>{% endfor %}
+    {% if translation %}
+      · <a class="translation-link" href="{{ translation.url | relative_url }}" data-target-lang="{{ translation.lang }}">
+        {% if translation.lang == 'en' %}Read in English{% else %}阅读中文版{% endif %} →</a>
+    {% endif %}
+  </p>
+  <div class="post-content">
+    {{ content }}
+  </div>
+</article>

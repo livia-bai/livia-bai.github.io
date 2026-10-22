@@ -1,0 +1,11 @@
+---
+layout: default
+title: Projects
+nav: projects
+permalink: /projects/
+---
+<h1 class="page-title">🎁 <span lang="zh">我的作品</span><span lang="en">My Projects</span></h1>
+<p class="page-intro"><span lang="zh">做过的一些小东西，都在这里啦。</span><span lang="en">A few little things I've made.</span></p>
+<div class="project-grid">
+  {% for project in site.data.projects %}{% include project-card.html project=project %}{% endfor %}
+</div>

@@ -1,0 +1,17 @@
+<header class="site-header">
+  <a class="brand" href="{{ '/' | relative_url }}">
+    <span class="brand-avatar">{{ site.author.avatar }}</span>
+    <span class="brand-name">{{ site.title }}</span>
+  </a>
+  <nav class="nav">
+    <a href="{{ '/' | relative_url }}" {% if page.nav == 'home' %}class="active"{% endif %}>
+      <span lang="zh">首页</span><span lang="en">Home</span></a>
+    <a href="{{ '/projects/' | relative_url }}" {% if page.nav == 'projects' %}class="active"{% endif %}>
+      <span lang="zh">作品</span><span lang="en">Projects</span></a>
+    <a href="{{ '/blog/' | relative_url }}" {% if page.nav == 'blog' %}class="active"{% endif %}>
+      <span lang="zh">博客</span><span lang="en">Blog</span></a>
+    <button class="lang-toggle" type="button" aria-label="切换语言 / Switch language">
+      <span lang="zh">EN</span><span lang="en">中</span>
+    </button>
+  </nav>
+</header>

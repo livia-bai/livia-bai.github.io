@@ -1,0 +1,13 @@
+{% comment %} 同一篇文章的中英文版本用相同的 ref 关联，页面只显示当前语言那一版 {% endcomment %}
+<ul class="post-list">
+  {% for post in include.posts limit: include.limit %}
+  <li class="post-item card" data-lang="{{ post.lang | default: 'zh' }}" data-ref="{{ post.ref | default: post.url }}">
+    <a href="{{ post.url | relative_url }}">
+      <span class="post-date">{{ post.date | date: "%Y-%m-%d" }}</span>
+      <span class="post-item-title">{{ post.title }}</span>
+      {% if post.lang == 'en' %}<span class="tag lang-tag">EN</span>{% else %}<span class="tag lang-tag">中</span>{% endif %}
+      <span class="post-excerpt">{{ post.excerpt | strip_html | truncate: 80 }}</span>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
