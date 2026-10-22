@@ -331,6 +331,9 @@ a.project:hover { transform: translateY(-4px) rotate(-.5deg); text-decoration: n
 .project-emoji { font-size: 64px; transition: transform .3s; }
 a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
 .project-body { padding: 16px 20px 20px; }
+.project-soon { border-style: dashed; box-shadow: none; background: transparent; }
+.project-soon .project-cover { background: transparent; border-bottom: 2px dashed var(--border); }
+.project-soon .project-emoji { animation: bob 3.5s ease-in-out infinite; }
 .project-body h3 { margin: 0 0 6px; font-size: 1.1rem; }
 .project-body p { margin: 0 0 12px; color: var(--muted); font-size: .95rem; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; }

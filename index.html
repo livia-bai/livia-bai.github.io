@@ -19,13 +19,15 @@ nav: home
   </div>
 </section>
 
+{% assign featured = site.data.projects | where: "featured", true %}
+{% if featured.size >= 2 %}
 <section>
   <h2 class="section-title">🌟 <span lang="zh">精选作品</span><span lang="en">Featured work</span></h2>
   <div class="project-grid">
-    {% assign featured = site.data.projects | where: "featured", true %}
     {% for project in featured limit: 3 %}{% include project-card.html project=project %}{% endfor %}
   </div>
 </section>
+{% endif %}
 
 <section>
   <h2 class="section-title">📝 <span lang="zh">最新文章</span><span lang="en">Latest posts</span></h2>

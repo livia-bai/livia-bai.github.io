@@ -5,7 +5,6 @@
     <a href="{{ post.url | relative_url }}">
       <span class="post-date">{{ post.date | date: "%Y-%m-%d" }}</span>
       <span class="post-item-title">{{ post.title }}</span>
-      {% if post.lang == 'en' %}<span class="tag lang-tag">EN</span>{% else %}<span class="tag lang-tag">中</span>{% endif %}
       <span class="post-excerpt">{{ post.excerpt | strip_html | truncate: 80 }}</span>
     </a>
   </li>
