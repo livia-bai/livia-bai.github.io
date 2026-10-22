@@ -12,6 +12,7 @@ nav: home
     </h1>
     <p class="tagline"><span lang="zh">{{ site.author.tagline_zh }}</span><span lang="en">{{ site.author.tagline_en }}</span></p>
     <p><span lang="zh">{{ site.author.bio_zh }}</span><span lang="en">{{ site.author.bio_en }}</span></p>
+    {% if site.author.whisper_zh %}<p class="whisper">🌙 <span lang="zh">{{ site.author.whisper_zh }}</span><span lang="en">{{ site.author.whisper_en }}</span></p>{% endif %}
     <div class="hero-actions">
       <a class="btn" href="{{ '/projects/' | relative_url }}"><span lang="zh">看看作品</span><span lang="en">See my work</span></a>
       <a class="btn btn-soft" href="{{ '/blog/' | relative_url }}"><span lang="zh">读读博客</span><span lang="en">Read the blog</span></a>

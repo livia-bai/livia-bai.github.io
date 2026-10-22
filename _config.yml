@@ -7,8 +7,10 @@ author:
   avatar: "https://github.com/livia-bai.png"   # 和 GitHub 头像同步；也可以填表情如 "🌷"，或图片路径如 /assets/img/avatar.jpg
   tagline_zh: "喜欢做小东西、写点碎碎念的人"
   tagline_en: "I make little things and write little notes."
-  bio_zh: "你好呀！这里是我的小角落，放着我做过的作品和平时写下的文字。欢迎随便逛逛～我住在月亮朝着你的这一面，那背面住着谁呢？点右上角的小月亮翻过去看看就知道啦。如果有什么让你笑了一下，记得在文章下面给我留个言哦 🌙"
-  bio_en: "Hi there! This is my little corner of the internet, where I keep things I've made and words I've written. Make yourself at home~ I live on the side of the moon that faces you. Who lives on the other side? Tap the little moon up top and find out. And if anything here makes you smile, leave me a note under a post 🌙"
+  bio_zh: "你好呀！这里是我的小角落，放着我做过的作品和平时写下的文字。欢迎随便逛逛～"
+  whisper_zh: "我住在月亮朝着你的这一面，那背面住着谁呢？"
+  bio_en: "Hi there! This is my little corner of the internet, where I keep things I've made and words I've written. Make yourself at home~"
+  whisper_en: "I live on the side of the moon that faces you. So who lives on the other side?"
   email: ""               # 想公开邮箱就填上
   github: "livia-bai"     # 你的 GitHub 用户名
 

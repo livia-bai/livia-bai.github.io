@@ -228,16 +228,18 @@ img { max-width: 100%; }
     radial-gradient(120% 90% at 100% 0%, rgba(255, 226, 170, .45) 0%, transparent 55%),
     radial-gradient(90% 80% at 0% 100%, rgba(255, 214, 214, .35) 0%, transparent 60%);
 }
-.bright-moon {
+/* 两颗月亮是同一颗：同样的大小、位置和月坑，亮面被照亮，暗面在阴影里 */
+.side-moon {
   position: absolute; top: -58px; right: -58px; width: 150px; height: 150px; border-radius: 50%;
+}
+.side-moon::before, .side-moon::after { content: ""; position: absolute; border-radius: 50%; }
+.side-moon::before { width: 20px; height: 20px; left: 30px; top: 92px; }
+.side-moon::after { width: 11px; height: 11px; left: 62px; top: 120px; }
+.bright-moon {
   background: radial-gradient(circle at 38% 38%, #fffdf2 0%, #fff1c9 45%, #ffdf9e 100%);
   box-shadow: 0 0 0 14px rgba(255, 230, 170, .25), 0 0 0 30px rgba(255, 230, 170, .12), 0 0 60px rgba(255, 205, 120, .45);
 }
-.bright-moon::before, .bright-moon::after {
-  content: ""; position: absolute; border-radius: 50%; background: rgba(240, 196, 120, .28);
-}
-.bright-moon::before { width: 20px; height: 20px; left: 30px; top: 92px; }
-.bright-moon::after { width: 11px; height: 11px; left: 62px; top: 120px; }
+.bright-moon::before, .bright-moon::after { background: rgba(240, 196, 120, .3); }
 .side-bright .post-item { background: rgba(255, 255, 255, .7); }
 
 /* 暗面面板：在暮紫底色上撒一点星星，右上角藏一颗月亮的背面 */
@@ -252,10 +254,10 @@ img { max-width: 100%; }
     radial-gradient(1px 1px at 44% 90%, rgba(235,225,255,.7) 50%, transparent 51%);
 }
 .dark-moon {
-  position: absolute; top: -70px; right: -70px; width: 150px; height: 150px; border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #6a5f86, #4a4062 70%);
-  box-shadow: inset -16px -12px 28px rgba(0, 0, 0, .3), 0 0 50px rgba(255, 226, 173, .12);
+  background: radial-gradient(circle at 38% 38%, #7d7299 0%, #625879 45%, #4d4462 100%);
+  box-shadow: 0 0 0 14px rgba(200, 185, 240, .1), 0 0 0 30px rgba(200, 185, 240, .05), 0 0 60px rgba(190, 170, 240, .18);
 }
+.dark-moon::before, .dark-moon::after { background: rgba(40, 30, 60, .3); }
 .post.dark-side .poem { border-left-color: var(--accent-soft); }
 
 /* 月之暗面有新文章时，月亮按钮上亮一颗小星星 */
@@ -297,6 +299,7 @@ img { max-width: 100%; }
 .hero h1 { margin: 0 0 6px; font-size: 2rem; }
 .hero p { margin: 8px 0; }
 .tagline { color: var(--accent); font-weight: 600; }
+.hero .whisper { color: var(--muted); font-size: .88rem; margin-top: 4px; }
 .hero-avatar {
   flex: none; width: 120px; height: 120px; display: grid; place-items: center;
   font-size: 64px; background: var(--accent-soft); border-radius: 50%;
@@ -346,8 +349,8 @@ a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
 /* ========== 文章列表 ========== */
 .post-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
 .post-item a {
-  display: grid; grid-template-columns: auto 1fr auto; gap: 6px 14px; align-items: baseline;
-  padding: 24px 24px; color: var(--text);
+  display: grid; grid-template-columns: auto 1fr auto; gap: 10px 14px; align-items: baseline;
+  padding: 32px 28px; color: var(--text);
 }
 .post-item:hover { border-color: var(--accent); }
 .post-item a:hover { text-decoration: none; }

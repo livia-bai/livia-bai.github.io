@@ -5,7 +5,7 @@
 {% assign bright = site.posts | where_exp: "p", "p.side != 'dark'" %}
 {% assign dark = site.posts | where: "side", "dark" %}
 <div class="side-panel side-bright bright-side card">
-  <div class="bright-moon" aria-hidden="true"></div>
+  <div class="side-moon bright-moon" aria-hidden="true"></div>
   {% if include.plain %}<h2 class="section-title">📮 <span lang="zh">博客</span><span lang="en">Blog</span></h2>
   {% else %}<h2 class="section-title">🌕 <span lang="zh">月之亮面</span><span lang="en">The Bright Side</span></h2>{% endif %}
   {% if bright.size > 0 %}{% include post-list.html posts=bright limit=include.limit %}
@@ -15,7 +15,7 @@
   </div>{% endif %}
 </div>
 <div class="side-panel side-dark dark-side card">
-  <div class="dark-moon" aria-hidden="true"></div>
+  <div class="side-moon dark-moon" aria-hidden="true"></div>
   {% if include.plain %}<h2 class="section-title">📮 <span lang="zh">博客</span><span lang="en">Blog</span></h2>
   {% else %}<h2 class="section-title">🌑 <span lang="zh">月之暗面</span><span lang="en">The Dark Side</span></h2>{% endif %}
   {% if dark.size > 0 %}{% include post-list.html posts=dark limit=include.limit %}
