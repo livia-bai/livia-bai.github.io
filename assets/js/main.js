@@ -112,7 +112,10 @@
     return mount.getAttribute(root.getAttribute('data-theme') === 'dark' ? 'data-theme-dark' : 'data-theme-bright');
   }
   function giscusLang() { return getLang() === 'zh' ? 'zh-CN' : 'en'; }
-  if (mount) {
+  var loaded = false;
+  function loadGiscus() {
+    if (loaded) return;
+    loaded = true;
     var g = document.createElement('script');
     g.src = 'https://giscus.app/client.js';
     g.async = true;
@@ -122,10 +125,25 @@
       'data-category': mount.dataset.category, 'data-category-id': mount.dataset.categoryId,
       'data-mapping': 'specific', 'data-term': mount.dataset.term, 'data-strict': '1',
       'data-reactions-enabled': '1', 'data-emit-metadata': '0', 'data-input-position': 'top',
-      'data-theme': giscusTheme(), 'data-lang': giscusLang(), 'data-loading': 'lazy'
+      'data-theme': giscusTheme(), 'data-lang': giscusLang()
     };
     Object.keys(attrs).forEach(function (k) { g.setAttribute(k, attrs[k]); });
     mount.appendChild(g);
+  }
+  // 留言区默认收起；点一下展开时才从 GitHub 加载
+  var comments = document.querySelector('.comments');
+  var commentsToggle = document.querySelector('.comments-toggle');
+  if (mount && comments && commentsToggle) {
+    commentsToggle.addEventListener('click', function () {
+      var open = !comments.classList.contains('is-open');
+      comments.classList.toggle('is-open', open);
+      commentsToggle.setAttribute('aria-expanded', String(open));
+      if (open) loadGiscus();
+    });
+    // giscus 加载好之后，把「取信中」的小提示藏起来
+    window.addEventListener('message', function (e) {
+      if (e.origin === 'https://giscus.app') comments.classList.add('is-loaded');
+    });
   }
   function updateGiscus() {
     var frame = document.querySelector('iframe.giscus-frame');

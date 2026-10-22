@@ -1,5 +1,5 @@
 {% comment %}
-  博客的两块面板：🌕 月之亮面（Livia 的文章）和 🌑 月之暗面（每天下午两点的那一篇）。
+  博客的两块面板：🌕 月之亮面（Livia 的文章）和 🌑 月之暗面（每天中午和晚上各一篇）。
   页面只会显示当前主题对应的那一块。参数：limit（可选），more（可选，显示「全部文章」链接），plain（可选，标题只写「博客」，不揭晓是哪一面）
 {% endcomment %}
 {% assign bright = site.posts | where_exp: "p", "p.side != 'dark'" %}
