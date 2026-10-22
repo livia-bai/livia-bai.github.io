@@ -38,5 +38,38 @@
     });
   }
 
+  // ========== 月之暗面 / 月之亮面 ==========
+  var toast = document.querySelector('.toast');
+  var toastTimer;
+  function showToast(text) {
+    if (!toast) return;
+    toast.textContent = text;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 2000);
+  }
+
+  var themeToggle = document.querySelector('.theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      var zh = getLang() === 'zh';
+      showToast(next === 'dark'
+        ? (zh ? '🌑 已切换到月之暗面' : '🌑 Switched to the dark side of the moon')
+        : (zh ? '🌕 已切换到月之亮面' : '🌕 Switched to the bright side of the moon'));
+    });
+  }
+
+  // 没手动选过的话，跟着系统的深浅色变化
+  try {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+      var saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (err) {}
+      if (!saved) root.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+    });
+  } catch (e) {}
+
   setLang(getLang());
 })();

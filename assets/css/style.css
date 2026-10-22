@@ -21,8 +21,9 @@
   --spark: #f4a08a;
   --spark-2: #e8a3c4;
 }
+/* 夜间配色：跟随系统，或者用右上角的月亮按钮手动切换 */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #2a2220;
     --card: #362c29;
     --text: #f5e9e2;
@@ -43,6 +44,27 @@
     --spark: #ffd98a;
     --spark-2: #ffb3a1;
   }
+}
+:root[data-theme="dark"] {
+  --bg: #2a2220;
+  --card: #362c29;
+  --text: #f5e9e2;
+  --muted: #c2aea5;
+  --accent: #ff9f84;
+  --accent-soft: #4d3a33;
+  --accent-2: #7fb8a8;
+  --border: #4a3c37;
+  --shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  --code-bg: #2f2623;
+  --bg-gradient: linear-gradient(165deg, #2b201d 0%, #2a2220 40%, #2c2128 75%, #212a27 100%);
+  --dot: rgba(255, 200, 170, .07);
+  --blob-1: #6b3f33;
+  --blob-2: #5e3648;
+  --blob-3: #2f4e45;
+  --blob-4: #5a4a2a;
+  --blob-5: #3e3660;
+  --spark: #ffd98a;
+  --spark-2: #ffb3a1;
 }
 
 /* ========== 中英切换 ========== */
@@ -146,6 +168,31 @@ img { max-width: 100%; }
   border-radius: 999px; padding: 4px 12px; font: inherit; font-weight: 800; cursor: pointer;
 }
 .lang-toggle:hover { background: var(--accent); color: #fff; }
+
+/* ========== 月之暗面 / 月之亮面 切换 ========== */
+.theme-toggle {
+  margin-left: 6px; width: 40px; height: 40px; padding: 0; border-radius: 50%;
+  border: 2px solid var(--accent); background: transparent; color: var(--accent);
+  display: inline-grid; place-items: center; cursor: pointer;
+  transition: background .2s, box-shadow .3s;
+}
+.theme-toggle:hover { background: var(--accent-soft); }
+.theme-toggle svg { width: 22px; height: 22px; grid-area: 1 / 1; transition: transform .5s cubic-bezier(.5, 1.6, .5, 1), opacity .3s; }
+/* 亮面时显示弯弯的月牙（点它去暗面）；暗面时显示发光的满月（点它回亮面） */
+.theme-toggle .moon-full { opacity: 0; transform: rotate(-90deg) scale(.5); }
+:root[data-theme="dark"] .theme-toggle .moon-crescent { opacity: 0; transform: rotate(90deg) scale(.5); }
+:root[data-theme="dark"] .theme-toggle .moon-full { opacity: 1; transform: none; }
+:root[data-theme="dark"] .theme-toggle { box-shadow: 0 0 14px rgba(255, 217, 138, .45); border-color: #ffd98a; color: #ffd98a; }
+
+.toast {
+  position: fixed; left: 50%; bottom: 28px; z-index: 10;
+  transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+  background: var(--card); color: var(--text); border: 2px solid var(--border);
+  box-shadow: var(--shadow); border-radius: 999px; padding: 10px 22px;
+  font-weight: 700; text-align: center; max-width: calc(100% - 32px); width: max-content;
+  transition: opacity .3s, transform .3s;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
 
 /* ========== 首页大卡片 ========== */
 .hero {
