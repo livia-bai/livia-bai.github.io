@@ -14,10 +14,8 @@ layout: default
   <p class="post-meta">
     {{ page.date | date: "%Y-%m-%d" }}
     {% for tag in page.tags %}<span class="tag">#{{ tag }}</span>{% endfor %}
-    {% if translation %}
-      · <a class="translation-link" href="{{ translation.url | relative_url }}" data-target-lang="{{ translation.lang }}">
-        {% if translation.lang == 'en' %}Read in English{% else %}阅读中文版{% endif %} →</a>
-    {% endif %}
+    {% comment %} 不显示出来；点右上角的语言按钮时，会直接跳到另一种语言的版本 {% endcomment %}
+    {% if translation %}<a class="translation-link" hidden href="{{ translation.url | relative_url }}" data-target-lang="{{ translation.lang }}"></a>{% endif %}
   </p>
   <div class="post-content">
     {{ content }}

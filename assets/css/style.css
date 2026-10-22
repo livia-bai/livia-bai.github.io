@@ -15,11 +15,11 @@
   --code-bg: #fbeee4;
   --radius: 22px;
   --dot: rgba(232, 133, 106, .15);
-  --blob-1: #fdcdb8;
-  --blob-2: #fbd6e2;
-  --blob-3: #d2ebe0;
-  --blob-4: #fbeebd;
-  --blob-5: #e2dcf6;
+  --blob-1: #ffc1a4;
+  --blob-2: #ffc6dc;
+  --blob-3: #bfe7d5;
+  --blob-4: #ffe59e;
+  --blob-5: #d8cefb;
   --spark: #eea08a;
   --spark-2: #e0a3c0;
 }
@@ -35,11 +35,11 @@
   --shadow: 0 8px 24px rgba(20, 12, 35, 0.25);
   --code-bg: #4a4158;
   --dot: rgba(255, 236, 220, .09);
-  --blob-1: #67506a;
-  --blob-2: #5d4f78;
-  --blob-3: #4b5a66;
-  --blob-4: #6a5c55;
-  --blob-5: #55508a;
+  --blob-1: #8466b8;
+  --blob-2: #4a6aa6;
+  --blob-3: #5a8a92;
+  --blob-4: #b8975e;
+  --blob-5: #9a5f96;
   --spark: #ffe2ad;
   --spark-2: #f6c4d4;
 }
@@ -90,6 +90,8 @@ img { max-width: 100%; }
 :root[data-theme="dark"] .bg::after { opacity: 1; }
 .bg::before { z-index: 2; }
 .bg .blob { z-index: 1; transition: background-color .7s ease; }
+/* 亮面的光斑是暖暖的晨光；暗面换成带月光的紫、蓝、金，稍微收一点亮度 */
+:root[data-theme="dark"] .bg .blob { filter: blur(70px) saturate(.9); opacity: .7; }
 .bg .spark { z-index: 3; transition: color .7s ease; }
 /* 淡淡的圆点纸纹理，越往下越淡 */
 .bg::before {
@@ -101,14 +103,14 @@ img { max-width: 100%; }
 }
 .blob {
   position: absolute; border-radius: 50%;
-  filter: blur(70px); opacity: .7;
+  filter: blur(60px); opacity: .9;
   animation: drift 24s ease-in-out infinite alternate;
 }
-.b1 { width: 420px; height: 420px; background: var(--blob-1); top: -140px; right: -100px; }
-.b2 { width: 360px; height: 360px; background: var(--blob-2); top: 30%; left: -160px; animation-duration: 28s; animation-delay: -6s; }
-.b3 { width: 300px; height: 300px; background: var(--blob-3); bottom: -100px; right: 10%; animation-duration: 22s; animation-delay: -12s; }
-.b4 { width: 240px; height: 240px; background: var(--blob-4); top: 8%; left: 30%; opacity: .5; animation-duration: 30s; animation-delay: -3s; }
-.b5 { width: 260px; height: 260px; background: var(--blob-5); bottom: 12%; left: 6%; opacity: .55; animation-duration: 26s; animation-delay: -18s; }
+.b1 { width: 480px; height: 480px; background: var(--blob-1); top: -140px; right: -100px; }
+.b2 { width: 420px; height: 420px; background: var(--blob-2); top: 30%; left: -160px; animation-duration: 28s; animation-delay: -6s; }
+.b3 { width: 380px; height: 380px; background: var(--blob-3); bottom: -100px; right: 10%; animation-duration: 22s; animation-delay: -12s; }
+.b4 { width: 240px; height: 240px; background: var(--blob-4); top: 8%; left: 30%; opacity: .7; animation-duration: 30s; animation-delay: -3s; }
+.b5 { width: 260px; height: 260px; background: var(--blob-5); bottom: 12%; left: 6%; opacity: .75; animation-duration: 26s; animation-delay: -18s; }
 @keyframes drift {
   0%   { transform: translate(0, 0) scale(1); }
   50%  { transform: translate(40px, 30px) scale(1.08); }
@@ -350,7 +352,7 @@ a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
 .post-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
 .post-item a {
   display: grid; grid-template-columns: auto 1fr auto; gap: 10px 14px; align-items: baseline;
-  padding: 32px 28px; color: var(--text);
+  padding: 36px 28px; color: var(--text);
 }
 .post-item:hover { border-color: var(--accent); }
 .post-item a:hover { text-decoration: none; }
