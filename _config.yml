@@ -16,6 +16,13 @@ description: "Livia 的个人网站：作品集、月之亮面与月之暗面"
 url: "https://livia-bai.github.io"
 baseurl: ""
 
+# 评论区（giscus，用 GitHub Discussions 存留言）。repo_id / category_id 填好后评论区才会出现
+giscus:
+  repo: "livia-bai/livia-bai.github.io"
+  repo_id: ""
+  category: "Announcements"
+  category_id: ""
+
 permalink: /blog/:year/:month/:day/:title/
 markdown: kramdown
 timezone: Asia/Singapore

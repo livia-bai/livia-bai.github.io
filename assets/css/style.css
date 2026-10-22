@@ -192,23 +192,56 @@ img { max-width: 100%; }
 /* ========== 博客：亮面 / 暗面 两块面板，跟着主题只显示一块 ========== */
 :root[data-theme="dark"] .side-bright,
 :root:not([data-theme="dark"]) .side-dark { display: none !important; }
-.side-panel { padding: 24px 22px 10px; position: relative; overflow: hidden; }
+.side-panel { padding: 26px 24px 16px; position: relative; overflow: hidden; }
 .side-panel .section-title { margin: 0 0 16px; position: relative; }
 .side-panel .post-list { position: relative; }
 .side-footer {
-  display: flex; justify-content: space-between; align-items: center; gap: 8px 16px;
-  flex-wrap: wrap; margin: 14px 0 6px; position: relative;
+  display: flex; justify-content: flex-end; align-items: center;
+  margin: 16px 0 6px; position: relative;
 }
 .side-footer .more { margin: 0; }
-.side-switch {
-  border: 0; background: none; padding: 0; font: inherit; font-weight: 700;
-  color: var(--muted); cursor: pointer;
+.moon-hint {
+  display: inline-flex; align-items: center; gap: 8px; margin: 2px 0 24px;
+  padding: 6px 16px 6px 10px; border-radius: 999px;
+  background: var(--card); border: 2px dashed var(--border); color: var(--muted); font-weight: 700;
 }
-.side-switch:hover { color: var(--accent); }
+.moon-hint-icon { display: inline-block; font-size: 1.2em; animation: peek 4s ease-in-out infinite; }
+@keyframes peek {
+  0%, 70%, 100% { transform: rotate(0deg); }
+  78% { transform: rotate(-25deg); }
+  86% { transform: rotate(180deg); }
+  94% { transform: rotate(180deg); }
+}
+@media (prefers-reduced-motion: reduce) { .moon-hint-icon { animation: none; } }
 .side-empty { color: var(--muted); padding: 8px 0 12px; margin: 0; }
+
+/* 亮面面板：晨光渐变，撒一点金色的光点，右上角挂一颗发着暖光的满月 */
+.bright-side {
+  background-color: var(--card);
+  background-image:
+    radial-gradient(2px 2px at 14% 22%, rgba(246, 178, 120, .55) 50%, transparent 52%),
+    radial-gradient(1.6px 1.6px at 36% 80%, rgba(240, 150, 150, .45) 50%, transparent 52%),
+    radial-gradient(2.2px 2.2px at 62% 18%, rgba(250, 200, 110, .6) 50%, transparent 52%),
+    radial-gradient(1.6px 1.6px at 80% 70%, rgba(246, 178, 120, .5) 50%, transparent 52%),
+    radial-gradient(2px 2px at 48% 94%, rgba(240, 160, 190, .45) 50%, transparent 52%),
+    radial-gradient(120% 90% at 100% 0%, rgba(255, 226, 170, .45) 0%, transparent 55%),
+    radial-gradient(90% 80% at 0% 100%, rgba(255, 214, 214, .35) 0%, transparent 60%);
+}
+.bright-moon {
+  position: absolute; top: -58px; right: -58px; width: 150px; height: 150px; border-radius: 50%;
+  background: radial-gradient(circle at 38% 38%, #fffdf2 0%, #fff1c9 45%, #ffdf9e 100%);
+  box-shadow: 0 0 0 14px rgba(255, 230, 170, .25), 0 0 0 30px rgba(255, 230, 170, .12), 0 0 60px rgba(255, 205, 120, .45);
+}
+.bright-moon::before, .bright-moon::after {
+  content: ""; position: absolute; border-radius: 50%; background: rgba(240, 196, 120, .28);
+}
+.bright-moon::before { width: 20px; height: 20px; left: 30px; top: 92px; }
+.bright-moon::after { width: 11px; height: 11px; left: 62px; top: 120px; }
+.side-bright .post-item { background: rgba(255, 255, 255, .7); }
 
 /* 暗面面板：在暮紫底色上撒一点星星，右上角藏一颗月亮的背面 */
 .dark-side {
+  background-color: var(--card);
   background-image:
     radial-gradient(1.2px 1.2px at 12% 18%, rgba(255,255,255,.8) 50%, transparent 51%),
     radial-gradient(1px 1px at 30% 72%, rgba(255,255,255,.7) 50%, transparent 51%),
@@ -231,6 +264,11 @@ img { max-width: 100%; }
   color: #b48cf0; text-shadow: 0 0 6px rgba(180, 140, 240, .7);
   animation: twinkle 2.4s ease-in-out infinite;
 }
+
+/* ========== 评论区 ========== */
+.comments { padding: 26px 32px 30px; margin-top: 20px; }
+.comments .section-title { margin: 0 0 14px; }
+@media (max-width: 640px) { .comments { padding: 20px 16px 24px; } }
 
 /* ========== 诗 ========== */
 .poem {
@@ -302,10 +340,10 @@ a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
 }
 
 /* ========== 文章列表 ========== */
-.post-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.post-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
 .post-item a {
-  display: grid; grid-template-columns: auto 1fr auto; gap: 4px 14px; align-items: baseline;
-  padding: 16px 20px; color: var(--text);
+  display: grid; grid-template-columns: auto 1fr auto; gap: 6px 14px; align-items: baseline;
+  padding: 24px 24px; color: var(--text);
 }
 .post-item:hover { border-color: var(--accent); }
 .post-item a:hover { text-decoration: none; }

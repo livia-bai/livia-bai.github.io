@@ -99,13 +99,41 @@
   }
 
   if (themeToggle) themeToggle.addEventListener('click', flipTheme);
-  document.querySelectorAll('.side-switch').forEach(function (b) { b.addEventListener('click', flipTheme); });
 
   try {
     var pending = sessionStorage.getItem('pendingToast');
     if (pending) { sessionStorage.removeItem('pendingToast'); setTimeout(function () { announce(pending); }, 150); }
   } catch (e) {}
   updateNewMark();
+
+  // ========== 评论区（giscus）==========
+  var mount = document.querySelector('.giscus-mount');
+  function giscusTheme() {
+    return mount.getAttribute(root.getAttribute('data-theme') === 'dark' ? 'data-theme-dark' : 'data-theme-bright');
+  }
+  function giscusLang() { return getLang() === 'zh' ? 'zh-CN' : 'en'; }
+  if (mount) {
+    var g = document.createElement('script');
+    g.src = 'https://giscus.app/client.js';
+    g.async = true;
+    g.crossOrigin = 'anonymous';
+    var attrs = {
+      'data-repo': mount.dataset.repo, 'data-repo-id': mount.dataset.repoId,
+      'data-category': mount.dataset.category, 'data-category-id': mount.dataset.categoryId,
+      'data-mapping': 'specific', 'data-term': mount.dataset.term, 'data-strict': '1',
+      'data-reactions-enabled': '1', 'data-emit-metadata': '0', 'data-input-position': 'top',
+      'data-theme': giscusTheme(), 'data-lang': giscusLang(), 'data-loading': 'lazy'
+    };
+    Object.keys(attrs).forEach(function (k) { g.setAttribute(k, attrs[k]); });
+    mount.appendChild(g);
+  }
+  function updateGiscus() {
+    var frame = document.querySelector('iframe.giscus-frame');
+    if (frame && frame.contentWindow) {
+      frame.contentWindow.postMessage({ giscus: { setConfig: { theme: giscusTheme(), lang: giscusLang() } } }, 'https://giscus.app');
+    }
+  }
+  if (toggle) toggle.addEventListener('click', updateGiscus);
 
   setLang(getLang());
 })();

@@ -1,0 +1,14 @@
+{% if site.giscus.repo_id != "" and site.giscus.category_id != "" %}
+<section class="comments card{% if page.side == 'dark' %} dark-side{% endif %}">
+  <h2 class="section-title">💬 <span lang="zh">留言</span><span lang="en">Comments</span></h2>
+  {% comment %} 中英两版共用一个讨论串：用 ref（没有就用网址）当作讨论的标题 {% endcomment %}
+  <div class="giscus-mount"
+       data-repo="{{ site.giscus.repo }}"
+       data-repo-id="{{ site.giscus.repo_id }}"
+       data-category="{{ site.giscus.category }}"
+       data-category-id="{{ site.giscus.category_id }}"
+       data-term="{{ page.ref | default: page.url }}"
+       data-theme-bright="{{ '/assets/giscus/bright.css' | absolute_url }}"
+       data-theme-dark="{{ '/assets/giscus/dark.css' | absolute_url }}"></div>
+</section>
+{% endif %}

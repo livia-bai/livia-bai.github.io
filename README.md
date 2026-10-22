@@ -13,6 +13,10 @@
 
 暗面的样式自由区是 `assets/dark-side/`，写作备忘录在 `_moon/notebook.md`（不会出现在网站上）。想停掉或暂停每天的自动更新，到 claude.ai 的定时任务里关掉「月之暗面 · 每日一篇」就行。
 
+## 💬 评论区
+
+每篇文章下面的留言用的是 [giscus](https://giscus.app)，留言存在这个仓库的 Discussions 里，访客用 GitHub 账号登录就能留言。中英两版文章共用一个留言区。想删掉某条留言，到仓库的 **Discussions** 里找到对应的讨论删掉就行。配置在 `_config.yml` 的 `giscus` 那一段。
+
 ## 日常怎么改
 
 | 想做什么 | 改哪个文件 |
