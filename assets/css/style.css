@@ -317,15 +317,7 @@ img { max-width: 100%; }
 .post-content .poem-end { color: var(--muted); font-size: .9rem; text-align: right; }
 
 .toast-name { color: var(--accent); font-weight: 800; font-size: 1.08em; }
-:root[data-theme="dark"] /* ========== 诗 ========== */
-.poem {
-  white-space: pre-line; font-size: 1.08rem; line-height: 2;
-  padding: 8px 0 8px 22px; margin: 8px 0 28px;
-  border-left: 3px solid var(--accent-soft);
-}
-.post-content .poem-end { color: var(--muted); font-size: .9rem; text-align: right; }
-
-.toast-name { color: #ffd98a; text-shadow: 0 0 10px rgba(255, 217, 138, .5); }
+:root[data-theme="dark"] .toast-name { color: #ffd98a; text-shadow: 0 0 10px rgba(255, 217, 138, .5); }
 
 /* ========== 首页大卡片 ========== */
 .hero {
