@@ -1,6 +1,8 @@
 {% comment %} 同一篇文章的中英文版本用相同的 ref 关联，页面只显示当前语言那一版 {% endcomment %}
-<ul class="post-list">
-  {% for post in include.posts limit: include.limit %}
+{% comment %} limit 是「几篇」：中英两版各占一条，所以先多取一倍，再由 main.js 按当前语言只留前 limit 篇 {% endcomment %}
+{% if include.limit %}{% assign fetch = include.limit | times: 2 %}{% else %}{% assign fetch = include.posts.size %}{% endif %}
+<ul class="post-list"{% if include.limit %} data-limit="{{ include.limit }}"{% endif %}>
+  {% for post in include.posts limit: fetch %}
   <li class="post-item card" data-lang="{{ post.lang | default: 'zh' }}" data-ref="{{ post.ref | default: post.url }}">
     <a href="{{ post.url | relative_url }}">
       <span class="post-date">{{ post.date | date: "%Y-%m-%d" }}</span>

@@ -12,7 +12,7 @@
     filterPosts();
   }
 
-  // 同一篇文章有多个语言版本时，只显示当前语言那一版（没有对应翻译就显示原文）
+  // 同一篇文章有多个语言版本时，只显示当前语言那一版（没有对应翻译就显示原文）；列表有 data-limit 时只留前几篇
   function filterPosts() {
     var lang = getLang();
     document.querySelectorAll('.post-list').forEach(function (list) {
@@ -21,9 +21,11 @@
         var ref = item.getAttribute('data-ref');
         (groups[ref] = groups[ref] || []).push(item);
       });
+      var limit = Number(list.getAttribute('data-limit')) || Infinity, shown = 0;
       Object.keys(groups).forEach(function (ref) {
         var items = groups[ref];
         var match = items.filter(function (i) { return i.getAttribute('data-lang') === lang; })[0] || items[0];
+        if (shown >= limit) match = null; else shown++;
         items.forEach(function (i) { i.classList.toggle('is-hidden', i !== match); });
       });
     });
