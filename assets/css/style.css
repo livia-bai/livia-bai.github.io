@@ -59,6 +59,11 @@
 body, .card, .nav a, .btn, .tag, .post-item, .lang-toggle, .toast {
   transition: background-color .6s ease, color .6s ease, border-color .6s ease, box-shadow .6s ease;
 }
+/* 在文章页翻面会跳回博客：旧页面颜色慢慢换、内容淡出，新页面内容淡入 */
+:root.is-leaving-page main, :root.is-leaving-page .site-footer { opacity: 0; transform: translateY(8px); transition: opacity .45s ease, transform .45s ease; }
+:root.is-arriving main { animation: page-in .55s ease both; }
+@keyframes page-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { :root.is-arriving main { animation: none; } }
 
 /* ========== 2. 中英切换 ========== */
 html[data-lang="zh"] [lang="en"],
@@ -364,7 +369,7 @@ a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
   position: fixed; z-index: 9; width: 96px; height: 110px; margin: -55px 0 0 -48px; padding: 0;
   border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent;
 }
-.footprint[hidden], :root[data-theme="dark"] .footprint { display: none; }
+.footprint[hidden], :root[data-theme="dark"] .footprint:not(.is-leaving) { display: none; }
 .fp-haze {
   position: absolute; inset: -6px; border-radius: 50%; pointer-events: none;
   background: radial-gradient(closest-side, rgba(150, 110, 255, .45), rgba(150, 110, 255, .15) 55%, transparent);

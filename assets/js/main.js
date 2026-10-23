@@ -99,19 +99,29 @@
     found.classList.remove('is-found');
     void found.offsetWidth;
     found.classList.add('is-found');
+    clearTimeout(foundTimer);
+    foundTimer = setTimeout(function () { found.classList.remove('is-found'); }, 2300);
   }
+  // 播完（最慢的「!」大约 2.1 秒）就把动画收起来：不然翻到亮面再翻回来，卡片重新显示时会从头再播一遍
+  var foundTimer;
   if (found) found.addEventListener('click', function () { playFound(true); });
 
   function flipTheme() {
     var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     setTheme(next);
-    // 在文章页翻面：这篇只属于原来那一面，所以带着提示回到博客，看另一面的文章
+    // 在文章页翻面：这篇只属于原来那一面，所以带着提示回到博客，看另一面的文章。
+    // 先在这一页把颜色慢慢换过去、内容淡出，再跳转；新页面会淡入，衔接起来就不突兀了
     if (document.body.hasAttribute('data-side')) {
       try { sessionStorage.setItem('pendingToast', next); } catch (e) {}
-      window.location.href = (document.querySelector('.back') || {}).href || '/blog/';
+      leavePage((document.querySelector('.back') || {}).href || '/blog/');
       return;
     }
     announce(next);
+  }
+
+  function leavePage(href) {
+    root.classList.add('is-leaving-page');
+    setTimeout(function () { window.location.href = href; }, 650);
   }
 
   if (themeToggle) themeToggle.addEventListener('click', flipTheme);
@@ -128,8 +138,8 @@
   if (fp && root.getAttribute('data-theme') !== 'dark') {
     var seenDark = 0;
     try { seenDark = Number(localStorage.getItem('darkSeen')) || 0; } catch (e) {}
-    // 暗面有你还没看过的新文章时更容易出现
-    var chance = latestDark > seenDark ? 0.5 : 0.2;
+    // 从没去过暗面、或者暗面有你还没看过的新文章时，更容易出现
+    var chance = !seenDark ? 0.6 : latestDark > seenDark ? 0.5 : 0.3;
     if (/[?&]footprint\b/.test(location.search)) chance = 1;
     if (Math.random() < chance) {
       var spots = [['right', 7, 34], ['left', 7, 58], ['right', 6, 72], ['left', 8, 30]];
@@ -144,7 +154,16 @@
         fp.querySelector('.fp-say').textContent = zh ? fp.dataset.sayZh : fp.dataset.sayEn;
         fp.classList.add('is-talking');
         setTimeout(function () { fp.classList.add('is-leaving'); }, 1700);
-        setTimeout(function () { window.location.href = zh ? fp.dataset.hrefZh : fp.dataset.hrefEn; }, 2500);
+        // 第一次去暗面的人先带到博客页的暗面（能看到「被你发现啦」），去过的直接看最新一篇
+        var href = zh ? fp.dataset.hrefZh : fp.dataset.hrefEn;
+        var firstTime = !seenDark;
+        setTimeout(function () {
+          // 星星钻回裂缝的同时，整页慢慢翻到暗面
+          setTheme('dark');
+          if (firstTime && found) { announce('dark'); fp.hidden = true; return; }  // 本来就在博客页：原地翻面就好
+          if (firstTime) { href = fp.dataset.hrefBlog; try { sessionStorage.setItem('pendingToast', 'dark'); } catch (e) {} }
+          leavePage(href);
+        }, 2150);
       });
     }
   }

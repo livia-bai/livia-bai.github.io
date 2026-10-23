@@ -47,6 +47,8 @@
       var t = {% if page.side == 'dark' %}'dark'{% elsif page.side %}'light'{% else %}localStorage.getItem('theme') || 'light'{% endif %};
       document.documentElement.setAttribute('data-theme', t);
       localStorage.setItem('theme', t);
+      // 从别的页面翻面跳过来的：内容淡入（见 style.css 的 .is-arriving）
+      if (sessionStorage.getItem('pendingToast')) document.documentElement.classList.add('is-arriving');
     } catch (e) {}
   </script>
 </head>
@@ -74,11 +76,11 @@
   {%- assign fp_zh = site.posts | where: "side", "dark" | where: "lang", "zh" | first -%}
   {%- assign fp_en = site.posts | where: "side", "dark" | where: "lang", "en" | first | default: fp_zh -%}
   {%- if fp_zh %}
-  {%- comment -%} 暗面的脚印：亮面上偶尔出现的紫色小星星（main.js 决定出不出现）。台词可以由最新一篇暗面文章的 whisper / whisper（英文版）自定义 {%- endcomment %}
+  {%- comment -%} 暗面的脚印：亮面上偶尔出现的紫色小星星（main.js 决定出不出现、点了去哪） {%- endcomment %}
   <button class="footprint" type="button" hidden aria-label="一颗从月亮背面溜过来的星星 / A star that slipped over from the far side"
-    data-href-zh="{{ fp_zh.url | relative_url }}" data-href-en="{{ fp_en.url | relative_url }}"
-    data-say-zh="{{ fp_zh.whisper | default: '嘘——我是从月亮背面溜过来的，要不要跟我回去看看？' | escape }}"
-    data-say-en="{{ fp_en.whisper | default: 'Shh — I slipped over from the far side of the moon. Want to come back with me?' | escape }}">
+    data-href-zh="{{ fp_zh.url | relative_url }}" data-href-en="{{ fp_en.url | relative_url }}" data-href-blog="{{ '/blog/' | relative_url }}"
+    data-say-zh="嘘——我是从月亮背面溜过来的，要不要跟我过去看看？"
+    data-say-en="Shh — I slipped over from the far side of the moon. Want to come and see?">
     <span class="fp-haze"></span>
     <svg class="fp-crack" viewBox="0 0 60 92" aria-hidden="true">
       <defs>

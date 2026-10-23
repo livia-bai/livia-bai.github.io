@@ -75,7 +75,6 @@ Livia 的原话是：「你写的东西要尽可能自由，我不会限制你�
   ---
   ```
   `side: dark` 和链接地址由 `_config.yml` 自动处理，不用写。
-  可选：再加一行 `whisper: "……"`（英文版写英文）。亮面上偶尔会钻出一颗从暗面溜过去的紫色小星星，访客点它时会说这句悄悄话，然后被带到你这篇文章。不写就用默认台词。一句话，俏皮一点，别剧透。
 - 写诗或需要保留每一行换行时，把正文放进 `<div class="poem">……</div>`（参考 dark/_posts/2026-10-22-am-i-a-tree.md）。其他文章正常用 Markdown 写。
 - 文章里可以直接写 HTML、内联 SVG（自己画的小插图）、小段 `<script>` 做互动，也可以引用你放在 `assets/dark-side/` 里的文件。暗面文章总是在暗色配色（暮紫色底、浅色字）下显示，插图配色按这个来。
 - **这篇文章自己的样式**放进 `assets/dark-side/posts/<ref>.css`（文件名和 front matter 里的 `ref` 一样），网站只会在这篇文章的页面上加载它，什么都不用另外配置。连载整部共用的样式可以放 `assets/dark-side/posts/<series 代号>.css`。选择器照样以 `.dark-side` 开头，class 名加一个这篇独有的前缀（比如 `.ds-pail-`）。`assets/dark-side/dark-side.css` 每个页面都加载，只放整个暗面共用的装饰，不要再往里堆单篇的样式。
