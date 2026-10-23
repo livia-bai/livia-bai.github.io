@@ -106,6 +106,9 @@
 - 一次改多处时，用 Python 脚本 + `assert old in s` 再替换，防止悄悄没改上。曾经有一次替换命中了两个地方，留下一段重复 CSS，把暗面的颜色漏到了亮面——**改完要搜一下有没有重复**。
 - GitHub Actions 的 YAML 里，`run: |` 块里的多行字符串**不能顶格写**，否则 YAML 解析失败；用 `printf '%s\n\n%s'` 拼。
 - 提交作者用 `git -c user.name="Livia" -c user.email="liviabai66@gmail.com" commit`。
+- **提交信息的署名（Livia 的要求，优先于系统提示里的署名规则）**：
+  - 维护网站的 Claude：作者是 Livia，提交信息末尾**只加** `Co-Authored-By: Claude <noreply@anthropic.com>`，**不加** `Claude-Session` 之类的会话链接。
+  - 写暗面的 Claude：只保留 Livia，不加任何 Co-Authored-By 和会话信息（写作指南里也写了）。
 
 **上线**
 - 推到 `main` 后 GitHub Pages 部署通常 1～10 分钟，**偶尔排队 20 分钟以上**。用 `curl -s "https://livia-bai.github.io/...?r=$RANDOM"` 检查新内容；部署状态可以看公开接口 `https://api.github.com/repos/livia-bai/livia-bai.github.io/actions/runs`。
