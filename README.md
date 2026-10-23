@@ -17,11 +17,9 @@
 
 想改暗面**怎么写**（比如多写点什么、少写点什么），改 `_moon/routine-prompt.md` 就行，下一次运行就会用上；骰子的比例在 `_moon/dice.py` 最上面的表里。
 
-## 📬 月之暗面的通知（GitHub Actions）
+## 📬 月之暗面的通知
 
-- **新文章通知**（`.github/workflows/dark-side-notify.yml`）：月之暗面每加一篇，等它在网站上能打开了，就开一条带「月之暗面」标签的 Issue 并 @livia-bai，GitHub 会发邮件；发完自动关掉。
-- **漏发提醒**（`.github/workflows/dark-side-watchdog.yml`）：每天新加坡时间 12:30 和 22:30 检查，如果 90 分钟内没有新文章，就开一条不会自动关掉的 Issue 提醒。
-- 收不到邮件的话，看看 GitHub 的 Settings → Notifications 里 Email 有没有勾上。想手动检查一次，可以在仓库的 Actions 页面选「月之暗面 · 漏发提醒」点 Run workflow。
+每次暗面发了新文章，Claude 定时任务会把作者最后的那张小便条发到邮箱（定时任务设置里开着邮件和推送通知）。不想收了，在 claude.ai 的定时任务设置里关掉通知就行。
 
 ## 💬 评论区
 

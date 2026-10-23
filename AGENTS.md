@@ -52,7 +52,6 @@
 | 暗面的骰子 | `_moon/dice.py`（每次动笔前掷一次：大类、情绪、视角、结尾、客座作者、维基随机灵感……） |
 | 暗面的连载设定集 | `_moon/serials/`（每部连载一个 `<代号>.md`，模板在 `README.md`） |
 | 🌑 暗面的写作指南（正本） | `_moon/routine-prompt.md`（定时任务只有一段开机引导，会让作者来读这里） |
-| 通知自动化 | `.github/workflows/`（见下面） |
 
 ## ⚙️ 核心机制（改之前先懂它们）
 
@@ -87,13 +86,10 @@
 - 博客页的暗面面板有一行介绍和「下一样大约在 X 后」的倒计时（`main.js` 的 `updateDarkNext`，按 12:00 / 22:00 算）；有连载时上面会自动出现「📖 连载中」书架（`side-posts.html`）。
 - **连载**在网站上的显示：文章开头写 `series` / `series_title` / `episode`，`_layouts/post.html` 会显示「📖《书名》第 N 话」和上一话 / 下一话，列表里也有「第 N 话」标签。
 
-## 📬 通知（GitHub Actions）
+## 📬 通知
 
-Claude 定时任务自带的邮件通知实测收不到，所以改用 GitHub 自己发邮件：
-
-- `dark-side-notify.yml`：`dark/_posts/` 有新文章推到 `main` 时，等文章页能打开（最多 25 分钟），开一条 @livia-bai 的 Issue，GitHub 发邮件，然后自动关掉。在 Actions 页面手动 Run workflow，会拿最新一篇发一封「🧪 测试通知」（改 workflow 文件本身不会再触发测试，免得整理代码时乱发邮件）。
-- `dark-side-watchdog.yml`：每天 12:30 / 22:30（新加坡）检查，90 分钟内没有新文章就开一条不关的提醒 Issue。
-- 依赖仓库开着 **Issues**（曾经被关掉过一次，导致通知失败）。
+- 用的是 **Claude 定时任务自带的通知**（邮件 + 推送）：每次运行结束，作者最后的回复会发给 Livia。所以写作指南里「最后的回复」要写成给她的便条。
+- 以前这条通知一度收不到，临时用 GitHub Actions 开 Issue 发邮件（还有一个漏发提醒）。2026-10-23 Claude 的通知能收到了，Livia 让把 GitHub 那套全撤掉，`.github/` 已经删了。别再加回来，除非她要。
 
 ---
 
