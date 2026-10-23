@@ -168,7 +168,91 @@
     setTimeout(function () { window.location.href = href; }, 650);
   }
 
-  if (themeToggle) themeToggle.addEventListener('click', flipTheme);
+  // ========== 拉绳月亮灯 ==========
+  // 点一下：只晃一晃，提示往下拉；按住往下拉：另一面的颜色从月亮里漏出来、天上的大月亮跟着转；
+  // 拉过线（PULL_AT）再松手才翻面，没拉够就弹回去。键盘按回车 / 空格直接翻面。
+  var lamp = document.querySelector('.moon-lamp');
+  if (lamp && themeToggle) {
+    var swing = lamp.querySelector('.lamp-swing');
+    var hint = lamp.querySelector('.lamp-hint');
+    var PULL_AT = 56, PULL_MAX = 92;
+    var drag = null, hintTimer, nudgeTimer;
+    var setHint = function (kind) {
+      var lang = getLang();
+      hint.textContent = hint.getAttribute('data-' + lang + '-' + kind) || '';
+    };
+    var setPull = function (px) {
+      lamp.style.setProperty('--pull', px + 'px');
+      root.style.setProperty('--peek', Math.min(1, px / PULL_AT).toFixed(3));
+      var ready = px >= PULL_AT;
+      if (ready !== lamp.classList.contains('is-ready')) {
+        lamp.classList.toggle('is-ready', ready);
+        setHint(ready ? 'ready' : 'idle');
+      }
+    };
+    var flash = function (kind, ms) {
+      setHint(kind);
+      lamp.classList.add('show-hint');
+      clearTimeout(hintTimer);
+      hintTimer = setTimeout(function () { lamp.classList.remove('show-hint'); setHint('idle'); }, ms);
+    };
+    setHint('idle');
+    // 从没去过暗面的人：过一会儿主动提示「拉一下？」
+    try {
+      if (!localStorage.getItem('darkSeen')) setTimeout(function () { if (!drag) flash('idle', 4000); }, 2500);
+    } catch (e) {}
+
+    swing.addEventListener('pointerdown', function (e) {
+      if (e.button > 0) return;
+      var r = themeToggle.getBoundingClientRect();
+      root.style.setProperty('--lamp-x', (r.left + r.width / 2) + 'px');
+      root.style.setProperty('--lamp-y', (r.top + r.height / 2) + 'px');
+      drag = { y: e.clientY, moved: false, pull: 0 };
+      swing.setPointerCapture(e.pointerId);
+      lamp.classList.add('is-dragging');
+      root.classList.add('lamp-dragging');
+      e.preventDefault();
+    });
+    swing.addEventListener('pointermove', function (e) {
+      if (!drag) return;
+      var dy = e.clientY - drag.y;
+      if (Math.abs(dy) > 5) drag.moved = true;
+      dy = Math.max(0, dy);
+      // 拉过线以后越来越拉不动，像橡皮筋
+      var px = dy <= PULL_AT ? dy : Math.min(PULL_MAX, PULL_AT + (dy - PULL_AT) * 0.35);
+      drag.pull = px;
+      setPull(px);
+      if (drag.moved) lamp.classList.add('show-hint');
+    });
+    var endPull = function () {
+      if (!drag) return;
+      var d = drag;
+      drag = null;
+      lamp.classList.remove('is-dragging');
+      root.classList.remove('lamp-dragging');
+      setPull(0);
+      if (!d.moved) {
+        // 只是点了一下：晃一晃，告诉人家要往下拉
+        lamp.classList.remove('is-nudged');
+        void lamp.offsetWidth;
+        lamp.classList.add('is-nudged');
+        clearTimeout(nudgeTimer);
+        nudgeTimer = setTimeout(function () { lamp.classList.remove('is-nudged'); }, 900);
+        flash('tap', 1800);
+        return;
+      }
+      lamp.classList.remove('show-hint');
+      if (d.pull >= PULL_AT) {
+        lamp.classList.add('is-swinging');
+        setTimeout(function () { lamp.classList.remove('is-swinging'); }, 1400);
+        flipTheme();
+      }
+    };
+    swing.addEventListener('pointerup', endPull);
+    swing.addEventListener('pointercancel', endPull);
+    // 鼠标点击不翻面（交给上面的拉绳）；键盘触发的 click（detail 为 0）直接翻面
+    themeToggle.addEventListener('click', function (e) { if (e.detail === 0) flipTheme(); });
+  }
 
   try {
     var pending = sessionStorage.getItem('pendingToast');

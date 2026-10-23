@@ -55,6 +55,7 @@
 <body{% if page.side %} data-side="{{ page.side }}"{% endif %}>
   <div class="bg" aria-hidden="true">
     <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="blob b4"></div><div class="blob b5"></div>
+    <div class="big-moon"><div class="big-moon-inner"><span class="bm-face bm-bright"></span><span class="bm-face bm-dark"></span></div></div>
     <span class="spark" style="--x:8%;--y:14%;--s:22px;--d:0s">✦</span>
     <span class="spark" style="--x:88%;--y:10%;--s:20px;--d:1.2s">✿</span>
     <span class="spark" style="--x:22%;--y:46%;--s:14px;--d:2.4s">♥&#xFE0E;</span>
@@ -72,6 +73,7 @@
   </main>
   {% include footer.html %}
   <div class="toast" role="status" aria-live="polite"></div>
+  <div class="pull-veil" aria-hidden="true"></div>
   {%- unless page.side == "dark" -%}
   {%- assign fp_any = site.posts | where: "side", "dark" | first -%}
   {%- if fp_any %}
