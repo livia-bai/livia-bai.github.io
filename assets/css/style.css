@@ -283,14 +283,34 @@ a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
 }
 .side-footer .more { margin: 0; }
 .side-empty { color: var(--muted); padding: 8px 0 12px; margin: 0; }
-.dark-intro { color: var(--muted); font-size: .92rem; margin: -6px 0 18px; position: relative; }
-.dark-intro b { color: var(--accent); font-weight: 600; }
-.serial-shelf { position: relative; margin: 0 0 20px; padding: 14px 18px; border: 1px dashed var(--accent-soft); border-radius: 16px; }
-.serial-shelf-title { margin: 0 0 6px; font-weight: 800; }
-.serial-shelf ul { list-style: none; margin: 0; padding: 0; }
-.serial-shelf li { padding: 4px 0; }
-.serial-shelf-meta { color: var(--muted); font-size: .88rem; margin-left: 6px; white-space: nowrap; }
-@media (max-width: 600px) { .serial-shelf-meta { display: block; margin-left: 0; } }
+/* 博客页暗面面板上的「被你发现啦」 */
+.found-you {
+  position: relative; margin: 4px 0 22px; padding: 18px 22px 16px 78px;
+  border-radius: 20px; transform: rotate(-1.2deg);
+  background: linear-gradient(120deg, rgba(255, 226, 173, .16), rgba(186, 160, 255, .16));
+  border: 2px dashed rgba(255, 226, 173, .55);
+  box-shadow: 0 6px 22px rgba(20, 10, 40, .25);
+}
+.found-eyes {
+  position: absolute; left: 20px; top: 50%; margin-top: -22px; font-size: 2.4rem; line-height: 1;
+  animation: found-peek 3.6s ease-in-out infinite;
+}
+.found-big {
+  margin: 0; font-size: 1.6rem; font-weight: 800; letter-spacing: .02em; color: #ffe2ad;
+  text-shadow: 0 0 14px rgba(255, 226, 173, .45);
+}
+.found-small { margin: 4px 0 0; font-weight: 700; color: var(--text); opacity: .9; }
+@keyframes found-peek {
+  0%, 62%, 100% { transform: translateX(0); }
+  70%, 78% { transform: translateX(-4px); }
+  86%, 94% { transform: translateX(4px); }
+}
+@media (max-width: 600px) {
+  .found-you { padding: 14px 16px 14px 64px; }
+  .found-eyes { left: 14px; font-size: 2rem; margin-top: -18px; }
+  .found-big { font-size: 1.3rem; }
+}
+@media (prefers-reduced-motion: reduce) { .found-eyes { animation: none; } }
 
 /* 博客页上那句「嘘——月亮可是有两面的哦」，小月亮会偷偷转一下 */
 .moon-hint {
@@ -386,8 +406,17 @@ a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
 .post-content pre { background: var(--code-bg); padding: 14px 18px; border-radius: 14px; overflow-x: auto; }
 .post-content pre code { padding: 0; background: none; }
 
-/* 连载：标题上面的「📖《书名》第 N 话」，文末的上一话 / 下一话 */
-.series-badge { margin: 14px 0 -6px; color: var(--accent); font-weight: 800; font-size: .95rem; }
+/* 连载：标题上面一条「‹ 上一话 · 📖《书名》第 N 话 · 下一话 ›」，文末再放一次上一话 / 下一话 */
+.series-top {
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px;
+  margin: 16px 0 -4px; padding: 8px 10px; border-radius: 999px; background: var(--accent-soft);
+  font-size: .9rem; font-weight: 800;
+}
+.series-top .series-badge { margin: 0; text-align: center; color: var(--accent); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.series-top a, .series-top .series-off { padding: 4px 12px; border-radius: 999px; white-space: nowrap; }
+.series-top a { background: var(--card); color: var(--accent); }
+.series-top a:hover { text-decoration: none; filter: brightness(1.05); }
+.series-top .series-off { color: var(--muted); opacity: .6; font-weight: 700; }
 .series-tag { margin-right: 6px; vertical-align: 2px; }
 .series-nav {
   display: grid; grid-template-columns: 1fr 1fr; gap: 12px;

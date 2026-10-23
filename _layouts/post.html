@@ -23,7 +23,12 @@ layout: default
 <article class="post card{% if page.side == 'dark' %} dark-side{% endif %}">
   <a class="back" href="{{ '/blog/' | relative_url }}">
     ← <span lang="zh">回到博客</span><span lang="en">Back to the blog</span></a>
-  {% if page.series %}<p class="series-badge">📖 {% if page.lang == 'en' %}<em>{{ page.series_title }}</em> · Episode {{ page.episode }}{% else %}《{{ page.series_title }}》 · 第 {{ page.episode }} 话{% endif %}</p>{% endif %}
+  {% if page.series %}{% assign en = false %}{% if page.lang == 'en' %}{% assign en = true %}{% endif %}
+  <nav class="series-top" aria-label="{% if en %}Episodes{% else %}切换上下话{% endif %}">
+    {% if ep_prev %}<a href="{{ ep_prev.url | relative_url }}" title="{{ ep_prev.title }}">‹ {% if en %}Prev{% else %}上一话{% endif %}</a>{% else %}<span class="series-off">{% if en %}Ep. 1{% else %}第一话{% endif %}</span>{% endif %}
+    <p class="series-badge">📖 {% if en %}<em>{{ page.series_title }}</em> · Ep. {{ page.episode }}{% else %}《{{ page.series_title }}》第 {{ page.episode }} 话{% endif %}</p>
+    {% if ep_next %}<a href="{{ ep_next.url | relative_url }}" title="{{ ep_next.title }}">{% if en %}Next{% else %}下一话{% endif %} ›</a>{% else %}<span class="series-off">{% if en %}Soon…{% else %}待续…{% endif %}</span>{% endif %}
+  </nav>{% endif %}
   <h1 class="post-title">{{ page.title }}</h1>
   <p class="post-meta">
     {{ page.date | date: "%Y-%m-%d" }}

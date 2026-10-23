@@ -70,23 +70,6 @@
   // 月之暗面有新文章、而你还没翻过去看时，月亮按钮上亮一颗小星星
   var themeToggle = document.querySelector('.theme-toggle');
   var latestDark = themeToggle ? Number(themeToggle.getAttribute('data-latest-dark')) || 0 : 0;
-  // 暗面面板：离下一篇（新加坡时间 12:00 / 22:00）还有多久
-  function updateDarkNext() {
-    var box = document.querySelector('.dark-next');
-    if (!box) return;
-    var now = Date.now(), sg = new Date(now + 8 * 3600e3), best = Infinity;
-    [12, 22, 36].forEach(function (h) {
-      var t = Date.UTC(sg.getUTCFullYear(), sg.getUTCMonth(), sg.getUTCDate(), h) - 8 * 3600e3;
-      if (t > now && t - now < best) best = t - now;
-    });
-    var m = Math.max(1, Math.round(best / 60e3)), h = Math.floor(m / 60), mm = m % 60;
-    box.querySelector('[data-next-zh]').textContent = (h ? h + ' 小时 ' : '') + (mm ? mm + ' 分钟' : '');
-    box.querySelector('[data-next-en]').textContent = (h ? h + 'h ' : '') + (mm ? mm + 'm' : '');
-    box.hidden = false;
-  }
-  updateDarkNext();
-  setInterval(updateDarkNext, 60e3);
-
   function updateNewMark() {
     if (!themeToggle || !latestDark) return;
     var seen = 0;
