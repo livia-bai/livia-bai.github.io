@@ -3,3 +3,5 @@ _site/
 .sass-cache/
 vendor/
 .DS_Store
+__pycache__/
+*.pyc
