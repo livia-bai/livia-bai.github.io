@@ -107,6 +107,49 @@
   var foundTimer;
   if (found) found.addEventListener('click', function () { playFound(true); });
 
+  // 小人：鼠标靠近往那边偷看；戳一下缩一下、说一句；连着戳会慌
+  var mochi = found && found.querySelector('.found-mochi');
+  if (mochi) {
+    var talk = found.querySelector('.found-talk');
+    var img = mochi.querySelector('img');
+    var lines = {
+      zh: ['唔？', '嚼嚼……', '我、我没有在偷吃！', '这条鲸鱼是自己游进来的！', '只尝一口，就一口！', '再戳就不分你吃了哦！'],
+      en: ['Hm?', '*munch munch*', 'I-I wasn\'t snacking!', 'This whale swam in by itself!', 'Just one bite, I promise!', 'Poke again and you get none!']
+    };
+    var streak = 0, streakTimer, talkTimer;
+    mochi.addEventListener('click', function (e) {
+      e.stopPropagation();  // 戳小人不重播整张卡片
+      streak++;
+      clearTimeout(streakTimer);
+      streakTimer = setTimeout(function () { streak = 0; }, 2500);
+      var list = lines[getLang()] || lines.zh;
+      talk.textContent = list[Math.min(streak, list.length) - 1];
+      talk.classList.add('show');
+      clearTimeout(talkTimer);
+      talkTimer = setTimeout(function () { talk.classList.remove('show'); }, 1800);
+      var cls = streak >= 3 ? 'is-flustered' : 'is-poked';
+      mochi.classList.remove('is-poked', 'is-flustered');
+      void mochi.offsetWidth;
+      mochi.classList.add(cls);
+    });
+    mochi.addEventListener('animationend', function (e) {
+      if (e.target === img) mochi.classList.remove('is-poked', 'is-flustered');
+    });
+    var panel = found.closest('.side-panel') || found;
+    panel.addEventListener('pointermove', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      var r = img.getBoundingClientRect();
+      var dx = (e.clientX - (r.left + r.width / 2)) / 260, dy = (e.clientY - (r.top + r.height / 2)) / 400;
+      dx = Math.max(-1, Math.min(1, dx));
+      mochi.style.setProperty('--lean', (dx * 9 + Math.max(-1, Math.min(1, dy)) * 2).toFixed(1) + 'deg');
+      mochi.style.setProperty('--lean-x', (dx * 4).toFixed(1) + 'px');
+    });
+    panel.addEventListener('pointerleave', function () {
+      mochi.style.removeProperty('--lean');
+      mochi.style.removeProperty('--lean-x');
+    });
+  }
+
   function flipTheme() {
     var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     setTheme(next);
