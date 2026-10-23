@@ -4,7 +4,7 @@
   <li class="post-item card" data-lang="{{ post.lang | default: 'zh' }}" data-ref="{{ post.ref | default: post.url }}">
     <a href="{{ post.url | relative_url }}">
       <span class="post-date">{{ post.date | date: "%Y-%m-%d" }}</span>
-      <span class="post-item-title">{{ post.title }}</span>
+      <span class="post-item-title">{% if post.series %}<span class="tag series-tag">{% if post.lang == 'en' %}{{ post.series_title }} · Ep. {{ post.episode }}{% else %}《{{ post.series_title }}》第 {{ post.episode }} 话{% endif %}</span> {% endif %}{{ post.title }}</span>
       <span class="post-excerpt">{{ post.excerpt | strip_html | truncate: 80 }}</span>
     </a>
   </li>

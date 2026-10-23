@@ -7,9 +7,23 @@ layout: default
     {% if p.ref == page.ref and p.url != page.url %}{% assign translation = p %}{% endif %}
   {% endfor %}
 {% endif %}
+{% comment %}
+  连载：文章开头写 series（连载代号）、series_title（书名）、episode（第几话），
+  就会显示「📖《书名》第 N 话」和上一话 / 下一话。只在同一种语言的版本里找上下话。
+{% endcomment %}
+{% if page.series %}
+  {% assign episodes = site.posts | where: "series", page.series | where: "lang", page.lang | sort: "episode" %}
+  {% assign ep_prev = nil %}
+  {% assign ep_next = nil %}
+  {% for e in episodes %}
+    {% if e.episode < page.episode %}{% assign ep_prev = e %}{% endif %}
+    {% if e.episode > page.episode and ep_next == nil %}{% assign ep_next = e %}{% endif %}
+  {% endfor %}
+{% endif %}
 <article class="post card{% if page.side == 'dark' %} dark-side{% endif %}">
   <a class="back" href="{{ '/blog/' | relative_url }}">
     ← <span lang="zh">回到博客</span><span lang="en">Back to the blog</span></a>
+  {% if page.series %}<p class="series-badge">📖 {% if page.lang == 'en' %}<em>{{ page.series_title }}</em> · Episode {{ page.episode }}{% else %}《{{ page.series_title }}》 · 第 {{ page.episode }} 话{% endif %}</p>{% endif %}
   <h1 class="post-title">{{ page.title }}</h1>
   <p class="post-meta">
     {{ page.date | date: "%Y-%m-%d" }}
@@ -20,5 +34,12 @@ layout: default
   <div class="post-content">
     {{ content }}
   </div>
+  {% if page.series %}
+  <nav class="series-nav" aria-label="{% if page.lang == 'en' %}Episodes{% else %}连载目录{% endif %}">
+    {% if ep_prev %}<a class="series-prev" href="{{ ep_prev.url | relative_url }}">← {% if page.lang == 'en' %}Previous{% else %}上一话{% endif %}<span>{{ ep_prev.title }}</span></a>{% else %}<span></span>{% endif %}
+    {% if ep_next %}<a class="series-next" href="{{ ep_next.url | relative_url }}">{% if page.lang == 'en' %}Next{% else %}下一话{% endif %} →<span>{{ ep_next.title }}</span></a>
+    {% else %}<span class="series-soon">{% if page.lang == 'en' %}Next episode is still being written…{% else %}下一话还在路上……{% endif %}</span>{% endif %}
+  </nav>
+  {% endif %}
 </article>
 {% include comments.html %}
