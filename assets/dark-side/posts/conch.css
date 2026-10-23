@@ -1,0 +1,33 @@
+/* 转生成颁奖典礼的扩音海螺 / The Awards-Show Conch（整部连载共用） */
+.dark-side .ds-conch-cut {
+  text-align: center;
+  margin: 2em 0;
+  font-size: 1.5em;
+  opacity: .5;
+}
+.dark-side .ds-conch-play {
+  margin: 1.6em 0;
+  padding: .9em 1.1em;
+  border-left: 3px solid #7fd3c6;
+  background: rgba(127, 211, 198, .08);
+  border-radius: 0 10px 10px 0;
+  font-weight: 700;
+  font-size: 1.12em;
+  letter-spacing: .04em;
+}
+.dark-side .ds-conch-laugh {
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.4em;
+  letter-spacing: .08em;
+  margin: 2em 0 1em;
+  color: #7fd3c6;
+  overflow-wrap: anywhere;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dark-side .ds-conch-laugh { animation: ds-conch-tide 2.4s ease-in-out infinite; }
+}
+@keyframes ds-conch-tide {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
