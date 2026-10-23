@@ -66,7 +66,8 @@ html[data-lang="en"] [lang="zh"] { display: none !important; }
 
 /* ========== 3. 基础 ========== */
 * { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
+/* 长页面和短页面都给滚动条留好位置，换页时内容不会左右跳 */
+html { -webkit-text-size-adjust: 100%; scrollbar-gutter: stable; scrollbar-color: var(--accent-soft) transparent; }
 body {
   margin: 0;
   background: var(--bg);
