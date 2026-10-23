@@ -10,6 +10,7 @@
     var t = document.querySelector('title');
     if (t && t.dataset[lang]) document.title = t.dataset[lang];
     filterPosts();
+    if (window.refreshLampHint) window.refreshLampHint();
   }
 
   // 同一篇文章有多个语言版本时，只显示当前语言那一版（没有对应翻译就显示原文）；列表有 data-limit 时只留前几篇
@@ -38,7 +39,7 @@
       // 在文章页切换语言时，如果有翻译版本就直接跳过去
       var link = document.querySelector('.translation-link[data-target-lang="' + next + '"]');
       setLang(next);
-      if (link) window.location.href = link.href;
+      if (link) leavePage(link.href);
     });
   }
 
@@ -67,36 +68,25 @@
     }
   }
 
-  // 月之暗面有新文章、而你还没翻过去看时，月亮按钮上亮一颗小星星
+  // 记下看到过的最新一篇暗面文章（darkSeen）：「暗面的脚印」靠它判断是不是第一次来、有没有没看过的新文章
   var themeToggle = document.querySelector('.theme-toggle');
   var latestDark = themeToggle ? Number(themeToggle.getAttribute('data-latest-dark')) || 0 : 0;
-  function updateNewMark() {
-    if (!themeToggle || !latestDark) return;
-    var seen = 0;
-    try { seen = Number(localStorage.getItem('darkSeen')) || 0; } catch (e) {}
-    if (root.getAttribute('data-theme') === 'dark') {
-      try { localStorage.setItem('darkSeen', String(latestDark)); } catch (e) {}
-      seen = latestDark;
-    }
-    var fresh = Date.now() / 1000 - latestDark < 7 * 24 * 3600;
-    themeToggle.classList.toggle('has-new', fresh && latestDark > seen);
+  function rememberDarkSeen() {
+    if (!latestDark || root.getAttribute('data-theme') !== 'dark') return;
+    try { localStorage.setItem('darkSeen', String(latestDark)); } catch (e) {}
   }
 
-  function setTheme(next, forceFound) {
+  function setTheme(next) {
     root.setAttribute('data-theme', next);
     try { localStorage.setItem('theme', next); } catch (e) {}
-    updateNewMark();
-    if (next === 'dark') playFound(forceFound);
+    rememberDarkSeen();
+    if (next === 'dark') playFound();
   }
 
-  // 「被你发现啦」：每次浏览只自动播一次（第一次看到暗面时）；从星星翻过来时一定播；点卡片可以再看一次
+  // 「被你发现啦」：每次来到博客页的暗面都播一次（打开页面时、或者在博客页翻到暗面时）；点卡片可以再看一次
   var found = document.querySelector('.found-you');
-  function playFound(force) {
+  function playFound() {
     if (!found || root.getAttribute('data-theme') !== 'dark') return;
-    try {
-      if (!force && sessionStorage.getItem('foundPlayed')) return;
-      sessionStorage.setItem('foundPlayed', '1');
-    } catch (e) {}
     found.classList.remove('is-found');
     void found.offsetWidth;
     found.classList.add('is-found');
@@ -105,7 +95,7 @@
   }
   // 播完（最慢的「!」大约 2.1 秒）就把动画收起来：不然翻到亮面再翻回来，卡片重新显示时会从头再播一遍
   var foundTimer;
-  if (found) found.addEventListener('click', function () { playFound(true); });
+  if (found) found.addEventListener('click', playFound);
 
   // 小人：鼠标靠近往那边偷看；戳一下缩一下、说一句；连着戳会慌
   var mochi = found && found.querySelector('.found-mochi');
@@ -163,7 +153,9 @@
     announce(next);
   }
 
+  // 离开这一页：内容先淡出，再跳转；下一页会淡入（default.html 里看到 fadeIn 就加 .is-arriving）
   function leavePage(href) {
+    try { sessionStorage.setItem('fadeIn', '1'); } catch (e) {}
     root.classList.add('is-leaving-page');
     setTimeout(function () { window.location.href = href; }, 650);
   }
@@ -197,10 +189,11 @@
       hintTimer = setTimeout(function () { lamp.classList.remove('show-hint'); setHint('idle'); }, ms);
     };
     setHint('idle');
-    // 从没去过暗面的人：过一会儿主动提示「拉一下？」
-    try {
-      if (!localStorage.getItem('darkSeen')) setTimeout(function () { if (!drag) flash('idle', 4000); }, 2500);
-    } catch (e) {}
+    window.refreshLampHint = function () { setHint(lamp.classList.contains('is-ready') ? 'ready' : 'idle'); };
+    // 从没去过暗面的人：过一会儿主动提示「拉一下？」（到时候已经翻过去了就不提示）
+    setTimeout(function () {
+      try { if (!drag && !localStorage.getItem('darkSeen')) flash('idle', 4000); } catch (e) {}
+    }, 2500);
 
     swing.addEventListener('pointerdown', function (e) {
       if (e.button > 0) return;
@@ -258,12 +251,12 @@
     var pending = sessionStorage.getItem('pendingToast');
     if (pending) { sessionStorage.removeItem('pendingToast'); setTimeout(function () { announce(pending); }, 150); }
   } catch (e) {}
-  updateNewMark();
+  rememberDarkSeen();
   playFound();
 
   // ========== 暗面的脚印：亮面上偶尔钻出来的紫色星星 ==========
   // 每次浏览（同一个浏览器标签页会话）最多出现一次；从没去过暗面的人一定会看到。
-  // 点它：先回到博客页（亮面），再在博客页上慢慢翻到暗面，一定会播「被你发现啦」。
+  // 点它：先回到博客页（亮面），再在博客页上慢慢翻到暗面（会播「被你发现啦」）。
   var fp = document.querySelector('.footprint');
   function session(key, val) {
     try { if (val === undefined) return sessionStorage.getItem(key); sessionStorage.setItem(key, val); } catch (e) {}
@@ -297,7 +290,7 @@
   }
   // 从星星那里过来的：先在亮面停一下，再慢慢翻到暗面
   function starFlip() {
-    setTheme('dark', true);
+    setTheme('dark');
     announce('dark');
   }
   if (session('starArrive')) {

@@ -47,8 +47,8 @@
       var t = {% if page.side == 'dark' %}'dark'{% elsif page.side %}'light'{% else %}localStorage.getItem('theme') || 'light'{% endif %};
       document.documentElement.setAttribute('data-theme', t);
       localStorage.setItem('theme', t);
-      // 从别的页面翻面跳过来的：内容淡入（见 style.css 的 .is-arriving）
-      if (sessionStorage.getItem('pendingToast') || sessionStorage.getItem('starArrive')) document.documentElement.classList.add('is-arriving');
+      // 从上一页「淡出」跳过来的：内容淡入（见 style.css 的 .is-arriving）
+      if (sessionStorage.getItem('fadeIn')) { sessionStorage.removeItem('fadeIn'); document.documentElement.classList.add('is-arriving'); }
     } catch (e) {}
   </script>
 </head>

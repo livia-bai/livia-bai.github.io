@@ -59,7 +59,7 @@
 body, .card, .nav a, .btn, .tag, .post-item, .lang-toggle, .toast {
   transition: background-color .6s ease, color .6s ease, border-color .6s ease, box-shadow .6s ease;
 }
-/* 在文章页翻面会跳回博客：旧页面颜色慢慢换、内容淡出，新页面内容淡入 */
+/* 换页时（文章页翻面、文章页切语言、星星带路）：旧页面内容淡出，新页面内容淡入 */
 :root.is-leaving-page main, :root.is-leaving-page .site-footer { opacity: 0; transform: translateY(8px); transition: opacity .45s ease, transform .45s ease; }
 :root.is-arriving main { animation: page-in .55s ease both; }
 @keyframes page-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
@@ -274,14 +274,9 @@ img { max-width: 100%; }
   opacity: 0; transform: translateX(6px) scale(.85); transition: opacity .25s, transform .3s cubic-bezier(.3, 1.6, .5, 1);
 }
 .lamp-hint::after { content: ""; position: absolute; right: 8px; top: -5px; border: 5px solid transparent; border-bottom-color: var(--accent); border-top: 0; }
-.moon-lamp.show-hint .lamp-hint, .moon-lamp:hover .lamp-hint { opacity: 1; transform: none; }
+.moon-lamp.show-hint .lamp-hint { opacity: 1; transform: none; }
+@media (hover: hover) { .moon-lamp:hover .lamp-hint { opacity: 1; transform: none; } }  /* 手机点完会一直停在 hover，所以只给鼠标用 */
 .moon-lamp.is-dragging .lamp-hint { transition: opacity .25s; }
-/* 月之暗面有新文章、还没翻过去看时，月亮上亮一颗小星星 */
-.theme-toggle.has-new::after {
-  content: "✦"; position: absolute; top: -7px; right: -6px; font-size: 13px; line-height: 1;
-  color: #b48cf0; text-shadow: 0 0 6px rgba(180, 140, 240, .7);
-  animation: twinkle 2.4s ease-in-out infinite;
-}
 /* 往下拉的时候，另一面的颜色从月亮那里一圈圈漏出来（--peek 从 0 到 1） */
 .pull-veil {
   position: fixed; inset: 0; z-index: 8; pointer-events: none;
@@ -380,7 +375,7 @@ a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
 .side-footer .more { margin: 0; }
 .side-empty { color: var(--muted); padding: 8px 0 12px; margin: 0; }
 /* 博客页暗面面板上的「被你发现啦」：Livia 给的小人（assets/images/found-you.webp），从卡片底边探出头。
-   每次打开网站第一次看到暗面时（.is-found），卡片被拍扁再弹起来，小人吓一跳蹦出来，头顶冒「!」，周围炸开小星星。点卡片可以再看一次。 */
+   每次来到博客页的暗面时（.is-found），卡片被拍扁再弹起来，小人吓一跳蹦出来，头顶冒「!」，周围炸开小星星。点卡片可以再看一次。 */
 .found-you {
   position: relative; margin: 4px 0 22px; padding: 22px 22px 20px 116px;
   border-radius: 20px; transform: rotate(-1.2deg); cursor: pointer;
@@ -712,6 +707,9 @@ a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
 /* ========== 16. 其他 ========== */
 .empty { text-align: center; padding: 48px 20px; margin-top: 24px; }
 .empty .hero-avatar { margin: 0 auto 12px; }
+.lost-claude { display: block; width: 150px; height: 150px; margin: 0 auto 8px; animation: lost-look 3.4s ease-in-out infinite; transform-origin: 50% 100%; }
+@keyframes lost-look { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-6deg); } 60% { transform: rotate(5deg); } }
+@media (prefers-reduced-motion: reduce) { .lost-claude { animation: none; } }
 .site-footer { flex-shrink: 0; text-align: center; color: var(--muted); font-size: .9rem; padding: 24px 16px 40px; }
 
 /* ========== 17. 手机 ========== */
