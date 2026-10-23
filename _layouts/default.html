@@ -22,6 +22,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/dark-side/dark-side.css' | relative_url }}">
+  {%- comment -%} 暗面文章自己的样式：assets/dark-side/posts/<ref>.css 或 <series>.css，有才加载 {%- endcomment -%}
+  {%- if page.side == "dark" -%}
+    {%- for key in (1..2) -%}
+      {%- if key == 1 -%}{%- assign css_name = page.series -%}{%- else -%}{%- assign css_name = page.ref -%}{%- endif -%}
+      {%- if css_name -%}
+        {%- assign css_path = "/assets/dark-side/posts/" | append: css_name | append: ".css" -%}
+        {%- assign css_file = site.static_files | where: "path", css_path | first -%}
+        {%- if css_file %}
+  <link rel="stylesheet" href="{{ css_path | relative_url }}">
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor %}
+  {%- endif %}
   <script>
     // 尽早读取上次选择的语言，避免页面闪一下
     try {

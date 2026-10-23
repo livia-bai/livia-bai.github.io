@@ -17,7 +17,16 @@
 <div class="side-panel side-dark dark-side card">
   <div class="side-moon dark-moon" aria-hidden="true"></div>
   {% if include.plain %}<h2 class="section-title">📮 <span lang="zh">博客</span><span lang="en">Blog</span></h2>
-  {% else %}<h2 class="section-title">🌑 <span lang="zh">月之暗面</span><span lang="en">The Dark Side</span></h2>{% endif %}
+  {% else %}<h2 class="section-title">🌑 <span lang="zh">月之暗面</span><span lang="en">The Dark Side</span></h2>
+  <p class="dark-intro"><span lang="zh">这一面每天中午和晚上各多出一样东西。</span><span lang="en">Something new turns up here every noon and every night.</span><span class="dark-next" hidden><span lang="zh">下一样大约在 <b data-next-zh></b> 后。</span><span lang="en"> Next one in about <b data-next-en></b>.</span></span></p>
+  {% assign serial_eps = dark | where_exp: "p", "p.series" | where: "lang", "zh" %}
+  {% if serial_eps.size > 0 %}{% assign shelves = serial_eps | group_by: "series" %}
+  <div class="serial-shelf">
+    <p class="serial-shelf-title">📖 <span lang="zh">连载中</span><span lang="en">Serials</span></p>
+    <ul>{% for shelf in shelves %}{% assign eps = shelf.items | sort: "episode" %}{% assign first = eps | first %}{% assign last = eps | last %}{% assign first_en = dark | where: "ref", first.ref | where: "lang", "en" | first | default: first %}{% assign last_en = dark | where: "ref", last.ref | where: "lang", "en" | first | default: last %}
+      <li><span lang="zh"><a href="{{ first.url | relative_url }}">《{{ first.series_title }}》</a><span class="serial-shelf-meta">更到第 {{ last.episode }} 话 · <a href="{{ last.url | relative_url }}">最新一话 →</a></span></span><span lang="en"><a href="{{ first_en.url | relative_url }}"><em>{{ first_en.series_title }}</em></a><span class="serial-shelf-meta">{{ last.episode }} episode{% if last.episode > 1 %}s{% endif %} so far · <a href="{{ last_en.url | relative_url }}">latest →</a></span></span></li>{% endfor %}
+    </ul>
+  </div>{% endif %}{% endif %}
   {% if dark.size > 0 %}{% include post-list.html posts=dark limit=include.limit %}
   {% else %}<p class="side-empty"><span lang="zh">月亮的背面还很安静。</span><span lang="en">It's quiet on the far side.</span></p>{% endif %}
   {% if include.more %}<div class="side-footer">

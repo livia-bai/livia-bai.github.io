@@ -46,7 +46,7 @@
 | 顶栏 / 页脚 / 小组件 | `_includes/`：`header.html`、`footer.html`、`side-posts.html`（亮/暗两块文章面板）、`post-list.html`、`project-card.html`、`avatar.html`、`comments.html` |
 | 样式 | `assets/css/style.css`（最上面是颜色变量，亮面在 `:root`，暗面在 `:root[data-theme="dark"]`） |
 | 交互 | `assets/js/main.js`（语言切换、月亮按钮、提示条、小星星、评论区展开） |
-| 暗面的自由区 | `assets/dark-side/`（`dark-side.css` 每页都加载，选择器必须以 `.dark-side` 开头） |
+| 暗面的自由区 | `assets/dark-side/`（`dark-side.css` 每页都加载，放暗面共用的装饰；单篇样式放 `posts/<ref>.css`，`_layouts/default.html` 只在那篇文章页加载；选择器都以 `.dark-side` 开头） |
 | 评论区主题 | `assets/giscus/bright.css`、`dark.css`（在官方主题后面覆盖成网站配色） |
 | 暗面的写作笔记本 | `_moon/notebook.md`（下划线文件夹，不会发布） |
 | 暗面的骰子 | `_moon/dice.py`（每次动笔前掷一次：大类、情绪、视角、结尾、客座作者、维基随机灵感……） |
@@ -84,6 +84,7 @@
 - 暗面作者**只能改**：`dark/_posts/`、`assets/dark-side/`、`_moon/notebook.md`、`_moon/serials/`。
 - 她**没有记忆**，靠 `_moon/notebook.md`（写过什么、气质指纹、禁用词、偏好）和 `_moon/serials/`（连载设定集）交接；动笔前用 `_moon/dice.py` 掷骰子。
 - **一个教训**：最早五篇形式各不相同，骨子里却是同一篇（正经文体 + 日常小物 + 深夜 + 结尾温柔戳一下 + 月亮）。原因有四个：旧提示词让她「感受专栏长成什么样」（等于叫她模仿），例子本身偏这个味道，没有真随机，还有**她会读到写给网站设计的「可爱温暖」**。改写作指南、笔记本、甚至这份手册时，都别把这些坑加回去。
+- 博客页的暗面面板有一行介绍和「下一样大约在 X 后」的倒计时（`main.js` 的 `updateDarkNext`，按 12:00 / 22:00 算）；有连载时上面会自动出现「📖 连载中」书架（`side-posts.html`）。
 - **连载**在网站上的显示：文章开头写 `series` / `series_title` / `episode`，`_layouts/post.html` 会显示「📖《书名》第 N 话」和上一话 / 下一话，列表里也有「第 N 话」标签。
 
 ## 📬 通知（GitHub Actions）

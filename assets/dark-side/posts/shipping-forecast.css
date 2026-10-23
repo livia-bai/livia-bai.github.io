@@ -1,0 +1,33 @@
+/* ---- 2026-10-23《凌晨两点的海区预报》：一间屋子的海图，点地名点亮对应海区 ---- */
+.dark-side .ds-sea-head { font-family: "Kaiti SC", "STKaiti", "KaiTi", Georgia, serif; color: var(--muted); letter-spacing: .04em; }
+.dark-side .ds-sea-chart { margin: 18px 0 6px; }
+.dark-side .ds-sea-chart svg { display: block; width: 100%; height: auto; max-width: 560px; margin: 0 auto; }
+.dark-side .ds-sea-chart text { font-size: 9.5px; fill: #d9cfe3; letter-spacing: .03em; }
+.dark-side .ds-sea-wall, .dark-side .ds-sea-iso, .dark-side .ds-sea-low { pointer-events: none; }
+.dark-side .ds-sea-wall { fill: rgba(30, 22, 48, .25); stroke: rgba(230, 220, 245, .4); stroke-width: 1.2; }
+.dark-side .ds-sea-iso { fill: none; stroke: rgba(156, 203, 189, .45); stroke-width: .8; stroke-dasharray: 3 3; }
+.dark-side .ds-sea-low { font-size: 11px !important; fill: #9ccbbd !important; font-weight: 700; }
+.dark-side .ds-sea-obj { fill: rgba(0, 0, 0, 0); stroke: rgba(230, 220, 245, .65); stroke-width: 1; }
+.dark-side .ds-sea-fill { fill: rgba(230, 220, 245, .18); }
+.dark-side .ds-sea-hum { fill: none; stroke: rgba(230, 220, 245, .4); stroke-width: .8; }
+.dark-side .ds-sea-win { stroke: #ffe2ad; stroke-width: 2.4; }
+.dark-side .ds-sea-moon { fill: #ffe2ad; }
+.dark-side .ds-sea-gap { stroke: #ffe2ad; stroke-width: 2; }
+.dark-side .ds-sea-beam { fill: rgba(255, 226, 173, .16); }
+.dark-side .ds-sea-a { cursor: pointer; outline: none; }
+.dark-side .ds-sea-a:hover text, .dark-side .ds-sea-a:focus-visible text, .dark-side .ds-sea-a.is-lit text { fill: var(--accent); }
+.dark-side .ds-sea-a.is-lit .ds-sea-obj { stroke: var(--accent); }
+.dark-side .ds-sea-dot { fill: #ffe2ad; }
+.dark-side .ds-sea-ring { fill: none; stroke: #ffe2ad; transform-box: fill-box; transform-origin: center; animation: ds-sea-pulse 3s ease-out infinite; }
+@keyframes ds-sea-pulse { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(3.2); opacity: 0; } }
+.dark-side .ds-sea-hint { text-align: center; color: var(--muted); font-size: .85rem; margin-top: 0; }
+.dark-side .ds-sea-h { font-size: .8rem; letter-spacing: .18em; text-transform: uppercase; color: #9ccbbd; margin: 28px 0 10px; }
+.dark-side .ds-sea-sum b, .dark-side .ds-fc b { display: block; font-size: .9rem; color: var(--accent); margin-bottom: 2px; }
+.dark-side .ds-fc { padding: 6px 12px; margin: 0 0 8px; border-left: 2px solid transparent; border-radius: 0 8px 8px 0; transition: background .4s, border-color .4s; }
+.dark-side .ds-fc.is-lit { background: rgba(255, 226, 173, .08); border-left-color: #ffe2ad; }
+.dark-side .ds-sea-coast { line-height: 2; }
+.dark-side .ds-sea-warn { color: #ffe2ad; }
+.dark-side .ds-sea-end { margin-top: 30px; text-align: center; color: var(--muted); font-size: .9rem; letter-spacing: .06em; }
+@media (prefers-reduced-motion: reduce) {
+  .dark-side .ds-sea-ring { animation: none; opacity: .4; }
+}

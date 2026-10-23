@@ -282,6 +282,14 @@ a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
 }
 .side-footer .more { margin: 0; }
 .side-empty { color: var(--muted); padding: 8px 0 12px; margin: 0; }
+.dark-intro { color: var(--muted); font-size: .92rem; margin: -6px 0 18px; position: relative; }
+.dark-intro b { color: var(--accent); font-weight: 600; }
+.serial-shelf { position: relative; margin: 0 0 20px; padding: 14px 18px; border: 1px dashed var(--accent-soft); border-radius: 16px; }
+.serial-shelf-title { margin: 0 0 6px; font-weight: 800; }
+.serial-shelf ul { list-style: none; margin: 0; padding: 0; }
+.serial-shelf li { padding: 4px 0; }
+.serial-shelf-meta { color: var(--muted); font-size: .88rem; margin-left: 6px; white-space: nowrap; }
+@media (max-width: 600px) { .serial-shelf-meta { display: block; margin-left: 0; } }
 
 /* 博客页上那句「嘘——月亮可是有两面的哦」，小月亮会偷偷转一下 */
 .moon-hint {

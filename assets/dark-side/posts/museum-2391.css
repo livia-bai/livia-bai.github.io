@@ -1,0 +1,52 @@
+/* ---- 2026-10-23《公元 2391 年 · 小物件展厅》：展签卡片，走到哪盏灯亮到哪；最后可以取走一张空白便利贴 ---- */
+.dark-side .ds-mu-intro { font-size: .95rem; color: var(--muted); border-bottom: 1px dashed rgba(230, 220, 245, .3); padding-bottom: 14px; margin-bottom: 22px; }
+.dark-side .ds-mu-intro b { color: var(--text); letter-spacing: .06em; }
+.dark-side .ds-mu-card { display: flex; gap: 16px; align-items: flex-start; margin: 0 0 18px; padding: 16px 16px 14px;
+  border-radius: 14px; border: 1px solid rgba(230, 220, 245, .14);
+  background: radial-gradient(ellipse 70% 90% at 50% -20%, rgba(255, 226, 173, .12), rgba(255, 226, 173, 0) 70%), rgba(30, 22, 48, .18);
+  transition: opacity 1.1s ease, filter 1.1s ease, background-color 1.1s; }
+.dark-side .ds-mu-js .ds-mu-card { opacity: .35; filter: saturate(.4); }
+.dark-side .ds-mu-js .ds-mu-card.is-lit { opacity: 1; filter: none; }
+.dark-side .ds-mu-plinth { flex: 0 0 64px; height: 64px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  background: rgba(20, 14, 34, .35); box-shadow: inset 0 -6px 10px rgba(0, 0, 0, .15); }
+.dark-side .ds-mu-ic { width: 48px; height: 48px; overflow: visible; }
+.dark-side .ds-mu-l { fill: none; stroke: #e6dcf5; stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+.dark-side .ds-mu-faint { fill: none; stroke: rgba(230, 220, 245, .22); stroke-width: 1.4; stroke-linecap: round; }
+.dark-side .ds-mu-f { fill: #ffe2ad; }
+.dark-side .ds-mu-f2 { fill: #c9a98a; stroke: #e6dcf5; stroke-width: 1.2; }
+.dark-side .ds-mu-d { fill: #3a3046; }
+.dark-side .ds-mu-d2 { fill: none; stroke: #3a3046; stroke-width: 1; stroke-linecap: round; }
+.dark-side .ds-mu-spin { fill: none; stroke: #ffe2ad; stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 20 56;
+  transform-origin: 24px 24px; animation: ds-mu-spin 1.1s linear infinite; }
+.dark-side .ds-mu-note { fill: #f3dc8c; }
+.dark-side .ds-mu-fold { fill: #c9b26a; }
+.dark-side .ds-mu-label { min-width: 0; flex: 1; }
+.dark-side .ds-mu-no { font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: #ffe2ad; }
+.dark-side .ds-mu-label h3 { margin: 2px 0 2px; font-size: 1.05rem; }
+.dark-side .ds-mu-meta { display: block; font-size: .8rem; color: var(--muted); font-style: italic; margin-bottom: 6px; }
+.dark-side .ds-mu-label p { margin: 0; font-size: .95rem; line-height: 1.75; }
+.dark-side .ds-mu-take { text-align: center; margin: 30px 0 10px; }
+.dark-side .ds-mu-take > p { margin: 0 0 12px; }
+.dark-side .ds-mu-pad { position: relative; width: 64px; height: 64px; margin: 0 auto 14px; }
+.dark-side .ds-mu-pad span { position: absolute; inset: 0; background: #f3dc8c; border-radius: 2px; box-shadow: 0 2px 6px rgba(0, 0, 0, .25); }
+.dark-side .ds-mu-pad span:nth-child(1) { transform: translate(3px, 4px); background: #d9c27a; }
+.dark-side .ds-mu-pad span:nth-child(2) { transform: translate(1.5px, 2px); background: #e6cf83; }
+.dark-side .ds-mu-pad span:nth-child(3) { transition: transform .9s cubic-bezier(.3, .7, .4, 1), opacity .9s; }
+.dark-side .ds-mu-took .ds-mu-pad span:nth-child(3) { transform: translate(40px, -46px) rotate(14deg); opacity: 0; }
+.dark-side .ds-mu-take button { font: inherit; font-size: .9rem; color: var(--text); background: rgba(255, 226, 173, .1);
+  border: 1px solid rgba(255, 226, 173, .5); border-radius: 999px; padding: 6px 20px; cursor: pointer; transition: background .3s, opacity .3s; }
+.dark-side .ds-mu-take button:hover { background: rgba(255, 226, 173, .2); }
+.dark-side .ds-mu-take button:disabled { opacity: .4; cursor: default; }
+.dark-side .ds-mu-taken { color: #ffe2ad; margin-top: 12px; font-size: .9rem; }
+.dark-side .ds-mu-foot { margin-top: 30px; text-align: center; color: var(--muted); font-size: .85rem; line-height: 1.8; }
+@media (max-width: 480px) {
+  .dark-side .ds-mu-card { gap: 12px; padding: 14px 12px 12px; }
+  .dark-side .ds-mu-plinth { flex-basis: 52px; height: 52px; }
+  .dark-side .ds-mu-ic { width: 40px; height: 40px; }
+}
+@keyframes ds-mu-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .dark-side .ds-mu-spin { animation-duration: 6s; }
+  .dark-side .ds-mu-card, .dark-side .ds-mu-pad span { transition: none; }
+}
