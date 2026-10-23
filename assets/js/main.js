@@ -86,7 +86,21 @@
     root.setAttribute('data-theme', next);
     try { localStorage.setItem('theme', next); } catch (e) {}
     updateNewMark();
+    if (next === 'dark') playFound();
   }
+
+  // 「被你发现啦」：这次打开网站后第一次看到暗面时播一次动画；点卡片可以再看一次
+  var found = document.querySelector('.found-you');
+  function playFound(force) {
+    if (!found || root.getAttribute('data-theme') !== 'dark') return;
+    if (!force) {
+      try { if (sessionStorage.getItem('foundPlayed')) return; sessionStorage.setItem('foundPlayed', '1'); } catch (e) {}
+    }
+    found.classList.remove('is-found');
+    void found.offsetWidth;
+    found.classList.add('is-found');
+  }
+  if (found) found.addEventListener('click', function () { playFound(true); });
 
   function flipTheme() {
     var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
@@ -107,6 +121,33 @@
     if (pending) { sessionStorage.removeItem('pendingToast'); setTimeout(function () { announce(pending); }, 150); }
   } catch (e) {}
   updateNewMark();
+  playFound();
+
+  // ========== 暗面的脚印：亮面上偶尔钻出来的紫色星星 ==========
+  var fp = document.querySelector('.footprint');
+  if (fp && root.getAttribute('data-theme') !== 'dark') {
+    var seenDark = 0;
+    try { seenDark = Number(localStorage.getItem('darkSeen')) || 0; } catch (e) {}
+    // 暗面有你还没看过的新文章时更容易出现
+    var chance = latestDark > seenDark ? 0.5 : 0.2;
+    if (/[?&]footprint\b/.test(location.search)) chance = 1;
+    if (Math.random() < chance) {
+      var spots = [['right', 7, 34], ['left', 7, 58], ['right', 6, 72], ['left', 8, 30]];
+      var spot = spots[Math.floor(Math.random() * spots.length)];
+      fp.classList.add('on-' + spot[0]);
+      fp.style.left = (spot[0] === 'left' ? spot[1] : 100 - spot[1]) + '%';
+      fp.style.top = spot[2] + '%';
+      setTimeout(function () { fp.hidden = false; }, 1200);
+      fp.addEventListener('click', function () {
+        if (fp.classList.contains('is-talking')) return;
+        var zh = getLang() === 'zh';
+        fp.querySelector('.fp-say').textContent = zh ? fp.dataset.sayZh : fp.dataset.sayEn;
+        fp.classList.add('is-talking');
+        setTimeout(function () { fp.classList.add('is-leaving'); }, 1700);
+        setTimeout(function () { window.location.href = zh ? fp.dataset.hrefZh : fp.dataset.hrefEn; }, 2500);
+      });
+    }
+  }
 
   // ========== 评论区（giscus）==========
   var mount = document.querySelector('.giscus-mount');

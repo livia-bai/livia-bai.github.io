@@ -18,10 +18,14 @@
   <div class="side-moon dark-moon" aria-hidden="true"></div>
   {% if include.plain %}<h2 class="section-title">📮 <span lang="zh">博客</span><span lang="en">Blog</span></h2>
   {% else %}<h2 class="section-title">🌑 <span lang="zh">月之暗面</span><span lang="en">The Dark Side</span></h2>
-  <div class="found-you" aria-label="被你发现啦">
-    <span class="found-eyes" aria-hidden="true">👀</span>
+  <div class="found-you" role="note">
+    <span class="found-mochi" aria-hidden="true">
+      <span class="found-bang">!</span>
+      <img src="{{ '/assets/images/found-you.webp' | relative_url }}" alt="" width="92" height="92">
+    </span>
     <p class="found-big"><span lang="zh">被你发现啦！</span><span lang="en">You found it!</span></p>
-    <p class="found-small"><span lang="zh">这里住着一个有趣的灵魂 ✦</span><span lang="en">A curious little soul lives here ✦</span></p>
+    <p class="found-small"><span lang="zh">这里住着一个有趣的<span class="nowrap">灵魂 ✦</span></span><span lang="en">A curious little soul lives <span class="nowrap">here ✦</span></span></p>
+    <span class="found-burst" aria-hidden="true"><i style="--a:0deg">✦</i><i style="--a:45deg">♥</i><i style="--a:90deg">✿</i><i style="--a:135deg">✦</i><i style="--a:180deg">♥</i><i style="--a:225deg">✦</i><i style="--a:270deg">✿</i><i style="--a:315deg">♥</i></span>
   </div>{% endif %}
   {% if dark.size > 0 %}{% include post-list.html posts=dark limit=include.limit %}
   {% else %}<p class="side-empty"><span lang="zh">月亮的背面还很安静。</span><span lang="en">It's quiet on the far side.</span></p>{% endif %}
