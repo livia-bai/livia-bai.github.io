@@ -38,8 +38,13 @@
       var next = getLang() === 'zh' ? 'en' : 'zh';
       // 在文章页切换语言时，如果有翻译版本就直接跳过去
       var link = document.querySelector('.translation-link[data-target-lang="' + next + '"]');
+      if (link) {
+        // 直接去另一种语言的那一版，不在这一页先换一遍字（会闪一下）
+        try { localStorage.setItem('lang', next); } catch (e) {}
+        window.location.href = link.href;
+        return;
+      }
       setLang(next);
-      if (link) leavePage(link.href);
     });
   }
 
@@ -68,18 +73,11 @@
     }
   }
 
-  // 记下看到过的最新一篇暗面文章（darkSeen）：「暗面的脚印」靠它判断是不是第一次来、有没有没看过的新文章
   var themeToggle = document.querySelector('.theme-toggle');
-  var latestDark = themeToggle ? Number(themeToggle.getAttribute('data-latest-dark')) || 0 : 0;
-  function rememberDarkSeen() {
-    if (!latestDark || root.getAttribute('data-theme') !== 'dark') return;
-    try { localStorage.setItem('darkSeen', String(latestDark)); } catch (e) {}
-  }
 
   function setTheme(next) {
     root.setAttribute('data-theme', next);
     try { localStorage.setItem('theme', next); } catch (e) {}
-    rememberDarkSeen();
     if (next === 'dark') playFound();
   }
 
@@ -190,10 +188,6 @@
     };
     setHint('idle');
     window.refreshLampHint = function () { setHint(lamp.classList.contains('is-ready') ? 'ready' : 'idle'); };
-    // 从没去过暗面的人：过一会儿主动提示「拉一下？」（到时候已经翻过去了就不提示）
-    setTimeout(function () {
-      try { if (!drag && !localStorage.getItem('darkSeen')) flash('idle', 4000); } catch (e) {}
-    }, 2500);
 
     swing.addEventListener('pointerdown', function (e) {
       if (e.button > 0) return;
@@ -251,52 +245,7 @@
     var pending = sessionStorage.getItem('pendingToast');
     if (pending) { sessionStorage.removeItem('pendingToast'); setTimeout(function () { announce(pending); }, 150); }
   } catch (e) {}
-  rememberDarkSeen();
   playFound();
-
-  // ========== 暗面的脚印：亮面上偶尔钻出来的紫色星星 ==========
-  // 每次浏览（同一个浏览器标签页会话）最多出现一次；从没去过暗面的人一定会看到。
-  // 点它：先回到博客页（亮面），再在博客页上慢慢翻到暗面（会播「被你发现啦」）。
-  var fp = document.querySelector('.footprint');
-  function session(key, val) {
-    try { if (val === undefined) return sessionStorage.getItem(key); sessionStorage.setItem(key, val); } catch (e) {}
-    return null;
-  }
-  if (fp && root.getAttribute('data-theme') !== 'dark' && !session('fpShown') && !session('starArrive')) {
-    var seenDark = 0;
-    try { seenDark = Number(localStorage.getItem('darkSeen')) || 0; } catch (e) {}
-    var chance = !seenDark ? 1 : latestDark > seenDark ? 0.5 : 0.3;
-    if (/[?&]footprint\b/.test(location.search)) chance = 1;
-    if (Math.random() < chance) {
-      session('fpShown', '1');
-      var spots = [['right', 7, 34], ['left', 7, 58], ['right', 6, 72], ['left', 8, 30]];
-      var spot = spots[Math.floor(Math.random() * spots.length)];
-      fp.classList.add('on-' + spot[0]);
-      fp.style.left = (spot[0] === 'left' ? spot[1] : 100 - spot[1]) + '%';
-      fp.style.top = spot[2] + '%';
-      setTimeout(function () { fp.hidden = false; }, 1200);
-      fp.addEventListener('click', function () {
-        if (fp.classList.contains('is-talking')) return;
-        fp.querySelector('.fp-say').textContent = getLang() === 'zh' ? fp.dataset.sayZh : fp.dataset.sayEn;
-        fp.classList.add('is-talking');
-        setTimeout(function () { fp.classList.add('is-leaving'); }, 1700);
-        setTimeout(function () {
-          if (found) { fp.hidden = true; starFlip(); return; }  // 本来就在博客页：原地翻面
-          session('starArrive', '1');
-          leavePage(fp.dataset.hrefBlog);
-        }, 2150);
-      });
-    }
-  }
-  // 从星星那里过来的：先在亮面停一下，再慢慢翻到暗面
-  function starFlip() {
-    setTheme('dark');
-    announce('dark');
-  }
-  if (session('starArrive')) {
-    try { sessionStorage.removeItem('starArrive'); } catch (e) {}
-    if (found) setTimeout(starFlip, 700);
-  }
 
   // ========== 评论区（giscus）==========
   var mount = document.querySelector('.giscus-mount');

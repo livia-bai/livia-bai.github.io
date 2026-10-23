@@ -19,11 +19,10 @@
     点一下只会晃一晃提示「往下拉」；按住往下拉，另一面的颜色会从月亮里慢慢漏出来，拉过线再松手才翻面（main.js 的「拉绳月亮灯」）。
     键盘按回车 / 空格直接翻面。
   {% endcomment %}
-  {% assign latest_dark = site.posts | where: "side", "dark" | first %}
   <div class="moon-lamp">
     <div class="lamp-swing">
       <span class="lamp-cord" aria-hidden="true"></span>
-      <button class="theme-toggle" type="button" data-latest-dark="{% if latest_dark %}{{ latest_dark.date | date: '%s' }}{% endif %}" aria-label="切换月之暗面 / 月之亮面（往下拉）" title="月之暗面 / 月之亮面">
+      <button class="theme-toggle" type="button" aria-label="切换月之暗面 / 月之亮面（往下拉）" title="月之暗面 / 月之亮面">
         <svg class="moon-crescent" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z" fill="currentColor"/>
           <path d="M18 3l.6 1.4L20 5l-1.4.6L18 7l-.6-1.4L16 5l1.4-.6z" fill="currentColor" opacity=".7"/>
