@@ -400,8 +400,8 @@ a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
   40% { transform: rotate(6deg) translateX(3px); } 60% { transform: rotate(-5deg) translateX(-2px); } 80% { transform: rotate(4deg) translateX(2px); }
 }
 .found-talk {
-  position: absolute; left: 84px; bottom: 82px; z-index: 2; max-width: 220px; padding: 6px 12px; border-radius: 14px;
-  background: #ffe2ad; color: #3b2f63; font-size: .85rem; font-weight: 800; line-height: 1.35; white-space: nowrap;
+  position: absolute; left: 84px; bottom: 82px; z-index: 2; width: max-content; max-width: 260px; padding: 6px 12px; border-radius: 14px;
+  background: #ffe2ad; color: #3b2f63; font-size: .85rem; font-weight: 800; line-height: 1.35;
   box-shadow: 0 4px 12px rgba(20, 10, 40, .3); pointer-events: none;
   opacity: 0; transform: translateY(6px) scale(.7) rotate(1.2deg); transform-origin: 0 100%;
   transition: opacity .2s, transform .3s cubic-bezier(.3, 1.6, .5, 1);
@@ -465,7 +465,7 @@ a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
 @media (max-width: 600px) {
   .found-you { padding: 14px 16px 14px 86px; }
   .found-mochi { left: 6px; width: 72px; height: 72px; }
-  .found-talk { left: 62px; bottom: 64px; font-size: .8rem; }
+  .found-talk { left: 62px; bottom: 64px; font-size: .8rem; max-width: 220px; }
   .found-big { font-size: 1.3rem; }
 }
 @media (prefers-reduced-motion: reduce) {

@@ -95,15 +95,16 @@
   var foundTimer;
   if (found) found.addEventListener('click', playFound);
 
-  // 小人：鼠标靠近往那边偷看；戳一下缩一下、说一句；连着戳会慌
+  // 小人：鼠标靠近往那边偷看；戳一下缩一下、说一句（头两句告诉访客这一面是她写的）；连着戳会慌
   var mochi = found && found.querySelector('.found-mochi');
   if (mochi) {
     var talk = found.querySelector('.found-talk');
     var img = mochi.querySelector('img');
     var lines = {
-      zh: ['唔？', '嚼嚼……', '我、我没有在偷吃！', '这条鲸鱼是自己游进来的！', '只尝一口，就一口！', '再戳就不分你吃了哦！'],
-      en: ['Hm?', '*munch munch*', 'I-I wasn\'t snacking!', 'This whale swam in by itself!', 'Just one bite, I promise!', 'Poke again and you get none!']
+      zh: ['唔？这一面的文章，全都是我写的哦！', '每天中午和晚上，各写一篇～', '嚼嚼……', '我、我没有在偷吃！', '这条鲸鱼是自己游进来的！', '只尝一口，就一口！', '再戳就不分你吃了哦！'],
+      en: ['Hm? Everything on this side? I wrote it all!', 'A new one every noon and every night~', '*munch munch*', 'I-I wasn\'t snacking!', 'This whale swam in by itself!', 'Just one bite, I promise!', 'Poke again and you get none!']
     };
+    var FLUSTER_FROM = 4;  // 从「我、我没有在偷吃！」开始慌
     var streak = 0, streakTimer, talkTimer;
     mochi.addEventListener('click', function (e) {
       e.stopPropagation();  // 戳小人不重播整张卡片
@@ -115,7 +116,7 @@
       talk.classList.add('show');
       clearTimeout(talkTimer);
       talkTimer = setTimeout(function () { talk.classList.remove('show'); }, 1800);
-      var cls = streak >= 3 ? 'is-flustered' : 'is-poked';
+      var cls = streak >= FLUSTER_FROM ? 'is-flustered' : 'is-poked';
       mochi.classList.remove('is-poked', 'is-flustered');
       void mochi.offsetWidth;
       mochi.classList.add(cls);
