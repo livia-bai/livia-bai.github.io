@@ -48,7 +48,7 @@
       document.documentElement.setAttribute('data-theme', t);
       localStorage.setItem('theme', t);
       // 从别的页面翻面跳过来的：内容淡入（见 style.css 的 .is-arriving）
-      if (sessionStorage.getItem('pendingToast')) document.documentElement.classList.add('is-arriving');
+      if (sessionStorage.getItem('pendingToast') || sessionStorage.getItem('starArrive')) document.documentElement.classList.add('is-arriving');
     } catch (e) {}
   </script>
 </head>
@@ -73,12 +73,11 @@
   {% include footer.html %}
   <div class="toast" role="status" aria-live="polite"></div>
   {%- unless page.side == "dark" -%}
-  {%- assign fp_zh = site.posts | where: "side", "dark" | where: "lang", "zh" | first -%}
-  {%- assign fp_en = site.posts | where: "side", "dark" | where: "lang", "en" | first | default: fp_zh -%}
-  {%- if fp_zh %}
+  {%- assign fp_any = site.posts | where: "side", "dark" | first -%}
+  {%- if fp_any %}
   {%- comment -%} 暗面的脚印：亮面上偶尔出现的紫色小星星（main.js 决定出不出现、点了去哪） {%- endcomment %}
   <button class="footprint" type="button" hidden aria-label="一颗从月亮背面溜过来的星星 / A star that slipped over from the far side"
-    data-href-zh="{{ fp_zh.url | relative_url }}" data-href-en="{{ fp_en.url | relative_url }}" data-href-blog="{{ '/blog/' | relative_url }}"
+    data-href-blog="{{ '/blog/' | relative_url }}"
     data-say-zh="嘘——我是从月亮背面溜过来的，要不要跟我过去看看？"
     data-say-en="Shh — I slipped over from the far side of the moon. Want to come and see?">
     <span class="fp-haze"></span>

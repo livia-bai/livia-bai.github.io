@@ -82,20 +82,21 @@
     themeToggle.classList.toggle('has-new', fresh && latestDark > seen);
   }
 
-  function setTheme(next) {
+  function setTheme(next, forceFound) {
     root.setAttribute('data-theme', next);
     try { localStorage.setItem('theme', next); } catch (e) {}
     updateNewMark();
-    if (next === 'dark') playFound();
+    if (next === 'dark') playFound(forceFound);
   }
 
-  // 「被你发现啦」：这次打开网站后第一次看到暗面时播一次动画；点卡片可以再看一次
+  // 「被你发现啦」：每次浏览只自动播一次（第一次看到暗面时）；从星星翻过来时一定播；点卡片可以再看一次
   var found = document.querySelector('.found-you');
   function playFound(force) {
     if (!found || root.getAttribute('data-theme') !== 'dark') return;
-    if (!force) {
-      try { if (sessionStorage.getItem('foundPlayed')) return; sessionStorage.setItem('foundPlayed', '1'); } catch (e) {}
-    }
+    try {
+      if (!force && sessionStorage.getItem('foundPlayed')) return;
+      sessionStorage.setItem('foundPlayed', '1');
+    } catch (e) {}
     found.classList.remove('is-found');
     void found.offsetWidth;
     found.classList.add('is-found');
@@ -134,14 +135,20 @@
   playFound();
 
   // ========== 暗面的脚印：亮面上偶尔钻出来的紫色星星 ==========
+  // 每次浏览（同一个浏览器标签页会话）最多出现一次；从没去过暗面的人一定会看到。
+  // 点它：先回到博客页（亮面），再在博客页上慢慢翻到暗面，一定会播「被你发现啦」。
   var fp = document.querySelector('.footprint');
-  if (fp && root.getAttribute('data-theme') !== 'dark') {
+  function session(key, val) {
+    try { if (val === undefined) return sessionStorage.getItem(key); sessionStorage.setItem(key, val); } catch (e) {}
+    return null;
+  }
+  if (fp && root.getAttribute('data-theme') !== 'dark' && !session('fpShown') && !session('starArrive')) {
     var seenDark = 0;
     try { seenDark = Number(localStorage.getItem('darkSeen')) || 0; } catch (e) {}
-    // 从没去过暗面、或者暗面有你还没看过的新文章时，更容易出现
-    var chance = !seenDark ? 0.6 : latestDark > seenDark ? 0.5 : 0.3;
+    var chance = !seenDark ? 1 : latestDark > seenDark ? 0.5 : 0.3;
     if (/[?&]footprint\b/.test(location.search)) chance = 1;
     if (Math.random() < chance) {
+      session('fpShown', '1');
       var spots = [['right', 7, 34], ['left', 7, 58], ['right', 6, 72], ['left', 8, 30]];
       var spot = spots[Math.floor(Math.random() * spots.length)];
       fp.classList.add('on-' + spot[0]);
@@ -150,22 +157,25 @@
       setTimeout(function () { fp.hidden = false; }, 1200);
       fp.addEventListener('click', function () {
         if (fp.classList.contains('is-talking')) return;
-        var zh = getLang() === 'zh';
-        fp.querySelector('.fp-say').textContent = zh ? fp.dataset.sayZh : fp.dataset.sayEn;
+        fp.querySelector('.fp-say').textContent = getLang() === 'zh' ? fp.dataset.sayZh : fp.dataset.sayEn;
         fp.classList.add('is-talking');
         setTimeout(function () { fp.classList.add('is-leaving'); }, 1700);
-        // 第一次去暗面的人先带到博客页的暗面（能看到「被你发现啦」），去过的直接看最新一篇
-        var href = zh ? fp.dataset.hrefZh : fp.dataset.hrefEn;
-        var firstTime = !seenDark;
         setTimeout(function () {
-          // 星星钻回裂缝的同时，整页慢慢翻到暗面
-          setTheme('dark');
-          if (firstTime && found) { announce('dark'); fp.hidden = true; return; }  // 本来就在博客页：原地翻面就好
-          if (firstTime) { href = fp.dataset.hrefBlog; try { sessionStorage.setItem('pendingToast', 'dark'); } catch (e) {} }
-          leavePage(href);
+          if (found) { fp.hidden = true; starFlip(); return; }  // 本来就在博客页：原地翻面
+          session('starArrive', '1');
+          leavePage(fp.dataset.hrefBlog);
         }, 2150);
       });
     }
+  }
+  // 从星星那里过来的：先在亮面停一下，再慢慢翻到暗面
+  function starFlip() {
+    setTheme('dark', true);
+    announce('dark');
+  }
+  if (session('starArrive')) {
+    try { sessionStorage.removeItem('starArrive'); } catch (e) {}
+    if (found) setTimeout(starFlip, 700);
   }
 
   // ========== 评论区（giscus）==========
