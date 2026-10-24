@@ -1,5 +1,5 @@
 # 作品列表：照着下面的格式复制一段，改改内容就能加新作品啦
-# emoji 和 color 用来生成封面；如果有截图，填 image: /assets/img/xxx.png
+# emoji 和 color 用来生成封面；如果有截图，填 image: /assets/images/xxx.png
 # featured: true 的作品会显示在首页
 
 - title_zh: "我的个人网站"

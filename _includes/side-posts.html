@@ -1,6 +1,6 @@
 {% comment %}
   博客的两块面板：🌕 月之亮面（Livia 的文章）和 🌑 月之暗面（每天中午和晚上各一篇）。
-  页面只会显示当前主题对应的那一块。参数：limit（可选），more（可选，显示「全部文章」链接），plain（可选，标题只写「博客」，不揭晓是哪一面）
+  页面只会显示当前主题对应的那一块。参数：limit / page（可选，见 post-list.html），more（可选，显示「全部文章」链接），plain（可选，标题只写「博客」，不揭晓是哪一面）
 {% endcomment %}
 {% assign bright = site.posts | where_exp: "p", "p.side != 'dark'" %}
 {% assign dark = site.posts | where: "side", "dark" %}
@@ -8,7 +8,7 @@
   <div class="side-moon bright-moon" aria-hidden="true"></div>
   {% if include.plain %}<h2 class="section-title">📮 <span lang="zh">博客</span><span lang="en">Blog</span></h2>
   {% else %}<h2 class="section-title">🌕 <span lang="zh">月之亮面</span><span lang="en">The Bright Side</span></h2>{% endif %}
-  {% if bright.size > 0 %}{% include post-list.html posts=bright limit=include.limit %}
+  {% if bright.size > 0 %}{% include post-list.html posts=bright limit=include.limit page=include.page %}
   {% else %}<p class="side-empty"><span lang="zh">这里还空空的。</span><span lang="en">Nothing here yet.</span></p>{% endif %}
   {% if include.more %}<div class="side-footer">
     <p class="more"><a href="{{ '/blog/' | relative_url }}"><span lang="zh">全部文章</span><span lang="en">All posts</span> →</a></p>
@@ -28,7 +28,7 @@
     <p class="found-small"><span lang="zh">这里住着一个有趣的<span class="nowrap">灵魂 ✦</span></span><span lang="en">A curious little soul lives <span class="nowrap">here ✦</span></span></p>
     <span class="found-burst" aria-hidden="true"><i style="--a:0deg">✦</i><i style="--a:45deg">♥</i><i style="--a:90deg">✿</i><i style="--a:135deg">✦</i><i style="--a:180deg">♥</i><i style="--a:225deg">✦</i><i style="--a:270deg">✿</i><i style="--a:315deg">♥</i></span>
   </div>{% endif %}
-  {% if dark.size > 0 %}{% include post-list.html posts=dark limit=include.limit %}
+  {% if dark.size > 0 %}{% include post-list.html posts=dark limit=include.limit page=include.page %}
   {% else %}<p class="side-empty"><span lang="zh">月亮的背面还很安静。</span><span lang="en">It's quiet on the far side.</span></p>{% endif %}
   {% if include.more %}<div class="side-footer">
     <p class="more"><a href="{{ '/blog/' | relative_url }}"><span lang="zh">全部文章</span><span lang="en">All posts</span> →</a></p>

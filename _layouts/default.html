@@ -1,11 +1,14 @@
 <!doctype html>
-<html lang="zh-CN" data-lang="zh">
+{%- comment -%} 文章页的界面语言跟着文章走（不记住，回到列表还是访客自己选的语言）；其他页面先按 zh 输出，早期脚本再换 {%- endcomment -%}
+{%- assign page_lang = page.lang | default: "zh" -%}
+<html lang="{% if page_lang == 'en' %}en{% else %}zh-CN{% endif %}" data-lang="{{ page_lang }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {%- assign title_en = page.title -%}
   {%- assign title_zh = page.title_zh | default: page.title -%}
-  <title data-zh="{% if title_zh %}{{ title_zh | escape }} · {% endif %}{{ site.title | escape }}" data-en="{% if title_en %}{{ title_en | escape }} · {% endif %}{{ site.title | escape }}">{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
+  <title data-zh="{% if title_zh %}{{ title_zh | escape }} · {% endif %}{{ site.title | escape }}" data-en="{% if title_en %}{{ title_en | escape }} · {% endif %}{{ site.title | escape }}">{% if page.title %}{{ page.title | escape }} · {% endif %}{{ site.title | escape }}</title>
+  <meta name="theme-color" content="#fbf3ea">
   {% if site.author.avatar contains '/' %}<link rel="icon" href="{% if site.author.avatar contains '://' %}{{ site.author.avatar }}{% else %}{{ site.author.avatar | relative_url }}{% endif %}">
   {% else %}<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>{{ site.author.avatar }}</text></svg>">{% endif %}
   {%- assign desc = page.excerpt | default: site.description | strip_html | strip_newlines | truncate: 150 -%}
@@ -15,6 +18,17 @@
   <meta property="og:title" content="{{ page.title | default: site.title | escape }}">
   <meta property="og:description" content="{{ desc | escape }}">
   <meta property="og:url" content="{{ page.url | absolute_url }}">
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  {%- comment -%} 同一篇的另一种语言版本：给搜索引擎看，语言按钮也靠它直接跳过去（main.js） {%- endcomment -%}
+  {%- if page.ref and page.lang -%}
+    {%- assign translation = site.posts | where: "ref", page.ref | where_exp: "p", "p.lang != page.lang" | first -%}
+    {%- if translation %}
+  <link rel="alternate" hreflang="{% if page.lang == 'en' %}en{% else %}zh-CN{% endif %}" href="{{ page.url | absolute_url }}">
+  <link rel="alternate" hreflang="{% if translation.lang == 'en' %}en{% else %}zh-CN{% endif %}" href="{{ translation.url | absolute_url }}" data-lang="{{ translation.lang }}">
+    {%- endif -%}
+  {%- endif %}
+  <link rel="alternate" type="application/atom+xml" title="{{ site.title | escape }}（中文）" href="{{ '/feed.xml' | relative_url }}">
+  <link rel="alternate" type="application/atom+xml" title="{{ site.title | escape }} (English)" href="{{ '/feed-en.xml' | relative_url }}">
   {% if site.author.avatar contains '://' %}<meta property="og:image" content="{{ site.author.avatar }}">{% endif %}
   <meta name="twitter:card" content="summary">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,16 +50,19 @@
     {%- endfor %}
   {%- endif %}
   <script>
+    {%- unless page.lang %}
     // 尽早读取上次选择的语言，避免页面闪一下
     try {
       var l = localStorage.getItem('lang');
       if (!l) l = (navigator.language || '').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en';
       document.documentElement.setAttribute('data-lang', l);
     } catch (e) {}
+    {%- endunless %}
     try {
       // 默认是月之亮面；打开某一面的文章时，自动翻到那一面
       var t = {% if page.side == 'dark' %}'dark'{% elsif page.side %}'light'{% else %}localStorage.getItem('theme') || 'light'{% endif %};
       document.documentElement.setAttribute('data-theme', t);
+      if (t === 'dark') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#443c4f');
       localStorage.setItem('theme', t);
       // 从上一页「淡出」跳过来的：内容淡入（见 style.css 的 .is-arriving）
       if (sessionStorage.getItem('fadeIn')) { sessionStorage.removeItem('fadeIn'); document.documentElement.classList.add('is-arriving'); }
