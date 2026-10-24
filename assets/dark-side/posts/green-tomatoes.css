@@ -1,0 +1,57 @@
+/* ---- 2026-10-24《青番茄，两百份》：婚宴后勤群的聊天记录；罗一舟的回复总是隔很久才来 ---- */
+.dark-side .ds-gt-chat {
+  margin: 1.4em 0;
+  padding: 14px 12px 18px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(230, 220, 245, .14);
+}
+.dark-side .ds-gt-group {
+  margin: 0 0 14px;
+  text-align: center;
+  font-size: .82em;
+  font-weight: 700;
+  opacity: .6;
+  letter-spacing: .03em;
+}
+.dark-side .ds-gt-msg {
+  margin: 0 0 10px;
+  max-width: 88%;
+  padding: 8px 12px 9px;
+  border-radius: 4px 14px 14px 14px;
+  background: rgba(230, 220, 245, .08);
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+.dark-side .ds-gt-msg p { margin: 2px 0 0; }
+.dark-side .ds-gt-who { font-size: .78em; font-weight: 700; opacity: .75; }
+.dark-side .ds-gt-t { margin-left: .6em; font-size: .72em; opacity: .45; font-variant-numeric: tabular-nums; }
+.dark-side .ds-gt-lin { background: rgba(255, 150, 130, .12); }
+.dark-side .ds-gt-biu { background: rgba(255, 200, 110, .1); }
+.dark-side .ds-gt-kev { background: rgba(140, 180, 255, .1); }
+.dark-side .ds-gt-jay, .dark-side .ds-gt-ran { background: rgba(255, 220, 160, .12); }
+/* 罗一舟：番茄绿，靠右，像躺着一样不急 */
+.dark-side .ds-gt-luo {
+  margin-left: auto;
+  border-radius: 14px 4px 14px 14px;
+  background: rgba(150, 210, 120, .14);
+  border: 1px solid rgba(150, 210, 120, .28);
+}
+.dark-side .ds-gt-slow { margin-top: 26px; position: relative; }
+.dark-side .ds-gt-slow::before {
+  content: "· · ·";
+  position: absolute;
+  top: -21px; right: 8px;
+  font-size: .8em;
+  letter-spacing: .2em;
+  opacity: .35;
+}
+.dark-side .ds-gt-ran p, .dark-side .ds-gt-msg:last-child p { font-weight: 700; }
+@media (prefers-reduced-motion: no-preference) {
+  .dark-side .ds-gt-msg:last-child p { animation: ds-gt-shake 1.4s ease-in-out infinite; display: inline-block; }
+}
+@keyframes ds-gt-shake {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-1deg); }
+  75% { transform: rotate(1deg); }
+}
