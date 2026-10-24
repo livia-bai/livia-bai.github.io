@@ -5,14 +5,18 @@
 
 为什么要掷骰子：同一个作者每次从零开始写，会不知不觉回到自己最舒服的那种声音。
 真随机的抽签能把她推出舒适区。但九条全是死命令的话，写出来会像在填表，
-所以分成两种：「硬规则」必须照做；「建议」可以为了故事违背最多两条（在笔记本里写一句为什么）。
+所以分成两种：「硬规则」最多违背一项；「建议」最多违背两条（违背了什么，在笔记本里写一句为什么）。
 客座作者也不是每次都有：每次都换个口吻，本身就会变成新的套路。
 
 想调整比例或加新选项，直接改下面的表：每一项是 (选项, 中午权重, 晚上权重)。
+长度表多一列：这个长度适合哪几个大类（写大类开头的几个字），免得抽到「连载 + 一百字」这种只能违背的组合。
 """
 import datetime
+import json
 import random
 import sys
+import time
+import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -68,7 +72,12 @@ ENDING = [
     ("温柔地戳一下（之前写得太多了）", 0.2, 0.3),
 ]
 
-LENGTH = [("一百字以内", 1, 1), ("五百字左右", 1.5, 1.5), ("一千五百字左右", 1.5, 1.5), ("三千字以上", 1, 1)]
+LENGTH = [
+    ("一百字以内", 1, 1, "诗 伪文体 自由"),
+    ("五百字左右", 1.5, 1.5, "短篇 剧本 互动 诗 非虚构 伪文体 自由"),
+    ("一千五百字左右", 1.5, 1.5, "连载 短篇 剧本 互动 非虚构 伪文体 自由"),
+    ("三千字以上", 1, 1, "连载 短篇 剧本 非虚构 自由"),
+]
 
 GUEST = [
     "暴躁的米其林主厨", "过分热情的导游", "三岁小孩", "古代史官", "体育解说员", "退休的海盗",
@@ -90,19 +99,46 @@ FALLBACK_SEEDS = [
 ]
 
 
-def pick(table, slot):
+def pick(table, slot, category=None):
     col = 1 if slot == "noon" else 2
-    return rng.choices([row[0] for row in table], weights=[row[col] for row in table])[0]
+    rows = [row for row in table if category is None or len(row) < 4 or any(category.startswith(k) for k in row[3].split())]
+    return rng.choices([row[0] for row in rows], weights=[row[col] for row in rows])[0]
+
+
+HEADERS = {"User-Agent": "LiviaSiteDice/1.1 (https://livia-bai.github.io)"}
+
+
+def fetch(url):
+    """打开网址；维基百科说「太多请求」（429）时，按它说的等一会儿再试一次。"""
+    req = urllib.request.Request(url, headers=HEADERS)
+    try:
+        return urllib.request.urlopen(req, timeout=15)
+    except urllib.error.HTTPError as e:
+        wait = e.headers.get("Retry-After", "")
+        if e.code != 429 or not wait.isdigit() or int(wait) > 30:
+            raise
+        time.sleep(int(wait) + 1)
+        return urllib.request.urlopen(req, timeout=15)
 
 
 def wiki_seed():
-    """维基百科的随机条目（中文），打不开就用备用灵感池。"""
+    """维基百科的随机条目（简体中文）和开头一小段介绍；打不开就用备用灵感池。"""
     try:
-        req = urllib.request.Request(
-            "https://zh.wikipedia.org/wiki/Special:Random",
-            headers={"User-Agent": "LiviaSiteDice/1.0 (https://livia-bai.github.io)"},
-        )
-        with urllib.request.urlopen(req, timeout=15) as r:
+        # 一次请求拿到随机条目的标题、网址和开头一段（不用再自己去查这个条目讲的是什么）
+        query = urllib.parse.urlencode({
+            "action": "query", "format": "json", "generator": "random", "grnnamespace": 0,
+            "prop": "extracts|info", "inprop": "url", "exintro": 1, "explaintext": 1, "exchars": 160,
+            "variant": "zh-cn", "converttitles": 1,
+        })
+        with fetch("https://zh.wikipedia.org/w/api.php?" + query) as r:
+            page = next(iter(json.load(r)["query"]["pages"].values()))
+        intro = " ".join((page.get("extract") or "").split())
+        return f"{page['title']}（{page['fullurl']}）" + (f"\n  　简介：{intro}" if intro else "")
+    except Exception:
+        pass
+    try:
+        # 退一步：只拿随机条目的标题
+        with fetch("https://zh.wikipedia.org/wiki/Special:Random") as r:
             url = r.geturl()
         title = urllib.parse.unquote(url.rsplit("/wiki/", 1)[1]).replace("_", " ")
         return f"{title}（{url}）"
@@ -135,7 +171,7 @@ def main():
         f"- 视角：{pick(VOICE, slot)}",
         f"- 场景：{pick(SETTING, slot)}",
         f"- 结尾：{pick(ENDING, slot)}",
-        f"- 长度：{pick(LENGTH, slot)}",
+        f"- 长度：{pick(LENGTH, slot, category)}",
     ]
     if rng.random() < GUEST_CHANCE:
         lines.append(f"- 客座作者：用「{rng.choice(GUEST)}」的口吻和脑回路来写")
@@ -143,7 +179,7 @@ def main():
         lines.append("- 客座作者：这次没有，用你自己的声音（但别是前几篇那种声音）")
     lines += [
         "",
-        "硬规则里只能挑一项重掷一次（写清楚为什么）。",
+        "硬规则最多违背一项，建议最多违背两条；违背了什么，在笔记本里写一句为什么。不要重掷。",
         "续写连载时，题材 / 场景按连载本身来，情绪、节奏、结尾照样参考骰子。",
         "随机灵感要真的用上：可以是主题、道具、地名、一个角色的职业，或者一句台词的由来。",
     ]
