@@ -1,14 +1,18 @@
-{% comment %} 同一篇文章的中英文版本用相同的 ref 关联，页面只显示当前语言那一版 {% endcomment %}
-{% comment %} limit 是「几篇」：中英两版各占一条，所以先多取一倍，再由 main.js 按当前语言只留前 limit 篇 {% endcomment %}
+{% comment %}
+  文章列表。同一篇的中英两版用相同的 ref 关联，main.js 只留访客当前语言那一版。
+  参数：posts；limit（可选，只显示前几篇：中英两版各占一条，所以先多取一倍）；
+  page（可选，先显示几篇，下面放一个「再往前翻翻」按钮，每点一次多显示这么多篇）
+{% endcomment %}
 {% if include.limit %}{% assign fetch = include.limit | times: 2 %}{% else %}{% assign fetch = include.posts.size %}{% endif %}
-<ul class="post-list"{% if include.limit %} data-limit="{{ include.limit }}"{% endif %}>
+<ul class="post-list"{% if include.limit %} data-limit="{{ include.limit }}"{% elsif include.page %} data-page="{{ include.page }}"{% endif %}>
   {% for post in include.posts limit: fetch %}
   <li class="post-item card" data-lang="{{ post.lang | default: 'zh' }}" data-ref="{{ post.ref | default: post.url }}">
     <a href="{{ post.url | relative_url }}">
-      <span class="post-date">{{ post.date | date: "%Y-%m-%d" }}</span>
-      <span class="post-item-title">{% if post.series %}<span class="tag series-tag">{% if post.lang == 'en' %}{{ post.series_title }} · Ep. {{ post.episode }}{% else %}《{{ post.series_title }}》第 {{ post.episode }} 话{% endif %}</span> {% endif %}{{ post.title }}</span>
-      <span class="post-excerpt">{{ post.excerpt | strip_html | truncate: 80 }}</span>
+      <time class="post-date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
+      <span class="post-item-title">{% if post.series %}<span class="tag series-tag">{% if post.lang == 'en' %}{{ post.series_title | escape }} · Ep. {{ post.episode }}{% else %}《{{ post.series_title | escape }}》第 {{ post.episode }} 话{% endif %}</span> {% endif %}{{ post.title | escape }}</span>
+      <span class="post-excerpt">{% if post.lang == 'en' %}{{ post.excerpt | strip_html | truncatewords: 32 }}{% else %}{{ post.excerpt | strip_html | truncate: 80 }}{% endif %}</span>
     </a>
   </li>
   {% endfor %}
 </ul>
+{% if include.page %}<p class="more-posts" hidden><button class="btn btn-soft" type="button"><span lang="zh">再往前翻翻</span><span lang="en">Older posts</span> ↓</button></p>{% endif %}

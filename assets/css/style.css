@@ -23,6 +23,7 @@
   --muted: #8c7871;
   --accent: #e8856a;
   --accent-soft: #fbe1d4;
+  --on-accent: #fff;           /* 写在 accent 底色上的字 */
   --border: #f0dfd2;
   --shadow: 0 6px 20px rgba(196, 128, 98, 0.12);
   --code-bg: #fbeee4;
@@ -43,6 +44,7 @@
   --muted: #c9bdd2;
   --accent: #f4ab94;
   --accent-soft: #605472;
+  --on-accent: #3b3344;        /* 暗面的 accent 是浅桃色，白字看不清，换成深紫 */
   --border: #605570;
   --shadow: 0 8px 24px rgba(20, 12, 35, 0.25);
   --code-bg: #4a4158;
@@ -90,8 +92,10 @@ body {
 body > main { flex: 1 0 auto; width: 100%; }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; text-underline-offset: 3px; }
-h1, h2, h3 { line-height: 1.3; font-weight: 800; }
+h1, h2, h3 { line-height: 1.3; font-weight: 800; text-wrap: balance; }
+p, li { text-wrap: pretty; }  /* 别让一两个字（比如「～」「呢？」）单独掉到最后一行 */
 img { max-width: 100%; }
+.nowrap { white-space: nowrap; }
 .brand-avatar, .hero-avatar { overflow: hidden; }
 .avatar-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
@@ -213,12 +217,12 @@ img { max-width: 100%; }
   color: var(--text); padding: 6px 14px; border-radius: 999px; font-weight: 600;
 }
 .nav a:hover { background: var(--accent-soft); text-decoration: none; }
-.nav a.active { background: var(--accent); color: #fff; }
+.nav a.active { background: var(--accent); color: var(--on-accent); }
 .lang-toggle {
   margin-left: 6px; border: 2px solid var(--accent); background: transparent; color: var(--accent);
   border-radius: 999px; padding: 4px 12px; font: inherit; font-weight: 800; cursor: pointer;
 }
-.lang-toggle:hover { background: var(--accent); color: #fff; }
+.lang-toggle:hover { background: var(--accent); color: var(--on-accent); }
 
 /* ========== 7. 拉绳月亮灯和提示条 ========== */
 /* 从页面最上面垂下来：绳子 → 月亮 → 一小段绳 → 拉珠。--pull 是往下拉了多少（main.js 设置） */
@@ -270,7 +274,7 @@ img { max-width: 100%; }
 .lamp-hint {
   position: absolute; right: 36px; top: calc(var(--cord) + var(--pull) + var(--moon) + 6px);
   padding: 4px 10px; border-radius: 999px; white-space: nowrap; font-size: .8rem; font-weight: 800;
-  background: var(--accent); color: #fff; pointer-events: none;
+  background: var(--accent); color: var(--on-accent); pointer-events: none;
   opacity: 0; transform: translateX(6px) scale(.85); transition: opacity .25s, transform .3s cubic-bezier(.3, 1.6, .5, 1);
 }
 .lamp-hint::after { content: ""; position: absolute; right: 8px; top: -5px; border: 5px solid transparent; border-bottom-color: var(--accent); border-top: 0; }
@@ -322,7 +326,7 @@ img { max-width: 100%; }
 .wave { display: inline-block; animation: wave 2.4s ease-in-out infinite; transform-origin: 70% 70%; }
 .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
 .btn {
-  display: inline-block; background: var(--accent); color: #fff; font-weight: 800;
+  display: inline-block; background: var(--accent); color: var(--on-accent); font-weight: 800;
   padding: 10px 22px; border-radius: 999px; box-shadow: 0 4px 0 rgba(0,0,0,.08);
   transition: transform .15s;
 }
@@ -384,14 +388,13 @@ a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
   box-shadow: 0 6px 22px rgba(20, 10, 40, .25);
   -webkit-tap-highlight-color: transparent;
 }
-.found-mochi { position: absolute; left: 10px; bottom: 0; width: 92px; height: 92px; transform-origin: 50% 100%; animation: mochi-bob 3.2s ease-in-out infinite; }
+.found-mochi { position: absolute; left: 10px; bottom: 0; width: 92px; height: 92px; transform-origin: 50% 100%; animation: mochi-bob 3.2s ease-in-out infinite; cursor: pointer; }
 .found-mochi img {
   display: block; width: 100%; height: 100%; filter: drop-shadow(0 3px 6px rgba(20, 10, 40, .35));
   transform-origin: 50% 100%; transform: translateX(var(--lean-x, 0)) rotate(var(--lean, 0deg));
   transition: transform .35s cubic-bezier(.3, 1.5, .5, 1);
 }
 /* 小人（正在啃 DeepSeek 小鲸鱼的 Claude 小姐）：鼠标靠近会往那边偷看，戳她会缩一下、说话，连戳会慌 */
-.found-mochi { cursor: pointer; }
 .found-mochi.is-poked img { animation: mochi-poke .45s cubic-bezier(.3, 1.6, .5, 1); }
 .found-mochi.is-flustered img { animation: mochi-fluster .5s ease-in-out 2; }
 @keyframes mochi-poke { 0% { transform: scale(1); } 30% { transform: scale(1.14, .82); } 60% { transform: scale(.93, 1.09); } 100% { transform: scale(1); } }
@@ -472,7 +475,6 @@ a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
   .found-you.is-found, .found-you.is-found *, .found-mochi { animation: none !important; }
 }
 
-
 /* 博客页上那句「嘘——月亮可是有两面的哦」，小月亮会偷偷转一下 */
 .moon-hint {
   display: inline-flex; align-items: center; gap: 8px; margin: 2px 0 24px;
@@ -543,10 +545,13 @@ a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
 .post-date { color: var(--muted); font-size: .9rem; font-variant-numeric: tabular-nums; }
 .post-item-title { font-weight: 800; }
 .post-excerpt { grid-column: 2 / -1; color: var(--muted); font-size: .92rem; }
-/* 同一篇的另一种语言版本 */
+/* 同一篇的另一种语言版本，或者还没翻到的那一页 */
 .post-item.is-hidden { display: none; }
+.more-posts { text-align: center; margin: 18px 0 4px; position: relative; }
+.more-posts .btn { border: 0; font: inherit; font-weight: 800; cursor: pointer; }
 @media (max-width: 600px) {
-  .post-item a { grid-template-columns: 1fr auto; }
+  .side-panel { padding: 22px 16px 12px; }
+  .post-item a { grid-template-columns: 1fr auto; padding: 30px 20px; }
   .post-date { grid-column: 1 / -1; }
   .post-excerpt { grid-column: 1 / -1; }
 }
@@ -559,6 +564,8 @@ a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
 .post-content h2 { margin-top: 2em; font-size: 1.35rem; }
 .post-content h2::before { content: "✿ "; color: var(--accent); }
 .post-content img { border-radius: 14px; }
+.post-content a { text-decoration: underline; text-decoration-thickness: 2px; text-decoration-color: var(--accent-soft); text-underline-offset: 3px; }
+.post-content a:hover { text-decoration-color: currentColor; }
 .post-content blockquote {
   margin: 1.2em 0; padding: 10px 18px; background: var(--accent-soft);
   border-left: 5px solid var(--accent); border-radius: 0 14px 14px 0;
@@ -578,7 +585,7 @@ a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
 .series-top a { background: var(--card); color: var(--accent); }
 .series-top a:hover { text-decoration: none; filter: brightness(1.05); }
 .series-top .series-off { color: var(--muted); opacity: .6; font-weight: 700; }
-.series-tag { margin-right: 6px; vertical-align: 2px; }
+.series-tag { display: block; width: fit-content; max-width: 100%; margin: 0 0 6px; border-radius: 12px; }  /* 连载的书名在列表里单独占一行，标题不会被挤断 */
 .series-nav {
   display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
   margin-top: 36px; padding-top: 20px; border-top: 2px dashed var(--border);
@@ -591,6 +598,11 @@ a.project:hover .project-emoji { transform: scale(1.15) rotate(-6deg); }
 .series-nav a span { display: block; font-weight: 600; font-size: .9rem; color: var(--text); margin-top: 2px; }
 .series-next, .series-soon { text-align: right; grid-column: 2; }
 .series-soon { background: transparent; border: 2px dashed var(--border); color: var(--muted); font-weight: 700; }
+@media (max-width: 600px) {
+  .series-nav { grid-template-columns: 1fr; }
+  .series-nav > span:empty { display: none; }
+  .series-next, .series-soon { grid-column: auto; }
+}
 
 /* ========== 14. 诗：<div class="poem"> 里每一行都单独换行 ========== */
 .poem {

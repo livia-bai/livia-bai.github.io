@@ -3,48 +3,61 @@
 
   function getLang() { return root.getAttribute('data-lang') || 'zh'; }
 
-  function setLang(lang) {
+  // 换界面语言。文章页打开时跟着文章的语言走（不记住）；访客自己点了按钮才记住（remember）
+  function setLang(lang, remember) {
     root.setAttribute('data-lang', lang);
     root.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
-    try { localStorage.setItem('lang', lang); } catch (e) {}
+    if (remember) { try { localStorage.setItem('lang', lang); } catch (e) {} }
     var t = document.querySelector('title');
     if (t && t.dataset[lang]) document.title = t.dataset[lang];
     filterPosts();
     if (window.refreshLampHint) window.refreshLampHint();
   }
 
-  // 同一篇文章有多个语言版本时，只显示当前语言那一版（没有对应翻译就显示原文）；列表有 data-limit 时只留前几篇
+  // 同一篇文章有多个语言版本时，只显示当前语言那一版（没有对应翻译就显示原文）。
+  // 列表有 data-limit：只留前几篇；有 data-page：先显示一页，点「再往前翻翻」再多显示一页
   function filterPosts() {
     var lang = getLang();
     document.querySelectorAll('.post-list').forEach(function (list) {
-      var groups = {};
+      var groups = new Map();
       list.querySelectorAll('.post-item').forEach(function (item) {
         var ref = item.getAttribute('data-ref');
-        (groups[ref] = groups[ref] || []).push(item);
+        if (!groups.has(ref)) groups.set(ref, []);
+        groups.get(ref).push(item);
       });
-      var limit = Number(list.getAttribute('data-limit')) || Infinity, shown = 0;
-      Object.keys(groups).forEach(function (ref) {
-        var items = groups[ref];
+      var page = Number(list.getAttribute('data-page'));
+      var limit = Number(list.getAttribute('data-limit')) || (page ? page * (Number(list.getAttribute('data-pages')) || 1) : Infinity);
+      var shown = 0;
+      groups.forEach(function (items) {
         var match = items.filter(function (i) { return i.getAttribute('data-lang') === lang; })[0] || items[0];
         if (shown >= limit) match = null; else shown++;
         items.forEach(function (i) { i.classList.toggle('is-hidden', i !== match); });
       });
+      var more = list.nextElementSibling;
+      if (more && more.classList.contains('more-posts')) more.hidden = groups.size <= limit;
     });
   }
+  document.querySelectorAll('.more-posts button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var list = btn.closest('.more-posts').previousElementSibling;
+      list.setAttribute('data-pages', (Number(list.getAttribute('data-pages')) || 1) + 1);
+      filterPosts();
+    });
+  });
 
   var toggle = document.querySelector('.lang-toggle');
   if (toggle) {
     toggle.addEventListener('click', function () {
       var next = getLang() === 'zh' ? 'en' : 'zh';
-      // 在文章页切换语言时，如果有翻译版本就直接跳过去
-      var link = document.querySelector('.translation-link[data-target-lang="' + next + '"]');
+      // 在文章页切换语言时，如果有翻译版本就直接跳过去（链接在 default.html 的 <link rel="alternate">）
+      var link = document.querySelector('link[rel="alternate"][data-lang="' + next + '"]');
       if (link) {
         // 直接去另一种语言的那一版，不在这一页先换一遍字（会闪一下）
         try { localStorage.setItem('lang', next); } catch (e) {}
-        window.location.href = link.href;
+        window.location.href = new URL(link.href).pathname;  // 只取路径：本地预览时也留在本地
         return;
       }
-      setLang(next);
+      setLang(next, true);
     });
   }
 
@@ -74,10 +87,13 @@
   }
 
   var themeToggle = document.querySelector('.theme-toggle');
+  var themeColor = document.querySelector('meta[name="theme-color"]');
 
   function setTheme(next) {
     root.setAttribute('data-theme', next);
     try { localStorage.setItem('theme', next); } catch (e) {}
+    // 手机浏览器地址栏的颜色也跟着换（和 style.css 里的 --bg 一样）
+    if (themeColor) themeColor.setAttribute('content', next === 'dark' ? '#443c4f' : '#fbf3ea');
     if (next === 'dark') playFound();
   }
 
@@ -154,6 +170,7 @@
 
   // 离开这一页：内容先淡出，再跳转；下一页会淡入（default.html 里看到 fadeIn 就加 .is-arriving）
   function leavePage(href) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { window.location.href = href; return; }
     try { sessionStorage.setItem('fadeIn', '1'); } catch (e) {}
     root.classList.add('is-leaving-page');
     setTimeout(function () { window.location.href = href; }, 650);

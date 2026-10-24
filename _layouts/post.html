@@ -1,12 +1,6 @@
 ---
 layout: default
 ---
-{% assign translation = nil %}
-{% if page.ref %}
-  {% for p in site.posts %}
-    {% if p.ref == page.ref and p.url != page.url %}{% assign translation = p %}{% endif %}
-  {% endfor %}
-{% endif %}
 {% comment %}
   连载：文章开头写 series（连载代号）、series_title（书名）、episode（第几话），
   就会显示「📖《书名》第 N 话」和上一话 / 下一话。只在同一种语言的版本里找上下话。
@@ -23,27 +17,26 @@ layout: default
 <article class="post card{% if page.side == 'dark' %} dark-side{% endif %}">
   <a class="back" href="{{ '/blog/' | relative_url }}">
     ← <span lang="zh">回到博客</span><span lang="en">Back to the blog</span></a>
-  {% if page.series %}{% assign en = false %}{% if page.lang == 'en' %}{% assign en = true %}{% endif %}
+  {% assign en = false %}{% if page.lang == 'en' %}{% assign en = true %}{% endif %}
+  {% if page.series %}
   <nav class="series-top" aria-label="{% if en %}Episodes{% else %}切换上下话{% endif %}">
-    {% if ep_prev %}<a href="{{ ep_prev.url | relative_url }}" title="{{ ep_prev.title }}">‹ {% if en %}Prev{% else %}上一话{% endif %}</a>{% else %}<span class="series-off">{% if en %}Ep. 1{% else %}第一话{% endif %}</span>{% endif %}
-    <p class="series-badge">📖 {% if en %}<em>{{ page.series_title }}</em> · Ep. {{ page.episode }}{% else %}《{{ page.series_title }}》第 {{ page.episode }} 话{% endif %}</p>
-    {% if ep_next %}<a href="{{ ep_next.url | relative_url }}" title="{{ ep_next.title }}">{% if en %}Next{% else %}下一话{% endif %} ›</a>{% else %}<span class="series-off">{% if en %}Soon…{% else %}待续…{% endif %}</span>{% endif %}
+    {% if ep_prev %}<a href="{{ ep_prev.url | relative_url }}" title="{{ ep_prev.title | escape }}">‹ {% if en %}Prev{% else %}上一话{% endif %}</a>{% else %}<span class="series-off">{% if en %}Ep. 1{% else %}第一话{% endif %}</span>{% endif %}
+    <p class="series-badge">📖 {% if en %}<em>{{ page.series_title | escape }}</em> · Ep. {{ page.episode }}{% else %}《{{ page.series_title | escape }}》第 {{ page.episode }} 话{% endif %}</p>
+    {% if ep_next %}<a href="{{ ep_next.url | relative_url }}" title="{{ ep_next.title | escape }}">{% if en %}Next{% else %}下一话{% endif %} ›</a>{% else %}<span class="series-off">{% if en %}Soon…{% else %}待续…{% endif %}</span>{% endif %}
   </nav>{% endif %}
-  <h1 class="post-title">{{ page.title }}</h1>
+  <h1 class="post-title">{{ page.title | escape }}</h1>
   <p class="post-meta">
-    {{ page.date | date: "%Y-%m-%d" }}
+    <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y-%m-%d" }}</time>
     {% for tag in page.tags %}<span class="tag">#{{ tag }}</span>{% endfor %}
-    {% comment %} 不显示出来；点右上角的语言按钮时，会直接跳到另一种语言的版本 {% endcomment %}
-    {% if translation %}<a class="translation-link" hidden href="{{ translation.url | relative_url }}" data-target-lang="{{ translation.lang }}"></a>{% endif %}
   </p>
   <div class="post-content">
     {{ content }}
   </div>
   {% if page.series %}
-  <nav class="series-nav" aria-label="{% if page.lang == 'en' %}Episodes{% else %}连载目录{% endif %}">
-    {% if ep_prev %}<a class="series-prev" href="{{ ep_prev.url | relative_url }}">← {% if page.lang == 'en' %}Previous{% else %}上一话{% endif %}<span>{{ ep_prev.title }}</span></a>{% else %}<span></span>{% endif %}
-    {% if ep_next %}<a class="series-next" href="{{ ep_next.url | relative_url }}">{% if page.lang == 'en' %}Next{% else %}下一话{% endif %} →<span>{{ ep_next.title }}</span></a>
-    {% else %}<span class="series-soon">{% if page.lang == 'en' %}Next episode is still being written…{% else %}下一话还在路上……{% endif %}</span>{% endif %}
+  <nav class="series-nav" aria-label="{% if en %}Episodes{% else %}连载目录{% endif %}">
+    {% if ep_prev %}<a class="series-prev" href="{{ ep_prev.url | relative_url }}">← {% if en %}Previous{% else %}上一话{% endif %}<span>{{ ep_prev.title | escape }}</span></a>{% else %}<span></span>{% endif %}
+    {% if ep_next %}<a class="series-next" href="{{ ep_next.url | relative_url }}">{% if en %}Next{% else %}下一话{% endif %} →<span>{{ ep_next.title | escape }}</span></a>
+    {% else %}<span class="series-soon">{% if en %}Next episode is still being written…{% else %}下一话还在路上……{% endif %}</span>{% endif %}
   </nav>
   {% endif %}
 </article>

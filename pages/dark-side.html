@@ -1,13 +1,16 @@
 ---
 layout: null
 permalink: /dark-side/
+sitemap: false
 ---
 <!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>月之暗面 · {{ site.title }}</title>
+  <title>月之暗面 · {{ site.title | escape }}</title>
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="{{ '/blog/' | absolute_url }}">
   <script>
     try { localStorage.setItem('theme', 'dark'); } catch (e) {}
     location.replace('{{ "/blog/" | relative_url }}');
