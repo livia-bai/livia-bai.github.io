@@ -1,0 +1,28 @@
+/* ---- 2026-10-25《那我也是星吗》：题图里那颗星真的在明灭——亮得快、暗得慢，像一颗造父变星 ---- */
+.dark-side .ds-star-fig { position: relative; margin: 4px 0 28px; overflow: hidden; border-radius: 14px; }
+.dark-side .ds-star-fig img { display: block; width: 100%; height: auto; border-radius: 14px; }
+.dark-side .ds-star-glow {
+  position: absolute; left: 74.65%; top: 15.33%; width: 6%; aspect-ratio: 1;
+  pointer-events: none; mix-blend-mode: screen; border-radius: 50%; opacity: .15;
+  background: radial-gradient(circle, rgba(255, 255, 255, .95) 0%, rgba(255, 214, 240, .6) 20%,
+    rgba(170, 185, 255, .2) 45%, rgba(170, 185, 255, 0) 70%);
+  transform: translate(-50%, -50%) scale(.7);
+  animation: ds-star-pulse 4.2s cubic-bezier(.35, 0, .65, 1) infinite;
+}
+/* 两道细光芒，跟着光晕一起伸缩 */
+.dark-side .ds-star-glow::before,
+.dark-side .ds-star-glow::after {
+  content: ""; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .85), rgba(255, 255, 255, 0));
+}
+.dark-side .ds-star-glow::before { width: 300%; height: 4%; }
+.dark-side .ds-star-glow::after { width: 4%; height: 300%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .85), rgba(255, 255, 255, 0)); }
+@keyframes ds-star-pulse {
+  0%   { opacity: .15; transform: translate(-50%, -50%) scale(.7); }
+  14%  { opacity: 1;   transform: translate(-50%, -50%) scale(1.25); }
+  100% { opacity: .15; transform: translate(-50%, -50%) scale(.7); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dark-side .ds-star-glow { animation: none; opacity: .5; }
+}
