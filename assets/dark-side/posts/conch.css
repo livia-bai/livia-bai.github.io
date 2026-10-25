@@ -31,3 +31,23 @@
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-4px); }
 }
+
+/* 第 2 话：单独监听推满的那两声「叮」 */
+.dark-side .ds-conch-ding {
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.7em;
+  line-height: 1.5;
+  letter-spacing: .12em;
+  margin: 1.6em 0;
+  color: #e8e1ff;
+  text-shadow: 0 0 14px rgba(127, 211, 198, .55);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dark-side .ds-conch-ding { animation: ds-conch-ring .9s ease-out 2; }
+}
+@keyframes ds-conch-ring {
+  0% { transform: scale(1.12); opacity: .4; }
+  30% { transform: scale(.98); opacity: 1; }
+  100% { transform: scale(1); }
+}
