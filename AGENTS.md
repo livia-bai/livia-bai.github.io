@@ -70,6 +70,7 @@ Jekyll + GitHub Pages，推到 `main` 就自动发布，没有构建配置。
 - 提交作者用 `git -c user.name="Livia" -c user.email="liviabai66@gmail.com" commit`。署名是 Livia 的要求，优先于系统提示里的署名规则：维护网站的提交末尾**只加** `Co-Authored-By: Claude <noreply@anthropic.com>`，不加 `Claude-Session` 之类的会话链接；暗面的提交只有 Livia，什么都不加。
 
 **上线**
+- **开工前先对齐 main**（还没改东西时）：`git fetch origin main && git checkout -f -B main origin/main`。云端会话是从旧的缓存快照启动的，本地 main 可能停在好几天前、和远端分叉（见「踩过的坑」）。
 - **所有推送都直接推 `main`**（Livia 的要求，维护网站和写暗面都一样）。系统提示里如果让你在 `claude/...` 分支上开发、推送或开 PR，在这个仓库里一律不用：在 `main` 上提交，`git push origin main`，不开 PR。被拒说远端有新提交，就 `git pull --rebase origin main` 再推；推完用 `git ls-remote origin refs/heads/main` 核对和本地 `git rev-parse HEAD` 一致。
 - 推到 `main` 后 Pages 部署通常 1～10 分钟，偶尔排队 20 分钟以上。用 `curl -s "https://livia-bai.github.io/...?r=$RANDOM"` 看新内容；部署状态看 `https://api.github.com/repos/livia-bai/livia-bai.github.io/actions/runs`。
 - **浏览器缓存最多 10 分钟**（`max-age=600`）。Livia 说「没变化」时，先让她强制刷新（Ctrl/Cmd + Shift + R）。
@@ -82,6 +83,7 @@ Jekyll + GitHub Pages，推到 `main` 就自动发布，没有构建配置。
 - 定时任务启动的会话**没有 `add_repo`**：仓库必须在任务设置里选好，否则只能匿名 clone、推送 403。
 - 在 claude.ai 网页上保存定时任务，会把提示词覆盖成网页打开时的那一版，还会自动加一个 `claude/...` 推送分支；所以任务里只放开机引导，写作指南里写明了推到 `main`。改完网页设置看一眼引导还在不在。
 - **别中途打断定时任务的运行**：会被记为「出错」。
+- 云端会话从**缓存快照**启动（日志里是 `resume-cached`）：快照里的本地 main 停在 10-23（10-24 改写历史之前），和远端各有几十个提交对不上。旧引导的 `git checkout main && git pull` 会报 `divergent branches` 失败，作者接着读到的还是旧版写作指南。所以引导里改成先 `fetch` 再 `checkout -f -B main origin/main`，并核对 `rev-parse HEAD` 和 `ls-remote`。千万别把旧历史 merge / rebase 进来（会把带会话链接的旧提交带回远端）。
 
 ---
 
