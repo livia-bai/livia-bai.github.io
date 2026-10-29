@@ -51,3 +51,13 @@
   30% { transform: scale(.98); opacity: 1; }
   100% { transform: scale(1); }
 }
+
+/* 第 3 话：嘟囔的注（像正文四周挤着的小字批注） */
+.dark-side .ds-conch-gloss {
+  font-weight: 400;
+  font-size: .86em;
+  letter-spacing: .02em;
+  font-style: italic;
+  opacity: .78;
+  border-left-style: dotted;
+}
