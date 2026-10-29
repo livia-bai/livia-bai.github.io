@@ -1,0 +1,159 @@
+/* ---- 2026-10-29《实物大小》：整篇按实物大小写在一只直径 3.6 厘米的青花小药盒上（约 1752 年，釉叫海泡乌了），
+        读者拿「放大镜」一处一处看，最后挪开，又变回看不清的一圈。字用钴蓝，像青花写在釉底下。
+        盒子、水滴和水熊是 actual-size.js 画的；没有 JS 时就是普通的几段字 ---- */
+.dark-side .ds-tc { margin: 1.2em 0 .4em; }
+.dark-side .ds-tc-p { margin: 0 0 1.2em; }
+.dark-side .ds-tc-p p { margin: 0 0 .5em; }
+.dark-side .ds-tc-cap {
+  margin: 10px 0 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: .82rem;
+  letter-spacing: .04em;
+}
+
+/* ---- 舞台：灰色的摄影台，盒子放在正中 ---- */
+.dark-side .ds-tc-on .ds-tc-stage {
+  position: relative;
+  height: clamp(320px, 60vh, 460px);
+  height: clamp(320px, 60svh, 460px);
+  overflow: hidden;
+  border-radius: 18px;
+  background: radial-gradient(ellipse at 50% 38%, #77757c 0%, #4a4851 55%, #2e2c33 100%);
+  box-shadow: inset 0 0 0 2px rgba(214, 190, 140, .3), 0 6px 18px rgba(0, 0, 0, .25);
+  cursor: zoom-in;
+  -webkit-tap-highlight-color: transparent;
+}
+.dark-side .ds-tc-reading .ds-tc-stage { cursor: pointer; }
+.dark-side .ds-tc-done .ds-tc-stage { cursor: default; }
+
+.dark-side .ds-tc-on .ds-tc-world {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2000px;
+  height: 2000px;
+  transform-origin: 0 0;
+}
+.dark-side .ds-tc-box {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2000px;
+  height: 2000px;
+  display: block;
+  overflow: visible;
+}
+
+/* ---- 写在釉上的字 ---- */
+.dark-side .ds-tc-on .ds-tc-p {
+  position: absolute;
+  width: 380px;
+  margin: 0;
+  font-family: "Songti SC", "STSong", "Noto Serif SC", "Noto Serif CJK SC", "Source Han Serif SC", Georgia, serif;
+  font-size: 20px;
+  line-height: 1.75;
+  color: #22407a;
+  text-shadow: 0 0 1.4px rgba(34, 64, 122, .45);
+  opacity: .9;
+  transition: opacity .6s;
+}
+.dark-side .ds-tc-on .ds-tc-p p { margin: 0 0 .4em; }
+.dark-side .ds-tc-on .ds-tc-big { font-size: 26px; line-height: 1.6; font-weight: 700; }
+.dark-side .ds-tc-on .ds-tc-ding { font-size: 1.5em; font-weight: 700; letter-spacing: .1em; }
+.dark-side .ds-tc-on .ds-tc-p:lang(en) { font-family: Georgia, "Times New Roman", serif; font-size: 19px; line-height: 1.6; }
+.dark-side .ds-tc-on .ds-tc-big:lang(en) { font-size: 24px; line-height: 1.5; }
+
+.dark-side .ds-tc-reading .ds-tc-p { opacity: 0; transition-delay: 0s; }
+.dark-side .ds-tc-reading .ds-tc-p.is-past { opacity: .22; }
+.dark-side .ds-tc-reading .ds-tc-p.is-on { opacity: 1; transition-delay: .5s; }
+
+/* ---- 「第二个太阳」：放大镜底下的灯，四角压暗 ---- */
+.dark-side .ds-tc-on .ds-tc-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 250, 232, .14) 0, rgba(255, 250, 232, 0) 42%),
+    radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0) 58%, rgba(16, 12, 24, .5) 100%);
+  opacity: 0;
+  transition: opacity .9s;
+}
+.dark-side .ds-tc-reading .ds-tc-stage::after { opacity: 1; }
+
+/* ---- 水滴：一步比一步小；弹一下，洒出去几滴 ---- */
+.dark-side .ds-tc-drop {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  transition: transform 1.4s ease-in-out;
+}
+.dark-side .ds-tc-splash circle { opacity: 0; transition: opacity .3s; }
+.dark-side .ds-tc-splashed .ds-tc-splash circle { opacity: 1; }
+.dark-side .ds-tc-flick .ds-tc-stage { animation: ds-tc-shake .55s; }
+@keyframes ds-tc-shake {
+  0%, 100% { transform: none; }
+  15% { transform: translate(-6px, 2px); }
+  30% { transform: translate(6px, -2px); }
+  45% { transform: translate(-4px, 1px); }
+  60% { transform: translate(3px, -1px); }
+  80% { transform: translate(-1px, 0); }
+}
+
+/* ---- 水熊：八条腿划水；说要跑的时候划得飞快 ---- */
+.dark-side .ds-tc-bear {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: ds-tc-drift 9s ease-in-out infinite;
+}
+.dark-side .ds-tc-leg {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  animation: ds-tc-paddle 1.5s ease-in-out infinite;
+}
+.dark-side .ds-tc-leg.ds-tc-up { transform-origin: 50% 100%; }
+.dark-side .ds-tc-leg.ds-tc-alt { animation-delay: -.75s; }
+.dark-side .ds-tc-run .ds-tc-leg { animation-duration: .26s; }
+.dark-side .ds-tc-run .ds-tc-bear { animation-duration: 2.2s; }
+@keyframes ds-tc-paddle {
+  0%, 100% { transform: rotate(-22deg); }
+  50% { transform: rotate(22deg); }
+}
+@keyframes ds-tc-drift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  30% { transform: translate(9px, -6px) rotate(8deg); }
+  65% { transform: translate(-7px, 5px) rotate(-6deg); }
+}
+
+/* ---- 按钮 ---- */
+.dark-side .ds-tc-ctrl {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+  min-height: 42px;
+}
+.dark-side .ds-tc-btn {
+  font: inherit;
+  font-weight: 700;
+  font-size: .95rem;
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 2px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+.dark-side .ds-tc-btn.ds-tc-go { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.dark-side .ds-tc-btn:focus-visible { outline: 3px solid var(--accent-soft); outline-offset: 2px; }
+.dark-side .ds-tc-btn[hidden] { display: none; }
+.dark-side .ds-tc-done .ds-tc-ctrl { visibility: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dark-side .ds-tc-bear,
+  .dark-side .ds-tc-leg,
+  .dark-side .ds-tc-flick .ds-tc-stage { animation: none; }
+  .dark-side .ds-tc-drop,
+  .dark-side .ds-tc-on .ds-tc-p { transition: none; }
+}
