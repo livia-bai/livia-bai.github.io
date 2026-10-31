@@ -61,3 +61,11 @@
   opacity: .78;
   border-left-style: dotted;
 }
+
+/* 第 5 话：放到一半被冰水淹掉的那半句 */
+.dark-side .ds-conch-sink {
+  font-weight: 400;
+  letter-spacing: .3em;
+  opacity: .45;
+  filter: blur(.6px);
+}
