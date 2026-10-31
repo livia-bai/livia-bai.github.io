@@ -1,0 +1,70 @@
+/* 餐桌礼仪歌 / The Table Manners Song */
+
+/* 分节：一把叉、一把刀、一把勺的剪影（三根金线，刀那根下半截是铁色） */
+.dark-side .ds-tm-cut {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 14px;
+  height: 34px;
+  margin: 2.2em 0;
+  opacity: .7;
+}
+.dark-side .ds-tm-cut span {
+  display: block;
+  width: 3px;
+  border-radius: 2px;
+  background: #d9b45a;
+}
+.dark-side .ds-tm-cut span:nth-child(1) { height: 30px; box-shadow: -4px -10px 0 -1px #d9b45a, 4px -10px 0 -1px #d9b45a; }
+.dark-side .ds-tm-cut span:nth-child(2) { height: 34px; width: 4px; background: linear-gradient(#a9adb4 0 55%, #d9b45a 55%); }
+.dark-side .ds-tm-cut span:nth-child(3) { height: 30px; position: relative; }
+.dark-side .ds-tm-cut span:nth-child(3)::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -6px;
+  width: 9px;
+  height: 12px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: #d9b45a;
+}
+
+/* 孩子们唱的段落：金色，缩进 */
+.dark-side .ds-tm-song {
+  border-left-color: #d9b45a;
+  background: rgba(217, 180, 90, .07);
+  border-radius: 0 10px 10px 0;
+  margin-left: 1.2em;
+  padding-right: 12px;
+  color: #f3e3b4;
+  font-weight: 600;
+  letter-spacing: .03em;
+}
+.dark-side .ds-tm-who {
+  display: block;
+  font-size: .78em;
+  font-weight: 400;
+  letter-spacing: 0;
+  opacity: .65;
+  line-height: 1.6;
+}
+
+/* 卡尔唱跑了调的那一句 */
+.dark-side .ds-tm-off {
+  border-left-style: dashed;
+  border-left-color: #e2836b;
+  background: rgba(226, 131, 107, .09);
+  color: #ffd2c4;
+  font-size: 1.15em;
+  font-weight: 800;
+}
+
+/* 我自己唱的最后一段：没有孩子，金色褪成铁色 */
+.dark-side .ds-tm-mine {
+  border-left-color: #a9adb4;
+  background: rgba(169, 173, 180, .07);
+  color: #d9dce1;
+  margin-left: 0;
+}
