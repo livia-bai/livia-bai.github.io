@@ -1,0 +1,23 @@
+/* 比瀑布响 / Louder Than the Falls — 手语台词和换主角的那一道瀑布线 */
+
+.dark-side .ds-lf-sign {
+  margin: 0.4em 0 0.4em 0.6em;
+  padding: 0.15em 0 0.15em 0.9em;
+  border-left: 3px solid rgba(214, 196, 160, 0.55);
+  color: #efe3c8;
+  letter-spacing: 0.04em;
+}
+
+.dark-side .ds-lf-cut {
+  display: flex;
+  justify-content: center;
+  margin: 2.2em 0;
+}
+
+.dark-side .ds-lf-cut span {
+  display: block;
+  width: 2px;
+  height: 4.5em;
+  background: linear-gradient(to bottom, rgba(239, 227, 200, 0), rgba(239, 227, 200, 0.75) 40%, rgba(239, 227, 200, 0.15));
+  box-shadow: -6px 0 0 -0.5px rgba(239, 227, 200, 0.25), 6px 0 0 -0.5px rgba(239, 227, 200, 0.25);
+}
