@@ -1,0 +1,117 @@
+/* ---- 2026-11-03《原位》/ In Situ：互动小说。读者替发掘队挑下一步，故事按点的顺序接下去。
+        配色借 William Nicholson《The Simple Sheep》（1899 彩色石版）：陈麦秆的赭黄 + 浓黑。
+        in-situ.js 加 .ds-situ-on 后才藏段落；没有 JS 时就是一篇按原顺序排的文章 ---- */
+.dark-side .ds-situ {
+  --situ-ochre: #c9a063;
+  --situ-ochre-dim: rgba(201, 160, 99, .35);
+  --situ-ink: #1c1712;
+  margin: 1.4em 0 .6em;
+}
+.dark-side .ds-situ-scene { margin: 0 0 1.6em; }
+.dark-side .ds-situ-scene p { margin: 0 0 .75em; }
+
+.dark-side .ds-situ-h {
+  display: flex;
+  align-items: baseline;
+  gap: .6em;
+  margin: 0 0 .7em;
+  padding-top: .9em;
+  border-top: 1px solid var(--situ-ochre-dim);
+  color: var(--situ-ochre);
+  font-size: 1rem;
+  letter-spacing: .06em;
+  scroll-margin-top: 80px;
+}
+.dark-side .ds-situ-h:focus { outline: none; }
+.dark-side .ds-situ-t {
+  font-variant-numeric: tabular-nums;
+  font-size: .8rem;
+  opacity: .75;
+}
+
+/* ---- 有 JS：只显示已经发生的段落 ---- */
+.dark-side .ds-situ-on .ds-situ-scene { display: none; }
+.dark-side .ds-situ-on .ds-situ-scene.ds-situ-shown { display: block; animation: ds-situ-in .5s ease both; }
+@keyframes ds-situ-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+.dark-side .ds-situ-clock {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 0 0 1.2em;
+  padding: .45em .9em;
+  border-radius: 10px;
+  background: var(--situ-ink);
+  border: 1px solid var(--situ-ochre-dim);
+  color: var(--situ-ochre);
+}
+.dark-side .ds-situ-now {
+  font-size: 1.25rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .05em;
+}
+.dark-side .ds-situ-due { font-size: .82rem; opacity: .8; }
+
+.dark-side .ds-situ-menu {
+  margin: 1.4em 0 .4em;
+  padding: 1em;
+  border-radius: 14px;
+  background: var(--situ-ink);
+  box-shadow: inset 0 0 0 2px var(--situ-ochre-dim);
+}
+.dark-side .ds-situ-ask {
+  margin: 0 0 .7em;
+  color: var(--situ-ochre);
+  font-size: .9rem;
+  letter-spacing: .08em;
+}
+.dark-side .ds-situ-opts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: .55em;
+}
+.dark-side .ds-situ-opt {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .15em;
+  padding: .6em .8em;
+  border: 0;
+  border-radius: 10px;
+  background: var(--situ-ochre);
+  color: var(--situ-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform .15s ease, filter .15s ease;
+}
+.dark-side .ds-situ-opt:hover { transform: translateY(-1px); filter: brightness(1.08); }
+.dark-side .ds-situ-opt:focus-visible { outline: 2px solid #fff3dc; outline-offset: 2px; }
+.dark-side .ds-situ-who { font-size: .75rem; opacity: .7; }
+.dark-side .ds-situ-what { font-size: 1rem; font-weight: 600; }
+.dark-side .ds-situ-new { box-shadow: 0 0 0 2px #fff3dc; }
+.dark-side .ds-situ-opt.ds-situ-done {
+  background: transparent;
+  color: var(--situ-ochre);
+  box-shadow: inset 0 0 0 1px var(--situ-ochre-dim);
+  opacity: .5;
+  cursor: default;
+  transform: none;
+  filter: none;
+}
+.dark-side .ds-situ-done .ds-situ-what { text-decoration: line-through; }
+
+/* ---- 结尾那一段：光落进沟里 ---- */
+.dark-side .ds-situ-over .ds-situ-end {
+  padding: 0 1em .4em;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(201, 160, 99, .16), rgba(201, 160, 99, 0) 70%);
+}
+.dark-side .ds-situ-over .ds-situ-end .ds-situ-h { border-top-color: transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dark-side .ds-situ-on .ds-situ-scene.ds-situ-shown { animation: none; }
+}
