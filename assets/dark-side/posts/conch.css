@@ -69,3 +69,17 @@
   opacity: .45;
   filter: blur(.6px);
 }
+
+/* 第 6 话：倒着走的钟点（九下 → 一下），每段开头一行 */
+.dark-side .ds-conch-hour {
+  margin: 2.2em 0 1.2em;
+  font-size: .82em;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: #7fd3c6;
+  opacity: .8;
+}
+.dark-side .ds-conch-hour::before {
+  content: "◷ ";
+  letter-spacing: 0;
+}
