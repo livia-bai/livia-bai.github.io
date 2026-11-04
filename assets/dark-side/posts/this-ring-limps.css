@@ -1,0 +1,110 @@
+/* ---- 2026-11-04《这圈瘸了》/ This Ring Limps：发明的新形式「飞鉋格」。
+        每一格是飞鉋在泥上跳的一下；正常的几圈格子一样宽，「签名」那一圈长短不齐，最后一圈被胶布缠住。
+        配色借小鹿田烧的三种釉：飴色（褐）、青瓷（绿）、黑釉，加坯土的米黄 ---- */
+.dark-side .ds-tobi {
+  --tobi-ame: #d39a52;
+  --tobi-ame-dim: rgba(211, 154, 82, .38);
+  --tobi-celadon: #9fbfa6;
+  --tobi-clay: #e8d6b6;
+  --tobi-black: #1a1612;
+  margin: 1.2em 0 .8em;
+}
+
+.dark-side .ds-tobi-plate {
+  margin: 0 auto 1.2em;
+  width: 180px;
+  max-width: 60%;
+}
+.dark-side .ds-tobi-plate svg { display: block; width: 100%; height: auto; }
+.dark-side .ds-tobi-rim { fill: var(--tobi-ame); opacity: .9; }
+.dark-side .ds-tobi-body { fill: var(--tobi-clay); }
+.dark-side .ds-tobi-well { fill: var(--tobi-celadon); opacity: .85; }
+.dark-side .ds-tobi-mk {
+  fill: none;
+  stroke: #7a5530;
+  stroke-width: 3;
+  stroke-dasharray: 2.2 3.4;
+}
+.dark-side .ds-tobi-spin {
+  transform-origin: 100px 100px;
+  animation: ds-tobi-turn 14s linear infinite;
+}
+@keyframes ds-tobi-turn { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .dark-side .ds-tobi-spin { animation: none; }
+}
+
+.dark-side .ds-tobi-note {
+  margin: 0 0 1.4em;
+  text-align: center;
+  font-size: .82rem;
+  opacity: .7;
+}
+
+/* 一圈 = 一段；一格 = 跳一下 */
+.dark-side .ds-tobi-ring {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45em .35em;
+  margin: 0 0 1.5em;
+  padding: 0 0 1.1em;
+  border-bottom: 1px dashed var(--tobi-ame-dim);
+  line-height: 1.5;
+}
+.dark-side .ds-tobi-ring:last-child { border-bottom: 0; }
+.dark-side .ds-tobi-ring span {
+  position: relative;
+  display: inline-block;
+  padding: .12em .5em .12em .75em;
+  white-space: nowrap;
+}
+/* 每一格前面一道斜的刀痕 */
+.dark-side .ds-tobi-ring span::before {
+  content: "";
+  position: absolute;
+  left: .18em;
+  top: .3em;
+  bottom: .3em;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--tobi-ame);
+  transform: skewX(-18deg);
+}
+.dark-side .ds-tobi-zh .ds-tobi-ring span { min-width: 5.6em; text-align: left; }
+.dark-side .ds-tobi-en .ds-tobi-ring span { min-width: 7.2em; }
+
+/* 签名那一圈：长短不齐，咬得深 */
+.dark-side .ds-tobi-limp span { min-width: 0 !important; color: var(--tobi-clay); font-weight: 700; }
+.dark-side .ds-tobi-limp span::before { width: 5px; background: #e0aa5e; }
+.dark-side .ds-tobi-limp span:nth-child(3n) { margin-right: .9em; }
+.dark-side .ds-tobi-limp span:nth-child(4n+1) { padding-left: 1.1em; }
+.dark-side .ds-tobi-limp .ds-tobi-gap {
+  min-width: 3.4em !important;
+  color: transparent;
+  font-weight: 400;
+}
+.dark-side .ds-tobi-limp .ds-tobi-gap::before {
+  background: none;
+  border-left: 2px dotted var(--tobi-ame-dim);
+  width: 0;
+}
+
+/* 胶布缠住以后：一样宽、一样矮、一样暗 */
+.dark-side .ds-tobi-taped {
+  gap: .2em;
+  padding: .5em .4em;
+  border-bottom: 0;
+  border-radius: 3px;
+  background: repeating-linear-gradient(
+    -4deg,
+    rgba(232, 214, 182, .14) 0 6px,
+    rgba(232, 214, 182, .09) 6px 12px
+  );
+}
+.dark-side .ds-tobi-taped span {
+  min-width: 0 !important;
+  padding: 0 .3em 0 .55em;
+  font-size: .85rem;
+  opacity: .55;
+}
+.dark-side .ds-tobi-taped span::before { width: 2px; opacity: .6; transform: none; }
